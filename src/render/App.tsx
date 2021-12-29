@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
 import Button from '@mui/material/Button';
-import ProjectList from "./modules/projectList/ProjectList";
+import Router from "./Router";
 export default function App(): JSX.Element {
   return (
     <div className="app">
-      <ProjectList ></ProjectList>
+      <Router ></Router>
       <Button variant="contained" color="primary">
         Hello World
       </Button>
