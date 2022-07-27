@@ -1,3 +1,4 @@
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
 import { app, BrowserWindow } from 'electron';
 
 import ProjectList from "./main/ProjectList";
@@ -17,7 +18,10 @@ const createWindow = (): void => {
     height: 600,
     width: 800,
     frame: false,
-    show: false
+    show: false,
+    webPreferences: {
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    }
   });
 
   // and load the index.html of the app.
