@@ -10,9 +10,10 @@ export default class ProjectList {
         console.log(this.store.getProjectList());
 
         ipcMain.handle('get/project-list', async (event, message) => {
+            const projectList = this.store.getProjectList();
             // console.log(event)
             console.log(message)
-            return await "pong"
+            return projectList;
         })
     }
 }

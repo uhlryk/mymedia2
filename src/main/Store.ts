@@ -1,4 +1,4 @@
-import { IProjectListElement } from "./project-list.interface";
+import { IProjectListElement } from "./IProjectList";
 import ElectronStore from "electron-store";
 
 export default class Store {
