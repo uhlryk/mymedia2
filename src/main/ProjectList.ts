@@ -1,4 +1,5 @@
 import { dialog, ipcMain } from "electron";
+import { IProjectListElement } from "./IProjectList";
 import Store from "./Store";
 
 export default class ProjectList {
@@ -22,6 +23,12 @@ export default class ProjectList {
             })
             console.log(dialogResponse);
             return dialogResponse.filePaths[0];
+        })
+
+        ipcMain.handle('set/new-project', async (event, projectWithId: Omit<IProjectListElement, 'id'>) => {
+            const projectList = this.store.addProject(projectWithId);
+            console.log(projectWithId)
+            return projectList;
         })
 
     }

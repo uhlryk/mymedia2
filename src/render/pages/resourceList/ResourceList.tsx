@@ -1,5 +1,14 @@
 import React from 'react';
+import { IProjectListElement } from '../../../main/IProjectList';
 
-export default function ResourceList(): JSX.Element {
-    return <>ResourceList</>
+type Props = {
+    project: IProjectListElement
+}
+export default function ResourceList({ project }: Props): JSX.Element {
+    console.log(`[SelectProject] start ${project.id}`)
+    return (
+        <>
+            ResourceList for project {project.name}
+        </>
+    )
 }
