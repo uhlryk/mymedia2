@@ -1,7 +1,11 @@
 import path from "path";
 import fs from "fs/promises"
 
-export default async function readDirectory(directory: string): Promise<string[]> {
+export interface FileInfo {
+    absolutePath: string;
+    size: number;
+}
+export default async function readDirectory(directory: string): Promise<FileInfo[]> {
     const files = await fs.readdir(directory)
     const filesPromises = files.map(async (file) => {
         try {
@@ -10,7 +14,11 @@ export default async function readDirectory(directory: string): Promise<string[]
             if (fileStat.isDirectory()) {
                 return await readDirectory(absolutePath);
             } else {
-                return absolutePath;
+                const fileInfo: FileInfo = {
+                    absolutePath,
+                    size: fileStat.size
+                }
+                return fileInfo;
             }
         } catch (err) {
             // error handling
@@ -18,6 +26,6 @@ export default async function readDirectory(directory: string): Promise<string[]
         }
     });
     const filesWithArrays = await Promise.all(filesPromises)
-    const flatArray = filesWithArrays.reduce<string[]>((acc, fileOrArray) => acc.concat(fileOrArray), []);
+    const flatArray = filesWithArrays.reduce<FileInfo[]>((acc, fileOrArray) => acc.concat(fileOrArray), []);
     return flatArray;
 }
