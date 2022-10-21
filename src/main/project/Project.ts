@@ -1,7 +1,9 @@
 import { ipcMain } from "electron";
 import path from "path";
+import createHashFilesWithDetails from "./createHashFilesWithDetails";
 import readDirectory from "./readAllFSFiles";
 import Store from "./Store";
+
 
 export default class Project {
     private store: Store;
@@ -12,9 +14,7 @@ export default class Project {
             const resourceList = this.getStore(projectPath).getResourceList();
 
             const allFilesFromFS = await readDirectory(projectPath);
-            const filesWithDetails = allFilesFromFS.map(file => ({
-                relativePath: path.relative(projectPath, file)
-            }))
+            const filesWithDetails = createHashFilesWithDetails(allFilesFromFS, projectPath);
             console.log(filesWithDetails);
             return resourceList;
         })
