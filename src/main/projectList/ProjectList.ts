@@ -1,5 +1,5 @@
 import { dialog, ipcMain } from "electron";
-import { IProject } from "../shared/IProject";
+import { IProject } from "../../shared/IProject";
 import Store from "./Store";
 
 export default class ProjectList {
