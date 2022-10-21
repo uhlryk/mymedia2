@@ -1,8 +1,8 @@
 import React from 'react';
-import { IProjectListElement } from '../../../main/IProjectList';
+import { IProject } from '../../../shared/IProject';
 
 type Props = {
-    project: IProjectListElement
+    project: IProject
 }
 export default function ResourceList({ project }: Props): JSX.Element {
     console.log(`[SelectProject] start ${project.id}`)

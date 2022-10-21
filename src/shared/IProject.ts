@@ -1,4 +1,4 @@
-export interface IProjectListElement {
+export interface IProject {
     name: string;
     folderPath: string;
     id: string;

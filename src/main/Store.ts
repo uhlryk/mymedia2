@@ -1,4 +1,4 @@
-import { IProjectListElement } from "./IProjectList";
+import { IProject } from "../shared/IProject";
 import ElectronStore from "electron-store";
 import { v4 as uuidv4 } from 'uuid';
 export default class Store {
@@ -15,24 +15,24 @@ export default class Store {
         });
     }
 
-    getProject(id: string): IProjectListElement {
+    getProject(id: string): IProject {
         return this.getProjectList().find(project => project.id === id);
     }
 
-    getProjectList(): Array<IProjectListElement> {
-        const projectList: Array<IProjectListElement> | unknown = this._store.get(Store.COLLECTION, []);
+    getProjectList(): Array<IProject> {
+        const projectList: Array<IProject> | unknown = this._store.get(Store.COLLECTION, []);
         if (!projectList) {
             throw new Error("Project List doesn't exist");
         }
-        return projectList as Array<IProjectListElement>;
+        return projectList as Array<IProject>;
     }
 
-    addProject(project: Omit<IProjectListElement, 'id'>): IProjectListElement {
-        const projectWithId: IProjectListElement = {
+    addProject(project: Omit<IProject, 'id'>): IProject {
+        const projectWithId: IProject = {
             ...project,
             id: uuidv4()
         }
-        const projectList: Array<IProjectListElement> = this._store.get(Store.COLLECTION, []) as Array<IProjectListElement>;
+        const projectList: Array<IProject> = this._store.get(Store.COLLECTION, []) as Array<IProject>;
 
         projectList.push(projectWithId);
         this._store.set(Store.COLLECTION, projectList);
@@ -41,7 +41,7 @@ export default class Store {
     }
 
     removeProject(projectId: string): void {
-        let projectList: Array<IProjectListElement> = this._store.get(Store.COLLECTION, []) as Array<IProjectListElement>;
+        let projectList: Array<IProject> = this._store.get(Store.COLLECTION, []) as Array<IProject>;
         projectList = projectList.filter(project => project.id !== projectId);
         this._store.set(Store.COLLECTION, projectList);
     }

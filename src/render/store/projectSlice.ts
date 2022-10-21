@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IProjectListElement } from '../../main/IProjectList';
+import { IProject } from '../../shared/IProject';
 import { RootState } from './store';
 
 export interface ProjectState {
-    currentProject: IProjectListElement | null
+    currentProject: IProject | null
 }
 
 const initialState: ProjectState = {
@@ -16,7 +16,7 @@ export const projectSlice = createSlice({
     name: 'project',
     initialState,
     reducers: {
-        setProject: (state, action: PayloadAction<IProjectListElement>) => {
+        setProject: (state, action: PayloadAction<IProject>) => {
             state.currentProject = action.payload;
         }
     }
@@ -25,6 +25,6 @@ export const projectSlice = createSlice({
 
 export const { setProject } = projectSlice.actions
 
-export const currentProject = (state: RootState): IProjectListElement => state.project.currentProject
+export const currentProject = (state: RootState): IProject => state.project.currentProject
 
 export default projectSlice.reducer;

@@ -1,9 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { IProjectListElement } from '../../../../main/IProjectList';
+import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../communication/fetch';
 
 type Props = {
-    setProject: Dispatch<SetStateAction<IProjectListElement>>
+    setProject: Dispatch<SetStateAction<IProject>>
 }
 export default function CreateProject({ setProject }: Props): JSX.Element {
     const [submitting, setSubmitting] = useState(false);
@@ -13,7 +13,7 @@ export default function CreateProject({ setProject }: Props): JSX.Element {
     const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
         event.preventDefault();
         setSubmitting(true);
-        fetch<IProjectListElement>('set/new-project', {
+        fetch<IProject>('set/new-project', {
             name: projectName,
             folderPath: projectFolderPath
         }).then((result) => {

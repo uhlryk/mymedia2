@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { IProjectListElement } from "../main/IProjectList";
+import { IProject } from "../shared/IProject";
 import "./App.css";
 
 import ResourceList from "./pages/resourceList/ResourceList";
 import SelectProject from "./pages/selectProject/SelectProject";
 
 export default function App(): JSX.Element {
-  const [project, setProject] = useState<IProjectListElement | null>(null);
+  const [project, setProject] = useState<IProject | null>(null);
 
   let component;
   if (project) {

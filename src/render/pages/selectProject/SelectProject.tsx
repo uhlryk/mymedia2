@@ -1,16 +1,16 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { IProjectListElement } from '../../../main/IProjectList';
+import { IProject } from '../../../shared/IProject';
 import fetch from "../../communication/fetch";
 import CreateProject from './createProject/CreateProject';
 
 type Props = {
-    setProject: Dispatch<SetStateAction<IProjectListElement>>
+    setProject: Dispatch<SetStateAction<IProject>>
 }
 export default function SelectProject({ setProject }: Props): JSX.Element {
     console.log(`[SelectProject] start `)
-    const [projectList, setProjectList] = useState<IProjectListElement[]>([]);
+    const [projectList, setProjectList] = useState<IProject[]>([]);
     useEffect(() => {
-        fetch<IProjectListElement[]>('get/project-list').then(projectList => {
+        fetch<IProject[]>('get/project-list').then(projectList => {
             setProjectList(projectList);
             console.log(projectList)
         })

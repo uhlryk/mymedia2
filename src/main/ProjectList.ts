@@ -1,5 +1,5 @@
 import { dialog, ipcMain } from "electron";
-import { IProjectListElement } from "./IProjectList";
+import { IProject } from "../shared/IProject";
 import Store from "./Store";
 
 export default class ProjectList {
@@ -25,7 +25,7 @@ export default class ProjectList {
             return dialogResponse.filePaths[0];
         })
 
-        ipcMain.handle('set/new-project', async (event, projectWithId: Omit<IProjectListElement, 'id'>) => {
+        ipcMain.handle('set/new-project', async (event, projectWithId: Omit<IProject, 'id'>) => {
             const projectList = this.store.addProject(projectWithId);
             console.log(projectWithId)
             return projectList;
