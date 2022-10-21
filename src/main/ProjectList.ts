@@ -1,4 +1,4 @@
-import { ipcMain } from "electron";
+import { dialog, ipcMain } from "electron";
 import Store from "./Store";
 
 export default class ProjectList {
@@ -15,5 +15,14 @@ export default class ProjectList {
             console.log(message)
             return projectList;
         })
+
+        ipcMain.handle('get/new-project-folder', async (event, message) => {
+            const dialogResponse = await dialog.showOpenDialog({
+                properties: ["openDirectory"]
+            })
+            console.log(dialogResponse);
+            return dialogResponse.filePaths[0];
+        })
+
     }
 }
