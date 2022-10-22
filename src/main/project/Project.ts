@@ -1,27 +1,29 @@
 import { ipcMain } from "electron";
-import createHashFilesWithDetails from "./createHashFilesWithDetails";
+import createDiffResourceHashes from "./createDiffResourceHashes";
+import createResourceHash from "./createResourceHash";
 import readDirectory from "./readAllFsFiles";
 import Store from "./Store";
 
-
 export default class Project {
     private store: Store;
+    private storeProjectPath: string;
 
     constructor() {
         ipcMain.handle('get/project-data', async (event, projectPath: string) => {
-            console.log(`[Project.get/resource-list] ${projectPath}`);
             const resourceList = this.getStore(projectPath).getResourceList();
-
             const allFilesFromFs = await readDirectory(projectPath);
-            const filesWithDetails = createHashFilesWithDetails(allFilesFromFs, projectPath);
-            console.log(filesWithDetails);
-            return resourceList;
+            const resourceHash = createResourceHash(allFilesFromFs, projectPath);
+            const diffResourceHashes = createDiffResourceHashes(resourceHash, resourceList);
+            const updatedResourceList = this.getStore(projectPath).setResourceList(Object.values({ ...diffResourceHashes.exisitingFiles, ...diffResourceHashes.newFiles }))
+
+            return updatedResourceList;
         })
     }
 
     getStore(projectPath: string): Store {
-        if (!this.store) {
+        if (!this.store || this.storeProjectPath !== projectPath) {
             this.store = new Store(projectPath);
+            this.storeProjectPath = projectPath;
         }
         return this.store;
     }

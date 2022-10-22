@@ -1,7 +1,5 @@
 import * as path from "path";
-import { IProject } from "../../shared/IProject";
 import ElectronStore from "electron-store";
-import { v4 as uuidv4 } from 'uuid';
 import { IResource } from "../../shared/IResource";
 export default class Store {
     static PROJECT_FOLDER = "mymedia";
@@ -28,8 +26,8 @@ export default class Store {
         });
     }
 
-    getResource(id: string): IResource {
-        return this.getResourceList().find(resource => resource.id === id);
+    getResource(relativePath: string): IResource {
+        return this.getResourceList().find(resource => resource.relativePath === relativePath);
     }
 
     getResourceList(): Array<IResource> {
@@ -40,16 +38,9 @@ export default class Store {
         return resourceList as Array<IResource>;
     }
 
-    addResource(resource: Omit<IResource, 'id'>): IResource {
-        const resourceWithId: IResource = {
-            ...resource,
-            id: uuidv4()
-        }
-        const resourceList = this._store.get(Store.RESOURCE_COLLECTION, []) as Array<IResource>;
-
-        resourceList.push(resourceWithId);
+    setResourceList(resourceList: IResource[]): IResource[] {
         this._store.set(Store.RESOURCE_COLLECTION, resourceList);
 
-        return resourceWithId;
+        return resourceList;
     }
 }
