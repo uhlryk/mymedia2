@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
-import { IProject } from '../../../shared/IProject';
-import fetch from '../../communication/fetch';
+import { IProject } from '../../../../shared/IProject';
+import fetch from '../../../communication/fetch';
 
 export default function CreateProject(): JSX.Element {
     const { appDispatch } = useContext<AppContextType>(AppContext);

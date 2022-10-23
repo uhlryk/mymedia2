@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { IResource } from '../../../shared/IResource';
-import fetch from '../../communication/fetch';
-import { IProject } from '../../../shared/IProject';
+import { IResource } from '../../../../shared/IResource';
+import fetch from '../../../communication/fetch';
+import { IProject } from '../../../../shared/IProject';
 import ResourceList from './components/ResourceList';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import { IResource } from '../../../../shared/IResource';
-import Loader from '../../../components/Loader';
+import { IResource } from '../../../../../shared/IResource';
+import Loader from '../../../../components/Loader';
 
 type Props = {
     list: IResource[] | null

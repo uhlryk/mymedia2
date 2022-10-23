@@ -1,5 +1,5 @@
-import React, { Dispatch, ReactNode, useReducer } from "react";
-import { IProject } from "../../shared/IProject";
+import React, { Dispatch, useReducer } from "react";
+import { IProject } from "../../../shared/IProject";
 
 export enum Page {
     RESOURCE_PAGE,
