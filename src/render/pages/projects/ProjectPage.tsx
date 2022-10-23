@@ -1,15 +1,14 @@
-import { Box, Grid, List, ListItemButton, ListItemText, Stack, ListSubheader, ListItemIcon } from "@mui/material";
+import { Grid, List, ListItemButton, ListItemText, Stack, ListItemIcon } from "@mui/material";
 import FolderIcon from '@mui/icons-material/Folder';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState, useContext } from 'react';
+import { AppContext, AppContextType, ActionType } from '../../store/store';
 import { IProject } from '../../../shared/IProject';
 import fetch from "../../communication/fetch";
-import CreateProject from './createProject/CreateProject';
 
-type Props = {
-    setProject: Dispatch<SetStateAction<IProject>>
-}
-export default function SelectProject({ setProject }: Props): JSX.Element {
+export default function ProjectPage(): JSX.Element {
     console.log(`[SelectProject] start `)
+    const { appDispatch } = useContext<AppContextType>(AppContext);
+
     const [projectList, setProjectList] = useState<IProject[]>([]);
     useEffect(() => {
         fetch<IProject[]>('get/project-list').then(projectList => {
@@ -21,7 +20,12 @@ export default function SelectProject({ setProject }: Props): JSX.Element {
 
     const onSelectProject = (id: string) => {
         const project = projectList.find(project => project.id === id)
-        setProject(project);
+        appDispatch({
+            type: ActionType.SET_PROJECT,
+            payload: {
+                project
+            }
+        })
     }
 
     const list = projectList.map(project => (
@@ -36,12 +40,7 @@ export default function SelectProject({ setProject }: Props): JSX.Element {
     return (
         <Grid>
             <Stack alignItems="center">
-                <CreateProject setProject={setProject} />
-                <List sx={{ width: '100%', maxWidth: 560, bgcolor: 'background.paper' }} subheader={
-                    <ListSubheader component="div" id="nested-list-subheader">
-                        Existing Projects
-                    </ListSubheader>
-                }>
+                <List sx={{ width: '100%', maxWidth: 560 }} >
                     {list}
                 </List>
             </Stack>

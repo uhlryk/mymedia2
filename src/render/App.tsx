@@ -1,35 +1,45 @@
 import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { IProject } from "../shared/IProject";
+import React from "react";
 import "./App.css";
 
 import ResourcePage from "./pages/resources/ResourcePage";
-import SelectProject from "./pages/selectProject/SelectProject";
+import ProjectPage from "./pages/projects/ProjectPage";
+import CreateProject from "./pages/createProject/CreateProject";
+import { AppContext, Page, useAppReducer } from "./store/store";
+
 
 export default function App(): JSX.Element {
-  const [project, setProject] = useState<IProject | null>(null);
+  const appStore = useAppReducer();
 
   let component;
-  if (project) {
-    component = <ResourcePage project={project} />;
-  } else {
-    component = <SelectProject setProject={setProject} />;
+  switch (appStore.appState.page) {
+    case Page.PROJECT_PAGE:
+      component = <ProjectPage />;
+      break;
+    case Page.RESOURCE_PAGE:
+      component = <ResourcePage />;
+      break;
+    case Page.CREATE_PROJECT_PAGE:
+      component = <CreateProject />;
+      break;
   }
-
+  console.log(appStore);
   return (
-    <Grid container spacing={0}>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-          </IconButton>
-          <Typography variant="h6" color="inherit" component="div">
-            Projects
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Grid xs={12}>
-        {component}
+    <AppContext.Provider value={appStore}>
+      <Grid container spacing={0}>
+        <AppBar position="static">
+          <Toolbar variant="dense">
+            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+            </IconButton>
+            <Typography variant="h6" color="inherit" component="div">
+              Projects
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Grid xs={12} item>
+          {component}
+        </Grid>
       </Grid>
-    </Grid>
+    </AppContext.Provider>
   );
 }

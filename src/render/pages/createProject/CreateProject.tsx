@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { IProject } from '../../../../shared/IProject';
-import fetch from '../../../communication/fetch';
+import React, { useState, useContext } from 'react';
+import { AppContext, AppContextType, ActionType } from '../../store/store';
+import { IProject } from '../../../shared/IProject';
+import fetch from '../../communication/fetch';
 
-type Props = {
-    setProject: Dispatch<SetStateAction<IProject>>
-}
-export default function CreateProject({ setProject }: Props): JSX.Element {
+export default function CreateProject(): JSX.Element {
+    const { appDispatch } = useContext<AppContextType>(AppContext);
+
     const [submitting, setSubmitting] = useState(false);
     const [projectName, setProjectName] = useState("");
     const [projectFolderPath, setProjectFolderPath] = useState<string>("");
@@ -19,7 +19,12 @@ export default function CreateProject({ setProject }: Props): JSX.Element {
         }).then((result) => {
             console.log(`[CreateProject] status of set/new-project ${result}`)
             setSubmitting(false);
-            setProject(result)
+            appDispatch({
+                type: ActionType.SET_PROJECT,
+                payload: {
+                    project: result
+                }
+            })
         })
     }
 
