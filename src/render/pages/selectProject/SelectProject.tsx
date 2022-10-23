@@ -1,3 +1,4 @@
+import { Box, Grid, List, ListItemButton, ListItemText, Stack, ListSubheader } from "@mui/material";
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { IProject } from '../../../shared/IProject';
 import fetch from "../../communication/fetch";
@@ -22,14 +23,27 @@ export default function SelectProject({ setProject }: Props): JSX.Element {
         setProject(project);
     }
 
-    const list = projectList.map(project => <li key={project.id} onClick={() => onSelectProject(project.id)}>{project.name}</li>)
+    const list = projectList.map(project => (
+        <ListItemButton key={project.id} onClick={() => onSelectProject(project.id)}>
+            <ListItemText primary={project.name} secondary={project.folderPath} />
+        </ListItemButton>
+    ))
+
+
     return (
-        <>
-            <CreateProject setProject={setProject} />
-            SelectProject
-            <ul>
-                {list}
-            </ul>
-        </>
+            <Stack alignItems="center">
+                <CreateProject setProject={setProject} />
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                        Nested List Items
+                    </ListSubheader>
+                }>
+                    {list}
+                </List>
+            </Stack>
+
+
+
+
     )
 }
