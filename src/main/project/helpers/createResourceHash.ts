@@ -1,5 +1,5 @@
 import path from "path";
-import { IResourceHash } from "./IResourceHash";
+import { IResourceHash } from "../IResourceHash";
 import { FileInfo } from "./readAllFsFiles";
 
 export default function createResourceHash(list: FileInfo[], projectPath: string): IResourceHash {

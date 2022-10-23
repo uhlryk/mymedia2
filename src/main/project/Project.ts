@@ -1,7 +1,7 @@
 import { ipcMain } from "electron";
-import createDiffResourceHashes from "./createDiffResourceHashes";
-import createResourceHash from "./createResourceHash";
-import readDirectory from "./readAllFsFiles";
+import createDiffResourceHashes from "./helpers/createDiffResourceHashes";
+import createResourceHash from "./helpers/createResourceHash";
+import readDirectory from "./helpers/readAllFsFiles";
 import Store from "./Store";
 
 export default class Project {

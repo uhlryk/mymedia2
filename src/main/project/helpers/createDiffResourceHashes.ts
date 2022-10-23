@@ -1,5 +1,5 @@
-import { IResource } from "../../shared/IResource";
-import { IResourceHash } from "./IResourceHash";
+import { IResource } from "../../../shared/IResource";
+import { IResourceHash } from "../IResourceHash";
 
 export interface IDiffResourceHashes {
     newFiles: IResourceHash;
