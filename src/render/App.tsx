@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IProject } from "../shared/IProject";
 import "./App.css";
 
-import ResourceList from "./pages/resourceList/ResourceList";
+import ResourcePage from "./pages/resources/ResourcePage";
 import SelectProject from "./pages/selectProject/SelectProject";
 
 export default function App(): JSX.Element {
@@ -10,7 +10,7 @@ export default function App(): JSX.Element {
 
   let component;
   if (project) {
-    component = <ResourceList project={project} />;
+    component = <ResourcePage project={project} />;
   } else {
     component = <SelectProject setProject={setProject} />;
   }

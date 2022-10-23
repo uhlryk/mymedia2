@@ -1,4 +1,5 @@
 import { ipcMain } from "electron";
+import { IResource } from "../../shared/IResource";
 import createDiffResourceHashes from "./helpers/createDiffResourceHashes";
 import createResourceHash from "./helpers/createResourceHash";
 import readDirectory from "./helpers/readAllFsFiles";
@@ -10,13 +11,7 @@ export default class Project {
 
     constructor() {
         ipcMain.handle('get/project-data', async (event, projectPath: string) => {
-            const resourceList = this.getStore(projectPath).getResourceList();
-            const allFilesFromFs = await readDirectory(projectPath);
-            const resourceHash = createResourceHash(allFilesFromFs, projectPath);
-            const diffResourceHashes = createDiffResourceHashes(resourceHash, resourceList);
-            const updatedResourceList = this.getStore(projectPath).setResourceList(Object.values({ ...diffResourceHashes.exisitingFiles, ...diffResourceHashes.newFiles }))
-
-            return updatedResourceList;
+            return await this.getProjectData(projectPath);
         })
     }
 
@@ -26,5 +21,15 @@ export default class Project {
             this.storeProjectPath = projectPath;
         }
         return this.store;
+    }
+
+    async getProjectData(projectPath: string): Promise<IResource[]> {
+        const resourceList = this.getStore(projectPath).getResourceList();
+        const allFilesFromFs = await readDirectory(projectPath);
+        const resourceHash = createResourceHash(allFilesFromFs, projectPath);
+        const diffResourceHashes = createDiffResourceHashes(resourceHash, resourceList);
+        const updatedResourceList = this.getStore(projectPath).setResourceList(Object.values({ ...diffResourceHashes.exisitingFiles, ...diffResourceHashes.newFiles }))
+
+        return updatedResourceList;
     }
 }
