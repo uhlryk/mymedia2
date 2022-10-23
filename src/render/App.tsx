@@ -1,4 +1,4 @@
-import { AppBar, Box, Container, Grid, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { IProject } from "../shared/IProject";
 import "./App.css";
@@ -17,21 +17,19 @@ export default function App(): JSX.Element {
   }
 
   return (
-    <Box>
-      <Container maxWidth="lg" sx={{ border: '1px solid' }}>
-        <AppBar position="static">
-          <Toolbar variant="dense">
-            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-            </IconButton>
-            <Typography variant="h6" color="inherit" component="div">
-              Projects
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
+    <Grid container spacing={0}>
+      <AppBar position="static">
+        <Toolbar variant="dense">
+          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+          </IconButton>
+          <Typography variant="h6" color="inherit" component="div">
+            Projects
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Grid xs={12}>
         {component}
-
-      </Container>
-    </Box>
+      </Grid>
+    </Grid>
   );
 }
