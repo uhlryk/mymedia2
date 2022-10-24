@@ -1,5 +1,5 @@
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: any;
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, protocol, session } from 'electron';
 import Project from './main/project/Project';
 
 import ProjectList from "./main/projectList/ProjectList";
@@ -22,7 +22,12 @@ const createWindow = (): void => {
     show: true,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: true,
+      allowRunningInsecureContent: true,
+      contextIsolation: true,
+      webSecurity: false  // allow files from hard disk to show up
     }
+
   });
 
   // and load the index.html of the app.
@@ -61,5 +66,21 @@ app.on('activate', () => {
   }
 });
 
+
+
+// app.whenReady().then(() => {
+//   console.log("=========AA1======");
+//   protocol.registerFileProtocol('file', (request, callback) => {
+//     console.log("=========AA2======");
+//     const pathname = request.url.replace('file:///', '');
+//     callback(pathname);
+//   });
+//   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+//     callback({ responseHeaders: Object.assign({
+//       ...details.responseHeaders,
+//       "Content-Security-Policy": [ "script-src 'self' 'unsafe-eval'; object-src 'self'; img-src 'self' *.unsplash.com" ]
+//       }, details.responseHeaders)});
+//     });
+// });
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.

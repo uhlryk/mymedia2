@@ -25,7 +25,7 @@ export default function ResourcePage(): JSX.Element {
     return (
         <>
             <SwipeableDrawer
-                anchor={'left'}
+                anchor={'right'}
                 open={false}
                 onClose={toggleLeftMenu(false)}
                 onOpen={toggleLeftMenu(true)}
