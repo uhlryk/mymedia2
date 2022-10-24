@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, KeyboardEvent, MouseEvent } from 'react';
 import { IResource } from '../../../../shared/IResource';
 import fetch from '../../../communication/fetch';
 import { IProject } from '../../../../shared/IProject';
@@ -19,14 +19,14 @@ export default function ResourcePage(): JSX.Element {
         })
     }, [])
 
-    const toggleLeftMenu = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-
+    const toggleLeftMenu = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+        console.log(open);
     }
     return (
         <>
             <SwipeableDrawer
                 anchor={'left'}
-                open={true}
+                open={false}
                 onClose={toggleLeftMenu(false)}
                 onOpen={toggleLeftMenu(true)}
             >

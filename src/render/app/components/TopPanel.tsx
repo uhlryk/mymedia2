@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Box, Button, Container } from "@mui/material";
 import React, { MouseEventHandler, useContext } from "react";
-import { AppContext, AppContextType, ActionType } from "../store/store";
+import { AppContext, AppContextType, ActionType, Page } from "../store/store";
 
 type Props = {
     sidePanelWidth: number;
@@ -19,6 +19,21 @@ export default function TopPanel({ sidePanelWidth }: Props) {
             type: ActionType.CREATE_PROJECT,
         })
     }
+
+    let resourceButton;
+    if (page === Page.RESOURCE_PAGE) {
+        resourceButton = <Button
+            key={'resources'}
+            onClick={onCreateProjectClick}
+            disableElevation
+            variant={page === Page.RESOURCE_PAGE ? 'contained' : 'text'}
+            color="success"
+            sx={{ my: 2, color: 'white', display: 'block' }}
+        >
+            Resources
+        </Button>
+    }
+
     return (
         <AppBar
             position="fixed"
@@ -30,6 +45,9 @@ export default function TopPanel({ sidePanelWidth }: Props) {
                         <Button
                             key={'projects'}
                             onClick={onProjectsClick}
+                            disableElevation
+                            variant={page === Page.PROJECT_PAGE ? 'contained' : 'text'}
+                            color="success"
                             sx={{ my: 2, color: 'white', display: 'block' }}
                         >
                             Projects
@@ -37,10 +55,15 @@ export default function TopPanel({ sidePanelWidth }: Props) {
                         <Button
                             key={'create-projects'}
                             onClick={onCreateProjectClick}
+                            disableElevation
+                            variant={page === Page.CREATE_PROJECT_PAGE ? 'contained' : 'text'}
+                            color="success"
                             sx={{ my: 2, color: 'white', display: 'block' }}
                         >
                             Create Project
                         </Button>
+
+                        {resourceButton}
                     </Box>
                 </Toolbar>
             </Container>
