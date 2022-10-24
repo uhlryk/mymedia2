@@ -6,7 +6,6 @@ import ResourcePage from "./pages/resources/ResourcePage";
 import ProjectPage from "./pages/projects/ProjectPage";
 import CreateProject from "./pages/createProject/CreateProject";
 import { AppContext, Page, useAppReducer } from "./store/store";
-import SidePanel from "./components/SidePanel";
 import TopPanel from "./components/TopPanel";
 
 
@@ -26,13 +25,14 @@ export default function App(): JSX.Element {
       break;
   }
   console.log(appStore);
-  const sidePanelWidth = 240;
+  const sidePanelWidth = 0;
   return (
     <AppContext.Provider value={appStore}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
+   
         <TopPanel sidePanelWidth={sidePanelWidth}/>
-        <SidePanel width={sidePanelWidth} />
+
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}

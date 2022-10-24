@@ -19,7 +19,7 @@ interface AppState {
 
 interface AppAction {
     type: ActionType;
-    payload: {
+    payload?: {
         project?: IProject
     }
 }
