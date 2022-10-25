@@ -28,14 +28,14 @@ export default function App(): JSX.Element {
   const sidePanelWidth = 0;
   return (
     <AppContext.Provider value={appStore}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex', height: '100vh' }}>
         <CssBaseline />
-   
-        <TopPanel sidePanelWidth={sidePanelWidth}/>
+
+        <TopPanel sidePanelWidth={sidePanelWidth} />
 
         <Box
           component="main"
-          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: "flex", flexDirection: "column" }}
         >
           <Toolbar />
           {component}

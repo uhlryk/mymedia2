@@ -32,8 +32,6 @@ export default function ResourcePage(): JSX.Element {
             >
                 <h1>test</h1>
             </SwipeableDrawer>
-            ResourceList for project {project.name}
-
             <ResourceList list={resourceList} ></ResourceList>
         </>
     )
