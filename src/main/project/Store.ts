@@ -2,16 +2,16 @@ import * as path from "path";
 import ElectronStore from "electron-store";
 import { IResource } from "../../shared/IResource";
 export default class Store {
-    static PROJECT_FOLDER = "mymedia";
+
 
     static RESOURCE_COLLECTION = "resources";
     static TAG_COLLECTION = "tags";
     private _store;
 
-    constructor(projectFolderPath: string) {
+    constructor(projectFolderPath: string, projectDataFolder: string) {
         const databasePath = path.resolve(
             projectFolderPath,
-            Store.PROJECT_FOLDER
+            projectDataFolder
         )
         this._store = new ElectronStore({
             schema: {
@@ -24,6 +24,7 @@ export default class Store {
             },
             cwd: databasePath
         });
+
     }
 
     getResource(relativePath: string): IResource {
