@@ -95,7 +95,7 @@ export default function ResourceList({ list }: Props): JSX.Element {
       width: '100%', margin: 0
     }}>
       {
-        itemData.concat(itemData).concat(itemData).map((item) => (
+        itemData.map((item) => (
           <ImageListItem key={item.img}>
             <img
               src={`${item.img}?w=248&fit=crop&auto=format`}

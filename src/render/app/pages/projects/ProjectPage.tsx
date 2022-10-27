@@ -13,10 +13,8 @@ export default function ProjectPage(): JSX.Element {
     useEffect(() => {
         fetch<IProject[]>('get/project-list').then(projectList => {
             setProjectList(projectList);
-            console.log(projectList)
         })
     }, [])
-    console.log(projectList);
 
     const onSelectProject = (id: string) => {
         const project = projectList.find(project => project.id === id)

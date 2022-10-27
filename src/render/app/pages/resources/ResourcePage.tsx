@@ -10,15 +10,46 @@ export default function ResourcePage(): JSX.Element {
 
 
     const { appState: { project }, appDispatch } = useContext<AppContextType>(AppContext);
-    console.log(`[SelectProject] start ${project.id}`)
     const [resourceList, setResourceList] = useState<IResource[]>(null);
+    const [isLoading, setLoading] = useState(true);
     useEffect(() => {
-        fetch<IResource[]>('get/project-data', project.folderPath).then(resourceList => {
+        setLoading(true);
+        fetch<IResource[]>('set/project-data', project.folderPath).then(resourceList => {
             setResourceList(resourceList);
+            setLoading(false);
             console.log(resourceList)
         })
     }, [])
 
+    useEffect(() => {
+        let stopProcess = false;
+        if (!isLoading) {
+            const requestThumbnails = async () => {
+                for (const resource of resourceList) {
+                    if (stopProcess) break;
+                    if (!resource.thumbnails || resource.thumbnails.length < 4) {
+                        await fetch<IResource>('set/resource-thumbnail', { projectPath: project.folderPath, resourcePath: resource.relativePath }).then((updatedResource) => {
+                            if (stopProcess) {
+                                return;
+                            }
+                            if (!updatedResource) {
+                                return;
+                            }
+                            const resourceIndex = resourceList.findIndex((resource => resource.relativePath === updatedResource.relativePath));
+                            if (resourceIndex !== -1) {
+                                resourceList[resourceIndex].thumbnails = updatedResource.thumbnails;
+                            }
+                            setResourceList(resourceList.slice());
+                        })
+                    }
+                }
+            }
+            requestThumbnails();
+        }
+        return () => {
+            stopProcess = true;
+        }
+    }, [isLoading])
     const toggleLeftMenu = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
         console.log(open);
     }
@@ -34,7 +65,7 @@ export default function ResourcePage(): JSX.Element {
             </SwipeableDrawer>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <Box sx={{ display: "flex", flexBasis: "300px", flexGrow: 1 }}>
-                    <div style={{ width: "300px" }} >hello world</div>
+                    <div style={{ width: "300px" }} >{"hello world".concat("" + Math.floor(Math.random() * 100))}</div>
                 </Box>
                 <Box sx={{ display: "flex", flexBasis: "auto", flexGrow: 1 }}>
                     <ResourceList list={resourceList} ></ResourceList>
