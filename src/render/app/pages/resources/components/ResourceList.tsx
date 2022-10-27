@@ -91,35 +91,33 @@ export default function ResourceList({ list }: Props): JSX.Element {
 
   const resourceComponents = list.map(resource => <div key={resource.relativePath}>{resource.baseName}</div>)
   return (
-    <Box flex={1} overflow="auto" sx={{ display: "flex", flexDirection: "column" }}>
-      <ImageList cols={5} rowHeight={164} sx={{
-        width: '100%'
-      }}>
-        {
-          itemData.concat(itemData).concat(itemData).map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                src={`${item.img}?w=248&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                alt={item.title}
-                loading="lazy"
-              />
-              <ImageListItemBar
-                title={item.title}
-                subtitle={item.author}
-                actionIcon={
-                  <IconButton
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${item.title}`}
-                  >
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
-            </ImageListItem>
-          ))
-        }
-      </ImageList >
-    </Box >
+    <ImageList cols={4} rowHeight={230} sx={{
+      width: '100%', margin: 0
+    }}>
+      {
+        itemData.concat(itemData).concat(itemData).map((item) => (
+          <ImageListItem key={item.img}>
+            <img
+              src={`${item.img}?w=248&fit=crop&auto=format`}
+              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.title}
+              loading="lazy"
+            />
+            <ImageListItemBar
+              title={item.title}
+              subtitle={item.author}
+              actionIcon={
+                <IconButton
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  aria-label={`info about ${item.title}`}
+                >
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </ImageListItem>
+        ))
+      }
+    </ImageList >
   )
 }

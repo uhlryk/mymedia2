@@ -35,9 +35,8 @@ export default function App(): JSX.Element {
 
         <Box
           component="main"
-          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, display: "flex", flexDirection: "column" }}
+          sx={{ display: "flex", flexDirection: "row", marginTop: '70px' }}
         >
-          <Toolbar />
           {component}
         </Box>
       </Box>

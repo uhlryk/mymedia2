@@ -4,7 +4,7 @@ import fetch from '../../../communication/fetch';
 import { IProject } from '../../../../shared/IProject';
 import ResourceList from './components/ResourceList';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
-import { SwipeableDrawer } from '@mui/material';
+import { SwipeableDrawer, Box } from '@mui/material';
 
 export default function ResourcePage(): JSX.Element {
 
@@ -32,7 +32,15 @@ export default function ResourcePage(): JSX.Element {
             >
                 <h1>test</h1>
             </SwipeableDrawer>
-            <ResourceList list={resourceList} ></ResourceList>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <Box sx={{ display: "flex", flexBasis: "300px", flexGrow: 1 }}>
+                    <div style={{ width: "300px" }} >hello world</div>
+                </Box>
+                <Box sx={{ display: "flex", flexBasis: "auto", flexGrow: 1 }}>
+                    <ResourceList list={resourceList} ></ResourceList>
+                </Box>
+            </Box>
+
         </>
     )
 }

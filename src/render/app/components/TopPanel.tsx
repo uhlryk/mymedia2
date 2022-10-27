@@ -41,7 +41,7 @@ export default function TopPanel({ sidePanelWidth }: Props) {
         >
             <Container maxWidth="xl">
                 <Toolbar>
-                    <Box sx={{ margin: '0 200px', flexGrow: 1, justifyContent: 'left', display: { sm: 'flex', md: 'flex' } }}>
+                    <Box sx={{ flexGrow: 1, justifyContent: 'left', display: { sm: 'flex', md: 'flex' } }}>
                         <Button
                             key={'projects'}
                             onClick={onProjectsClick}
@@ -67,6 +67,6 @@ export default function TopPanel({ sidePanelWidth }: Props) {
                     </Box>
                 </Toolbar>
             </Container>
-        </AppBar>
+        </AppBar >
     )
 }
