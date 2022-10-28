@@ -1,5 +1,9 @@
-import IFileDetails from "./IFIleDetails";
+import { IFileDetails } from "./IFileDetails";
 
 export type IResource = {
-    thumbnails?: string[]
+    id: string;
+    thumbnails?: string[];
+    width?: number;
+    height?: number;
+    duration?: number;
 } & IFileDetails

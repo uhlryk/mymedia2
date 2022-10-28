@@ -1,4 +1,4 @@
-export default interface IFileDetails {
+export interface IFileDetails {
     relativePath: string;
     fileName: string;
     baseName: string;

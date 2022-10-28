@@ -27,8 +27,8 @@ export default function ResourcePage(): JSX.Element {
             const requestThumbnails = async () => {
                 for (const resource of resourceList) {
                     if (stopProcess) break;
-                    if (!resource.thumbnails || resource.thumbnails.length < 4) {
-                        await fetch<IResource>('set/resource-thumbnail', { projectPath: project.folderPath, resourcePath: resource.relativePath }).then((updatedResource) => {
+                    if (!resource.thumbnails) { // TODO: check if there is specified number of thumbnails e.g. 4 if less then we also need create missing thumbnails
+                        await fetch<IResource>('set/resource-extra', { projectPath: project.folderPath, resourcePath: resource.relativePath }).then((updatedResource) => {
                             if (stopProcess) {
                                 return;
                             }

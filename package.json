@@ -99,6 +99,8 @@
     "@types/react-redux": "^7.1.24",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.2",
+    "ffmpeg-static-electron": "^2.0.3",
+    "ffprobe-static-electron": "^2.0.2",
     "prettier": "^2.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
