@@ -1,5 +1,4 @@
 import { spawn } from "child_process";
-import * as ffprobe from "ffprobe-static-electron";
 
 interface Metadata {
     width?: number;
@@ -7,7 +6,7 @@ interface Metadata {
     duration?: number;
 }
 export default async function getMetadata(sourceFilePath: string): Promise<Metadata> {
-    const childProcess = spawn(ffprobe.path, [
+    const childProcess = spawn("ffprobe", [
         "-v",
         "error",
         "-select_streams",

@@ -57,9 +57,9 @@ export default class Project {
             const relativeSpecificThumbnailPath = path.join(Project.PROJECT_DATA_FOLDER, Project.THUMBNAILS_FOLDER, resource.id, "1.jpg");
             console.log(`relativeSpecificThumbnailPath ${relativeSpecificThumbnailPath}`);
             try {
-                // const metadata = await getMetadata(absoluteResourcePath);
-                // console.log(metadata);
-                if (await generateThumbnail(absoluteResourcePath, targetSpecificThumbnailPath, 1)) {
+                const metadata = await getMetadata(absoluteResourcePath);
+                console.log(metadata);
+                if (await generateThumbnail(absoluteResourcePath, targetSpecificThumbnailPath, metadata.duration)) {
                     const updatedResource = {
                         ...resource,
                         thumbnails: [relativeSpecificThumbnailPath],

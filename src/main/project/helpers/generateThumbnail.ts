@@ -1,18 +1,16 @@
 import fs from "fs/promises";
 import { spawn } from "child_process";
-import * as ffmpeg from "ffmpeg-static-electron";
 import * as path from "path";
 
 export default async function generateThumbnail(sourceFilePath: string, targetSpecificThumbnailPath: string, videoTime: number): Promise<boolean> {
     const specificThumbnailFolderPath: string = path.dirname(targetSpecificThumbnailPath);
     await fs.mkdir(specificThumbnailFolderPath, { recursive: true });
-
-    const childProcess = spawn(ffmpeg.path, [
+    const childProcess = spawn("ffmpeg", [
         // "-nostats",
         // "-loglevel",
         // "panic",
         "-ss",
-        "10",
+        videoTime.toString(),
         "-i",
         sourceFilePath,
         "-vframes:v",
