@@ -9,6 +9,7 @@ import * as path from "path";
 import generateThumbnail from "./helpers/generateThumbnail";
 import getMetadata from "./helpers/getMetadata";
 
+const EXTENSIONS_FOR_THUMBNAILS = ['.mp4', '.wmv', '.mov', '.avi'];
 export default class Project {
     static PROJECT_DATA_FOLDER = "mymedia";
     static THUMBNAILS_FOLDER = "thumbnails";
@@ -45,27 +46,29 @@ export default class Project {
             const resourceIndex = this.cachedResources.findIndex(cachedResource => cachedResource.relativePath === resourcePath);
 
             if (resourceIndex === -1) {
-                console.error(`Requested resolurce by path ${resourcePath} not found`);
+                console.error(`Requested resource by path ${resourcePath} not found`);
                 return null;
             }
             const resource = this.cachedResources[resourceIndex];
-            console.log(`get extra info about resource ${resource.relativePath}`);
+
+            const extension = resource.extension;
+
+            if (!EXTENSIONS_FOR_THUMBNAILS.includes(extension)) {
+                console.error(`Requested resource by path ${resourcePath} extension ${extension} is not supported for thumbnails`);
+                return null;
+            }
+
             const absoluteResourcePath = path.join(projectPath, resource.relativePath);
-            console.log(`absolutePath ${absoluteResourcePath}`);
             const targetSpecificThumbnailPath = path.join(projectPath, Project.PROJECT_DATA_FOLDER, Project.THUMBNAILS_FOLDER, resource.id, "1.jpg");
-            console.log(`targetSpecificThumbnailPath ${targetSpecificThumbnailPath}`);
             const relativeSpecificThumbnailPath = path.join(Project.PROJECT_DATA_FOLDER, Project.THUMBNAILS_FOLDER, resource.id, "1.jpg");
-            console.log(`relativeSpecificThumbnailPath ${relativeSpecificThumbnailPath}`);
             try {
                 const metadata = await getMetadata(absoluteResourcePath);
-                console.log(metadata);
                 if (await generateThumbnail(absoluteResourcePath, targetSpecificThumbnailPath, metadata.duration)) {
                     const updatedResource = {
                         ...resource,
                         thumbnails: [relativeSpecificThumbnailPath],
                         // ...metadata
                     }
-                    console.log(updatedResource);
                     this.cachedResources[resourceIndex] = updatedResource
                     this.store.setResourceList(this.cachedResources)
                     return updatedResource;

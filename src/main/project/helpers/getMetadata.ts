@@ -20,7 +20,6 @@ export default async function getMetadata(sourceFilePath: string): Promise<Metad
     return await new Promise((resolve, reject) => {
         const metadata: Metadata = {};
         childProcess.stdout.on("data", (data: string) => {
-            console.log(data);
             if (data) {
                 const dataArray = data.toString().split(/[^0-9.]/g);
                 metadata.width = parseInt(dataArray[0], 10);
@@ -29,14 +28,11 @@ export default async function getMetadata(sourceFilePath: string): Promise<Metad
             }
         });
 
-        childProcess.stderr.on("data", data => {
-            console.error(`stderr: ${data}`);
-        });
+        // childProcess.stderr.on("data", data => {
+        //     console.error(`stderr: ${data}`);
+        // });
 
         childProcess.on("close", code => {
-            console.log(sourceFilePath);
-            console.log(code);
-            console.log(metadata);
             if (code === 0) {
                 resolve(metadata);
             } else {

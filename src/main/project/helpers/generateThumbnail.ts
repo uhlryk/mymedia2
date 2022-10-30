@@ -22,23 +22,16 @@ export default async function generateThumbnail(sourceFilePath: string, targetSp
         targetSpecificThumbnailPath
     ]);
     await new Promise<void>((resolve, reject) => {
-        childProcess.on("exit", statusCode => {
-            console.log("exit", statusCode);
-        });
-        childProcess.stderr.on("data", err => {
-            if (err && err.toString()) {
-                console.log("STERR DATA", err.toString());
-            }
-            console.log("STERR DATA", err);
-        });
-        childProcess.stdout.on("data", data => {
-            console.log("STOUT DATA", data);
-        });
+
+        // childProcess.stderr.on("data", err => {
+        //     if (err && err.toString()) {
+        //         console.log("STERR DATA", err.toString());
+        //     }
+        // });
 
         childProcess.on("close", code => {
-            console.log("CLOSE", code);
+            // console.log("CLOSE", code);
             if (code === 0) {
-                console.log("conversion successful");
                 resolve();
             } else {
                 reject();
