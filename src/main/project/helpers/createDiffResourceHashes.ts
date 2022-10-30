@@ -23,7 +23,7 @@ export default function createDiffResourceHashes(fileDetailsHash: IFileDetailsHa
             deleteFiles[fileDb.relativePath] = fileDb;
         }
     });
-    const newFiles: IResourceHash = convertFileDetailsHashToResourceHash(fileDetailsHash);
+    const newFiles: IResourceHash = convertFileDetailsHashToResourceHash(tempFiles);
 
     return {
         newFiles,
