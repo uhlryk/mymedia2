@@ -27,11 +27,12 @@ export default class Project {
                 this.store = new Store(this.projectPath, Project.PROJECT_DATA_FOLDER);
 
                 const resourceList = this.store.getResourceList();
-                const allFilesFromFs = await readDirectory(projectPath);
+                const allFilesFromFs = await readDirectory(projectPath, new Map([[Project.PROJECT_DATA_FOLDER, true]]));
                 const fileDetailsHash = createFileDetailsHash(allFilesFromFs, projectPath);
                 const diffResourceHashes = createDiffResourceHashes(fileDetailsHash, resourceList);
                 const updatedResourceList = this.store.setResourceList(Object.values({ ...diffResourceHashes.exisitingFiles, ...diffResourceHashes.newFiles }))
                 this.cachedResources = updatedResourceList;
+                console.log(this.cachedResources);
                 return updatedResourceList;
             } else {
                 return this.cachedResources;

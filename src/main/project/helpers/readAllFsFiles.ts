@@ -5,14 +5,17 @@ export interface FileInfo {
     absolutePath: string;
     size: number;
 }
-export default async function readDirectory(directory: string): Promise<FileInfo[]> {
+export default async function readDirectory(directory: string, excludeDirectoriesHash: Map<string, boolean>): Promise<FileInfo[]> {
     const files = await fs.readdir(directory)
     const filesPromises = files.map(async (file) => {
         try {
+            if (excludeDirectoriesHash.has(file)) {
+                return [];
+            }
             const absolutePath = path.join(directory, file);
             const fileStat = await fs.stat(absolutePath)
             if (fileStat.isDirectory()) {
-                return await readDirectory(absolutePath);
+                return await readDirectory(absolutePath, excludeDirectoriesHash);
             } else {
                 const fileInfo: FileInfo = {
                     absolutePath,
