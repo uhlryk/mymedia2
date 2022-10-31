@@ -1,4 +1,4 @@
-import React, { Dispatch, useReducer } from "react";
+import React, { Dispatch, useReducer, FC } from "react";
 import { IProject } from "../../../shared/IProject";
 
 export enum Page {
@@ -60,3 +60,5 @@ export function useAppReducer(): AppContextType {
 }
 
 export const AppContext = React.createContext<AppContextType | null>(null);
+
+
