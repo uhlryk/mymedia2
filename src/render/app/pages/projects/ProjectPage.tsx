@@ -3,7 +3,7 @@ import FolderIcon from '@mui/icons-material/Folder';
 import React, { useEffect, useState, useContext } from 'react';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
 import { IProject } from '../../../../shared/IProject';
-import fetch from "../../../communication/fetch";
+import fetch from "../../../utils/fetch";
 
 export default function ProjectPage(): JSX.Element {
     console.log(`[SelectProject] start `)

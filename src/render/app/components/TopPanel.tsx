@@ -1,11 +1,8 @@
 import { AppBar, Toolbar, Box, Button, Container } from "@mui/material";
-import React, { MouseEventHandler, useContext } from "react";
+import React, { MouseEventHandler, useContext, FC } from "react";
 import { AppContext, AppContextType, ActionType, Page } from "../store/store";
 
-type Props = {
-    sidePanelWidth: number;
-}
-export default function TopPanel({ sidePanelWidth }: Props) {
+export const TopPanel: FC = () => {
     const { appState: { page }, appDispatch } = useContext<AppContextType>(AppContext);
 
     const onProjectsClick: MouseEventHandler = (event) => {
@@ -37,7 +34,7 @@ export default function TopPanel({ sidePanelWidth }: Props) {
     return (
         <AppBar
             position="fixed"
-            sx={{ width: `calc(100% - ${sidePanelWidth}px)`, ml: `${sidePanelWidth}px` }}
+            sx={{ width: '100%' }}
         >
             <Container maxWidth="xl">
                 <Toolbar>

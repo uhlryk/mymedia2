@@ -6,38 +6,29 @@ import ResourcePage from "./pages/resources/ResourcePage";
 import ProjectPage from "./pages/projects/ProjectPage";
 import CreateProject from "./pages/createProject/CreateProject";
 import { AppContext, Page, useAppReducer } from "./store/store";
-import TopPanel from "./components/TopPanel";
+import { TopPanel } from "./components/TopPanel";
+import { Router } from "./components/Router";
 
-
+const pages = {
+  [Page.PROJECT_PAGE]: <ProjectPage />,
+  [Page.RESOURCE_PAGE]: <ResourcePage />,
+  [Page.CREATE_PROJECT_PAGE]: <CreateProject />,
+}
 export default function App(): JSX.Element {
   const appStore = useAppReducer();
 
-  let component;
-  switch (appStore.appState.page) {
-    case Page.PROJECT_PAGE:
-      component = <ProjectPage />;
-      break;
-    case Page.RESOURCE_PAGE:
-      component = <ResourcePage />;
-      break;
-    case Page.CREATE_PROJECT_PAGE:
-      component = <CreateProject />;
-      break;
-  }
-  console.log(appStore);
-  const sidePanelWidth = 0;
   return (
     <AppContext.Provider value={appStore}>
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <CssBaseline />
 
-        <TopPanel sidePanelWidth={sidePanelWidth} />
+        <TopPanel />
 
         <Box
           component="main"
           sx={{ display: "flex", flexDirection: "row", marginTop: '70px' }}
         >
-          {component}
+          <Router pages={pages} />
         </Box>
       </Box>
     </AppContext.Provider>

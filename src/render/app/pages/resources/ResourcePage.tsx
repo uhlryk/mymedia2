@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, KeyboardEvent, MouseEvent } from 'react';
 import { IResource } from '../../../../shared/IResource';
-import fetch from '../../../communication/fetch';
+import fetch from '../../../utils/fetch';
 import { IProject } from '../../../../shared/IProject';
 import ResourceList from './components/ResourceList';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
