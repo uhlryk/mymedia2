@@ -13,21 +13,21 @@ import { AppStoreContextProvider } from "./store/AppContextProvider";
 const pages = {
   [Page.PROJECT_PAGE]: <ProjectPage />,
   [Page.RESOURCE_PAGE]: <ResourcePage />,
-  [Page.CREATE_PROJECT_PAGE]: <CreateProject />,
-}
+  [Page.CREATE_PROJECT_PAGE]: <CreateProject />
+};
 export const App: FC = () => {
   return (
     <AppStoreContextProvider>
-      <Box sx={{ display: 'flex', height: '100vh' }}>
+      <Box sx={{ display: "flex", height: "100vh" }}>
         <CssBaseline />
         <TopPanel />
         <Box
           component="main"
-          sx={{ display: "flex", flexDirection: "row", marginTop: '70px' }}
+          sx={{ display: "flex", flexDirection: "row", marginTop: "70px" }}
         >
           <Router pages={pages} />
         </Box>
       </Box>
     </AppStoreContextProvider>
   );
-}
+};

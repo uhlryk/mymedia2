@@ -1,5 +1,5 @@
 export interface IProject {
-    name: string;
-    folderPath: string;
-    id: string;
+  name: string;
+  folderPath: string;
+  id: string;
 }

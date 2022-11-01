@@ -1,7 +1,7 @@
 export interface IFileDetails {
-    relativePath: string;
-    fileName: string;
-    baseName: string;
-    extension: string;
-    size: number;
+  relativePath: string;
+  fileName: string;
+  baseName: string;
+  extension: string;
+  size: number;
 }

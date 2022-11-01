@@ -1,1 +1,1 @@
-declare module 'ffprobe-static-electron';
+declare module "ffprobe-static-electron";

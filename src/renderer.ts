@@ -1,2 +1,2 @@
-import './render/index.css';
-import './render';
+import "./render/index.css";
+import "./render";

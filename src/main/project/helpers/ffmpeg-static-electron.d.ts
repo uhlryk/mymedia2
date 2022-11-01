@@ -1,1 +1,1 @@
-declare module 'ffmpeg-static-electron';
+declare module "ffmpeg-static-electron";
