@@ -1,10 +1,4 @@
-import {
-  List,
-  ListItemButton,
-  ListItemText,
-  Stack,
-  ListItemIcon
-} from "@mui/material";
+import { List, ListItemButton, ListItemText, Stack, ListItemIcon } from "@mui/material";
 import FolderIcon from "@mui/icons-material/Folder";
 import React, { useEffect, useState, useContext } from "react";
 import { AppContext, AppContextType, ActionType } from "../../store/store";
@@ -29,10 +23,7 @@ export default function ProjectPage(): JSX.Element {
   };
 
   const list = projectList.map(project => (
-    <ListItemButton
-      key={project.id}
-      onClick={() => onSelectProject(project.id)}
-    >
+    <ListItemButton key={project.id} onClick={() => onSelectProject(project.id)}>
       <ListItemIcon>
         <FolderIcon />
       </ListItemIcon>

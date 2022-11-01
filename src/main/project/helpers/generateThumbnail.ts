@@ -7,9 +7,7 @@ export default async function generateThumbnail(
   targetSpecificThumbnailPath: string,
   videoTime: number
 ): Promise<boolean> {
-  const specificThumbnailFolderPath: string = path.dirname(
-    targetSpecificThumbnailPath
-  );
+  const specificThumbnailFolderPath: string = path.dirname(targetSpecificThumbnailPath);
   await fs.mkdir(specificThumbnailFolderPath, { recursive: true });
   const childProcess = spawn("ffmpeg", [
     // "-nostats",

@@ -21,12 +21,9 @@ export default class ProjectList {
       return dialogResponse.filePaths[0];
     });
 
-    ipcMain.handle(
-      "set/new-project",
-      async (event, projectWithId: Omit<IProject, "id">) => {
-        const projectList = this.store.addProject(projectWithId);
-        return projectList;
-      }
-    );
+    ipcMain.handle("set/new-project", async (event, projectWithId: Omit<IProject, "id">) => {
+      const projectList = this.store.addProject(projectWithId);
+      return projectList;
+    });
   }
 }

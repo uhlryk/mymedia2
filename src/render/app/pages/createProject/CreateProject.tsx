@@ -34,23 +34,14 @@ export default function CreateProject(): JSX.Element {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        <input
-          value={projectName}
-          onChange={event => setProjectName(event.target.value)}
-        />
+        <input value={projectName} onChange={event => setProjectName(event.target.value)} />
 
         <input value={projectFolderPath} readOnly />
 
-        <button
-          onClick={onProjectPathClick}
-          disabled={waitingForDialog || submitting}
-        >
+        <button onClick={onProjectPathClick} disabled={waitingForDialog || submitting}>
           Select Folder
         </button>
-        <button
-          type="submit"
-          disabled={!(projectFolderPath && projectName) || submitting}
-        >
+        <button type="submit" disabled={!(projectFolderPath && projectName) || submitting}>
           Submit
         </button>
       </form>

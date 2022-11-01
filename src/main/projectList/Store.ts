@@ -20,10 +20,7 @@ export default class Store {
   }
 
   getProjectList(): Array<IProject> {
-    const projectList: Array<IProject> | unknown = this._store.get(
-      Store.PROJECTS_COLLECTION,
-      []
-    );
+    const projectList: Array<IProject> | unknown = this._store.get(Store.PROJECTS_COLLECTION, []);
     if (!projectList) {
       throw new Error("Project List doesn't exist");
     }
@@ -35,10 +32,7 @@ export default class Store {
       ...project,
       id: uuidv4()
     };
-    const projectList: Array<IProject> = this._store.get(
-      Store.PROJECTS_COLLECTION,
-      []
-    ) as Array<IProject>;
+    const projectList: Array<IProject> = this._store.get(Store.PROJECTS_COLLECTION, []) as Array<IProject>;
 
     projectList.push(projectWithId);
     this._store.set(Store.PROJECTS_COLLECTION, projectList);
@@ -47,10 +41,7 @@ export default class Store {
   }
 
   removeProject(projectId: string): void {
-    let projectList: Array<IProject> = this._store.get(
-      Store.PROJECTS_COLLECTION,
-      []
-    ) as Array<IProject>;
+    let projectList: Array<IProject> = this._store.get(Store.PROJECTS_COLLECTION, []) as Array<IProject>;
     projectList = projectList.filter(project => project.id !== projectId);
     this._store.set(Store.PROJECTS_COLLECTION, projectList);
   }

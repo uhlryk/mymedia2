@@ -1,12 +1,4 @@
-import {
-  Divider,
-  Drawer,
-  Toolbar,
-  ListItemText,
-  List,
-  ListItem,
-  ListItemButton
-} from "@mui/material";
+import { Divider, Drawer, Toolbar, ListItemText, List, ListItem, ListItemButton } from "@mui/material";
 import React from "react";
 
 type Props = {

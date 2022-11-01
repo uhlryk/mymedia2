@@ -6,11 +6,7 @@ export default async function createFolderStructure(
   projectDataFolder: string,
   thumbnailFolder: string
 ) {
-  const absolutePath = path.resolve(
-    projectFolder,
-    projectDataFolder,
-    thumbnailFolder
-  );
+  const absolutePath = path.resolve(projectFolder, projectDataFolder, thumbnailFolder);
   await fs.mkdir(absolutePath, {
     recursive: true
   });

@@ -35,30 +35,27 @@ export type AppContextType = {
 };
 
 export function useAppReducer(): AppContextType {
-  const [appState, appDispatch] = useReducer(
-    (state: AppState, action: AppAction) => {
-      switch (action.type) {
-        case ActionType.SET_PROJECT:
-          return {
-            project: action.payload.project,
-            page: Page.RESOURCE_PAGE
-          };
-        case ActionType.CLEAR_PROJECT:
-          return {
-            project: null,
-            page: Page.PROJECT_PAGE
-          };
-        case ActionType.CREATE_PROJECT:
-          return {
-            project: null,
-            page: Page.CREATE_PROJECT_PAGE
-          };
-        default:
-          return state;
-      }
-    },
-    initialState
-  );
+  const [appState, appDispatch] = useReducer((state: AppState, action: AppAction) => {
+    switch (action.type) {
+      case ActionType.SET_PROJECT:
+        return {
+          project: action.payload.project,
+          page: Page.RESOURCE_PAGE
+        };
+      case ActionType.CLEAR_PROJECT:
+        return {
+          project: null,
+          page: Page.PROJECT_PAGE
+        };
+      case ActionType.CREATE_PROJECT:
+        return {
+          project: null,
+          page: Page.CREATE_PROJECT_PAGE
+        };
+      default:
+        return state;
+    }
+  }, initialState);
 
   return { appState, appDispatch };
 }

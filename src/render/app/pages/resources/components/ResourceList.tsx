@@ -1,11 +1,4 @@
-import {
-  ImageList,
-  ImageListItem,
-  ListSubheader,
-  ImageListItemBar,
-  IconButton,
-  Box
-} from "@mui/material";
+import { ImageList, ImageListItem, ListSubheader, ImageListItemBar, IconButton, Box } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import React from "react";
 import { IResource } from "../../../../../shared/IResource";

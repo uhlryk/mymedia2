@@ -48,9 +48,6 @@ export default async function readDirectory({
     }
   });
   const filesWithArrays = await Promise.all(filesPromises);
-  const flatArray = filesWithArrays.reduce<FileInfo[]>(
-    (acc, fileOrArray) => acc.concat(fileOrArray),
-    []
-  );
+  const flatArray = filesWithArrays.reduce<FileInfo[]>((acc, fileOrArray) => acc.concat(fileOrArray), []);
   return flatArray;
 }

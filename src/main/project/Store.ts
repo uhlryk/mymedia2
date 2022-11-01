@@ -22,16 +22,11 @@ export default class Store {
   }
 
   getResource(relativePath: string): IResource {
-    return this.getResourceList().find(
-      resource => resource.relativePath === relativePath
-    );
+    return this.getResourceList().find(resource => resource.relativePath === relativePath);
   }
 
   getResourceList(): Array<IResource> {
-    const resourceList: Array<IResource> | unknown = this._store.get(
-      Store.RESOURCE_COLLECTION,
-      []
-    );
+    const resourceList: Array<IResource> | unknown = this._store.get(Store.RESOURCE_COLLECTION, []);
     if (!resourceList) {
       throw new Error("Project List doesn't exist");
     }

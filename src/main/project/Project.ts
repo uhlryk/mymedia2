@@ -29,31 +29,17 @@ export default class Project {
           console.log("change project");
 
           this.projectPath = projectPath;
-          createFolderStructure(
-            this.projectPath,
-            Project.PROJECT_DATA_FOLDER,
-            Project.THUMBNAILS_FOLDER
-          );
+          createFolderStructure(this.projectPath, Project.PROJECT_DATA_FOLDER, Project.THUMBNAILS_FOLDER);
           this.store = new Store(this.projectPath, Project.PROJECT_DATA_FOLDER);
 
           const resourceList = this.store.getResourceList();
           const allFilesFromFs = await readDirectory({
             directory: projectPath,
-            excludeDirectoriesHash: new Map([
-              [Project.PROJECT_DATA_FOLDER, true]
-            ]),
-            acceptedFileExtensionsHash: new Map(
-              EXTENSIONS_FOR_THUMBNAILS.map(extension => [extension, true])
-            )
+            excludeDirectoriesHash: new Map([[Project.PROJECT_DATA_FOLDER, true]]),
+            acceptedFileExtensionsHash: new Map(EXTENSIONS_FOR_THUMBNAILS.map(extension => [extension, true]))
           });
-          const fileDetailsHash = createFileDetailsHash(
-            allFilesFromFs,
-            projectPath
-          );
-          const diffResourceHashes = createDiffResourceHashes(
-            fileDetailsHash,
-            resourceList
-          );
+          const fileDetailsHash = createFileDetailsHash(allFilesFromFs, projectPath);
+          const diffResourceHashes = createDiffResourceHashes(fileDetailsHash, resourceList);
           const updatedResourceList = this.store.setResourceList(
             Object.values({
               ...diffResourceHashes.exisitingFiles,
@@ -64,16 +50,12 @@ export default class Project {
 
           return updatedResourceList.map(resource => ({
             ...resource,
-            thumbnails: resource.thumbnails?.map(
-              thumbnail => FILE_PROTOCOL + path.join(projectPath, thumbnail)
-            )
+            thumbnails: resource.thumbnails?.map(thumbnail => FILE_PROTOCOL + path.join(projectPath, thumbnail))
           }));
         } else {
           return this.cachedResources.map(resource => ({
             ...resource,
-            thumbnails: resource.thumbnails?.map(
-              thumbnail => FILE_PROTOCOL + path.join(projectPath, thumbnail)
-            )
+            thumbnails: resource.thumbnails?.map(thumbnail => FILE_PROTOCOL + path.join(projectPath, thumbnail))
           }));
         }
       }
@@ -93,9 +75,7 @@ export default class Project {
       ) => {
         console.log("[Project/set/resource-extra] start");
         if (projectPath !== this.projectPath) {
-          console.error(
-            `Requested path ${projectPath} is different than current project path ${this.projectPath}`
-          );
+          console.error(`Requested path ${projectPath} is different than current project path ${this.projectPath}`);
           return null;
         }
         const resourceIndex = this.cachedResources.findIndex(
@@ -114,10 +94,7 @@ export default class Project {
           );
           return null;
         }
-        const absoluteResourcePath = path.join(
-          projectPath,
-          resource.relativePath
-        );
+        const absoluteResourcePath = path.join(projectPath, resource.relativePath);
         const absoluteSpecificThumbnailPath = path.join(
           projectPath,
           Project.PROJECT_DATA_FOLDER,
@@ -144,18 +121,10 @@ export default class Project {
             this.store.setResourceList(this.cachedResources);
             return {
               ...updatedResource,
-              thumbnails: [
-                FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath)
-              ]
+              thumbnails: [FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath)]
             };
           }
-          if (
-            await generateThumbnail(
-              absoluteResourcePath,
-              absoluteSpecificThumbnailPath,
-              metadata.duration
-            )
-          ) {
+          if (await generateThumbnail(absoluteResourcePath, absoluteSpecificThumbnailPath, metadata.duration)) {
             const updatedResource = {
               ...resource,
               thumbnails: [relativeSpecificThumbnailPath],
@@ -165,9 +134,7 @@ export default class Project {
             this.store.setResourceList(this.cachedResources);
             return {
               ...updatedResource,
-              thumbnails: [
-                FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath)
-              ]
+              thumbnails: [FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath)]
             };
           } else {
             return null;
@@ -180,5 +147,4 @@ export default class Project {
   }
 }
 
-const fileExists = async (filePath: string) =>
-  !!(await fs.stat(filePath).catch(e => false));
+const fileExists = async (filePath: string) => !!(await fs.stat(filePath).catch(e => false));

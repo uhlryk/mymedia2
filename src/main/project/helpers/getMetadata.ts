@@ -5,9 +5,7 @@ interface Metadata {
   height?: number;
   duration?: number;
 }
-export default async function getMetadata(
-  sourceFilePath: string
-): Promise<Metadata> {
+export default async function getMetadata(sourceFilePath: string): Promise<Metadata> {
   const childProcess = spawn("ffprobe", [
     "-v",
     "error",

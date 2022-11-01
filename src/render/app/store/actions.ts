@@ -10,7 +10,7 @@ export const createProject = (): AppAction => ({
 });
 
 export const setProject = (project: IProject): AppAction => ({
-  type: ActionType.CREATE_PROJECT,
+  type: ActionType.SET_PROJECT,
   payload: {
     project
   }

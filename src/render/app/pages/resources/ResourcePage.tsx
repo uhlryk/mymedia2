@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  KeyboardEvent,
-  MouseEvent
-} from "react";
+import React, { useEffect, useState, useContext, KeyboardEvent, MouseEvent } from "react";
 import { IResource } from "../../../../shared/IResource";
 import fetch from "../../../utils/fetch";
 import { IProject } from "../../../../shared/IProject";
@@ -21,13 +15,11 @@ export default function ResourcePage(): JSX.Element {
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);
-    fetch<IResource[]>("set/project-data", project.folderPath).then(
-      resourceList => {
-        setResourceList(resourceList);
-        setLoading(false);
-        console.log(resourceList);
-      }
-    );
+    fetch<IResource[]>("set/project-data", project.folderPath).then(resourceList => {
+      setResourceList(resourceList);
+      setLoading(false);
+      console.log(resourceList);
+    });
   }, []);
 
   useEffect(() => {
@@ -49,12 +41,10 @@ export default function ResourcePage(): JSX.Element {
                 return;
               }
               const resourceIndex = resourceList.findIndex(
-                resource =>
-                  resource.relativePath === updatedResource.relativePath
+                resource => resource.relativePath === updatedResource.relativePath
               );
               if (resourceIndex !== -1) {
-                resourceList[resourceIndex].thumbnails =
-                  updatedResource.thumbnails;
+                resourceList[resourceIndex].thumbnails = updatedResource.thumbnails;
               }
               setResourceList(resourceList.slice());
             });
@@ -67,19 +57,12 @@ export default function ResourcePage(): JSX.Element {
       stopProcess = true;
     };
   }, [isLoading]);
-  const toggleLeftMenu = (open: boolean) => (
-    event: KeyboardEvent | MouseEvent
-  ) => {
+  const toggleLeftMenu = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
     console.log(open);
   };
   return (
     <>
-      <SwipeableDrawer
-        anchor={"right"}
-        open={false}
-        onClose={toggleLeftMenu(false)}
-        onOpen={toggleLeftMenu(true)}
-      >
+      <SwipeableDrawer anchor={"right"} open={false} onClose={toggleLeftMenu(false)} onOpen={toggleLeftMenu(true)}>
         <h1>test</h1>
       </SwipeableDrawer>
       <Box
@@ -95,9 +78,7 @@ export default function ResourcePage(): JSX.Element {
             flexGrow: 1
           }}
         >
-          <div style={{ width: "300px" }}>
-            {"hello world".concat("" + Math.floor(Math.random() * 100))}
-          </div>
+          <div style={{ width: "300px" }}>{"hello world".concat("" + Math.floor(Math.random() * 100))}</div>
         </Box>
         <Box
           sx={{
