@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Box, Button, Container } from "@mui/material";
 import React, { MouseEventHandler, useContext, FC } from "react";
-import { AppContext, AppContextType, ActionType, Page } from "../store/store";
+import { clearProject, createProject } from "../store/actions";
+import { AppContext, AppContextType, Page } from "../store/store";
 
 export const TopPanel: FC = () => {
   const {
@@ -8,16 +9,12 @@ export const TopPanel: FC = () => {
     appDispatch
   } = useContext<AppContextType>(AppContext);
 
-  const onProjectsClick: MouseEventHandler = event => {
-    appDispatch({
-      type: ActionType.CLEAR_PROJECT
-    });
+  const onProjectsClick: MouseEventHandler = () => {
+    appDispatch(clearProject());
   };
 
-  const onCreateProjectClick: MouseEventHandler = event => {
-    appDispatch({
-      type: ActionType.CREATE_PROJECT
-    });
+  const onCreateProjectClick: MouseEventHandler = () => {
+    appDispatch(createProject());
   };
 
   let resourceButton;

@@ -1,5 +1,4 @@
 import {
-  Grid,
   List,
   ListItemButton,
   ListItemText,
@@ -11,6 +10,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { AppContext, AppContextType, ActionType } from "../../store/store";
 import { IProject } from "../../../../shared/IProject";
 import fetch from "../../../utils/fetch";
+import { setProject } from "../../store/actions";
 
 export default function ProjectPage(): JSX.Element {
   console.log(`[SelectProject] start `);
@@ -25,12 +25,7 @@ export default function ProjectPage(): JSX.Element {
 
   const onSelectProject = (id: string) => {
     const project = projectList.find(project => project.id === id);
-    appDispatch({
-      type: ActionType.SET_PROJECT,
-      payload: {
-        project
-      }
-    });
+    appDispatch(setProject(project));
   };
 
   const list = projectList.map(project => (

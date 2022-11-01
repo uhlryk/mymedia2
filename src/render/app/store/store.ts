@@ -17,7 +17,7 @@ interface AppState {
   project: IProject | null;
 }
 
-interface AppAction {
+export interface AppAction {
   type: ActionType;
   payload?: {
     project?: IProject;

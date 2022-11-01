@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AppContext, AppContextType, ActionType } from "../../store/store";
 import { IProject } from "../../../../shared/IProject";
 import fetch from "../../../utils/fetch";
+import { setProject } from "../../store/actions";
 
 export default function CreateProject(): JSX.Element {
   const { appDispatch } = useContext<AppContextType>(AppContext);
@@ -19,12 +20,7 @@ export default function CreateProject(): JSX.Element {
     }).then(result => {
       console.log(`[CreateProject] status of set/new-project ${result}`);
       setSubmitting(false);
-      appDispatch({
-        type: ActionType.SET_PROJECT,
-        payload: {
-          project: result
-        }
-      });
+      appDispatch(setProject(result));
     });
   };
 
