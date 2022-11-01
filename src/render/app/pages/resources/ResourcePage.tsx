@@ -7,10 +7,10 @@ import React, {
 } from 'react';
 import { IResource } from '../../../../shared/IResource';
 import fetch from '../../../utils/fetch';
-import { IProject } from '../../../../shared/IProject';
 import ResourceList from './components/ResourceList';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
 import { SwipeableDrawer, Box } from '@mui/material';
+import { FilterSidePanel } from './components/FilterSidePanel';
 
 export default function ResourcePage(): JSX.Element {
   const {
@@ -82,32 +82,10 @@ export default function ResourcePage(): JSX.Element {
       >
         <h1>test</h1>
       </SwipeableDrawer>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexBasis: '300px',
-            flexGrow: 1,
-          }}
-        >
-          <div style={{ width: '300px' }}>
-            {'hello world'.concat('' + Math.floor(Math.random() * 100))}
-          </div>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            flexBasis: 'auto',
-            flexGrow: 1,
-          }}
-        >
-          <ResourceList list={resourceList}></ResourceList>
-        </Box>
+      <Box display='flex' flexDirection='row'>
+        <FilterSidePanel />
+
+        <ResourceList list={resourceList}></ResourceList>
       </Box>
     </>
   );
