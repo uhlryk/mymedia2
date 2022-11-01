@@ -26,7 +26,11 @@ export const TopPanel: FC = () => {
         disableElevation
         variant={page === Page.RESOURCE_PAGE ? "contained" : "text"}
         color="success"
-        sx={{ my: 2, color: "white", display: "block" }}
+        sx={{
+          my: 2,
+          color: "white",
+          display: "block"
+        }}
       >
         Resources
       </Button>
@@ -36,12 +40,17 @@ export const TopPanel: FC = () => {
   return (
     <AppBar position="fixed" sx={{ width: "100%" }}>
       <Container maxWidth="xl">
+        {" "}
         <Toolbar>
+          {" "}
           <Box
             sx={{
               flexGrow: 1,
               justifyContent: "left",
-              display: { sm: "flex", md: "flex" }
+              display: {
+                sm: "flex",
+                md: "flex"
+              }
             }}
           >
             <Button
@@ -50,7 +59,11 @@ export const TopPanel: FC = () => {
               disableElevation
               variant={page === Page.PROJECT_PAGE ? "contained" : "text"}
               color="success"
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block"
+              }}
             >
               Projects
             </Button>
@@ -60,7 +73,11 @@ export const TopPanel: FC = () => {
               disableElevation
               variant={page === Page.CREATE_PROJECT_PAGE ? "contained" : "text"}
               color="success"
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                color: "white",
+                display: "block"
+              }}
             >
               Create Project
             </Button>

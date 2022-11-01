@@ -82,13 +82,30 @@ export default function ResourcePage(): JSX.Element {
       >
         <h1>test</h1>
       </SwipeableDrawer>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <Box sx={{ display: "flex", flexBasis: "300px", flexGrow: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row"
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexBasis: "300px",
+            flexGrow: 1
+          }}
+        >
           <div style={{ width: "300px" }}>
             {"hello world".concat("" + Math.floor(Math.random() * 100))}
           </div>
         </Box>
-        <Box sx={{ display: "flex", flexBasis: "auto", flexGrow: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexBasis: "auto",
+            flexGrow: 1
+          }}
+        >
           <ResourceList list={resourceList}></ResourceList>
         </Box>
       </Box>

@@ -11,5 +11,7 @@ export default async function createFolderStructure(
     projectDataFolder,
     thumbnailFolder
   );
-  await fs.mkdir(absolutePath, { recursive: true });
+  await fs.mkdir(absolutePath, {
+    recursive: true
+  });
 }

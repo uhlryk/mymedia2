@@ -86,7 +86,10 @@ export default class Project {
         {
           projectPath,
           resourcePath
-        }: { projectPath: string; resourcePath: string }
+        }: {
+          projectPath: string;
+          resourcePath: string;
+        }
       ) => {
         console.log("[Project/set/resource-extra] start");
         if (projectPath !== this.projectPath) {

@@ -11,7 +11,9 @@ export default function createDiffResourceHashes(
   fileDetailsHash: IFileDetailsHash,
   filesDb: IResource[]
 ): IDiffResourceHashes {
-  const tempFiles: IFileDetailsHash = { ...fileDetailsHash };
+  const tempFiles: IFileDetailsHash = {
+    ...fileDetailsHash
+  };
 
   const deleteFiles: IResourceHash = {};
   const exisitingFiles: IResourceHash = {};

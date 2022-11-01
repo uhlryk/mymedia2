@@ -5,11 +5,13 @@ import { IResource } from "../../../shared/IResource";
 export default function convertFileDetailsHashToResourceHash(
   fileDetailsHash: IFileDetailsHash
 ): IResourceHash {
-  return Object.entries(fileDetailsHash).reduce<{ [key: string]: IResource }>(
-    (acc, [filePath, fileDetails]) => {
-      acc[filePath] = { id: uuidv4(), ...fileDetails };
-      return acc;
-    },
-    {}
-  );
+  return Object.entries(fileDetailsHash).reduce<{
+    [key: string]: IResource;
+  }>((acc, [filePath, fileDetails]) => {
+    acc[filePath] = {
+      id: uuidv4(),
+      ...fileDetails
+    };
+    return acc;
+  }, {});
 }

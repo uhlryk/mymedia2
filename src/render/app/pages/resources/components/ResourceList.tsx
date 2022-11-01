@@ -43,7 +43,9 @@ export default function ResourceList({ list }: Props): JSX.Element {
             subtitle={resource.relativePath}
             actionIcon={
               <IconButton
-                sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                sx={{
+                  color: "rgba(255, 255, 255, 0.54)"
+                }}
                 aria-label={`info about ${resource.baseName}`}
               >
                 <InfoIcon />

@@ -18,12 +18,21 @@ const pages = {
 export const App: FC = () => {
   return (
     <AppStoreContextProvider>
-      <Box sx={{ display: "flex", height: "100vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          height: "100vh"
+        }}
+      >
         <CssBaseline />
         <TopPanel />
         <Box
           component="main"
-          sx={{ display: "flex", flexDirection: "row", marginTop: "70px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            marginTop: "70px"
+          }}
         >
           <Router pages={pages} />
         </Box>

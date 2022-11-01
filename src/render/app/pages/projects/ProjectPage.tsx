@@ -42,7 +42,13 @@ export default function ProjectPage(): JSX.Element {
 
   return (
     <Stack alignItems="left">
-      <List sx={{ width: "100%", maxWidth: 560, margin: "0 200px" }}>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 560,
+          margin: "0 200px"
+        }}
+      >
         {list}
       </List>
     </Stack>
