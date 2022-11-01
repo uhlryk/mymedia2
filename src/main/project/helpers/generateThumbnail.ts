@@ -1,29 +1,31 @@
-import fs from "fs/promises";
-import { spawn } from "child_process";
-import * as path from "path";
+import fs from 'fs/promises';
+import { spawn } from 'child_process';
+import * as path from 'path';
 
 export default async function generateThumbnail(
   sourceFilePath: string,
   targetSpecificThumbnailPath: string,
   videoTime: number
 ): Promise<boolean> {
-  const specificThumbnailFolderPath: string = path.dirname(targetSpecificThumbnailPath);
+  const specificThumbnailFolderPath: string = path.dirname(
+    targetSpecificThumbnailPath
+  );
   await fs.mkdir(specificThumbnailFolderPath, { recursive: true });
-  const childProcess = spawn("ffmpeg", [
+  const childProcess = spawn('ffmpeg', [
     // "-nostats",
     // "-loglevel",
     // "panic",
-    "-ss",
+    '-ss',
     videoTime.toString(),
-    "-i",
+    '-i',
     sourceFilePath,
-    "-vframes:v",
-    "1",
+    '-vframes:v',
+    '1',
     // "-q:v",
     // "2",
     // "-s",
     // "480x320",
-    targetSpecificThumbnailPath
+    targetSpecificThumbnailPath,
   ]);
   await new Promise<void>((resolve, reject) => {
     // childProcess.stderr.on("data", err => {
@@ -32,7 +34,7 @@ export default async function generateThumbnail(
     //     }
     // });
 
-    childProcess.on("close", code => {
+    childProcess.on('close', code => {
       // console.log("CLOSE", code);
       if (code === 0) {
         resolve();
@@ -42,7 +44,7 @@ export default async function generateThumbnail(
     });
   });
 
-  console.log("Thumbnail should be ready");
+  console.log('Thumbnail should be ready');
   const isThumbnailFile = await fs.stat(targetSpecificThumbnailPath);
   if (isThumbnailFile) {
     return true;

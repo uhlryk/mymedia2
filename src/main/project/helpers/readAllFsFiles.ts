@@ -1,5 +1,5 @@
-import path from "path";
-import fs from "fs/promises";
+import path from 'path';
+import fs from 'fs/promises';
 
 export interface FileInfo {
   absolutePath: string;
@@ -15,7 +15,7 @@ export interface IInputReadDirectory {
 export default async function readDirectory({
   directory,
   excludeDirectoriesHash,
-  acceptedFileExtensionsHash
+  acceptedFileExtensionsHash,
 }: IInputReadDirectory): Promise<FileInfo[]> {
   const files = await fs.readdir(directory);
   const filesPromises = files.map(async file => {
@@ -29,7 +29,7 @@ export default async function readDirectory({
         return await readDirectory({
           directory: absolutePath,
           excludeDirectoriesHash,
-          acceptedFileExtensionsHash
+          acceptedFileExtensionsHash,
         });
       } else {
         const extension = path.extname(absolutePath);
@@ -38,7 +38,7 @@ export default async function readDirectory({
         }
         const fileInfo: FileInfo = {
           absolutePath,
-          size: fileStat.size
+          size: fileStat.size,
         };
         return fileInfo;
       }
@@ -48,6 +48,9 @@ export default async function readDirectory({
     }
   });
   const filesWithArrays = await Promise.all(filesPromises);
-  const flatArray = filesWithArrays.reduce<FileInfo[]>((acc, fileOrArray) => acc.concat(fileOrArray), []);
+  const flatArray = filesWithArrays.reduce<FileInfo[]>(
+    (acc, fileOrArray) => acc.concat(fileOrArray),
+    []
+  );
   return flatArray;
 }

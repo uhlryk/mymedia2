@@ -1,6 +1,6 @@
-import { IResource } from "../../../shared/IResource";
-import { IFileDetailsHash, IResourceHash } from "../interfaces";
-import convertFileDetailsHashToResourceHash from "./convertFileDetailsHashToResourceHash";
+import { IResource } from '../../../shared/IResource';
+import { IFileDetailsHash, IResourceHash } from '../interfaces';
+import convertFileDetailsHashToResourceHash from './convertFileDetailsHashToResourceHash';
 
 export interface IDiffResourceHashes {
   newFiles: IResourceHash;
@@ -12,7 +12,7 @@ export default function createDiffResourceHashes(
   filesDb: IResource[]
 ): IDiffResourceHashes {
   const tempFiles: IFileDetailsHash = {
-    ...fileDetailsHash
+    ...fileDetailsHash,
   };
 
   const deleteFiles: IResourceHash = {};
@@ -21,17 +21,20 @@ export default function createDiffResourceHashes(
   filesDb.forEach(fileDb => {
     if (fileDb.relativePath in tempFiles) {
       exisitingFiles[fileDb.relativePath] = fileDb;
-      exisitingFiles[fileDb.relativePath].size = tempFiles[fileDb.relativePath].size;
+      exisitingFiles[fileDb.relativePath].size =
+        tempFiles[fileDb.relativePath].size;
       delete tempFiles[fileDb.relativePath];
     } else {
       deleteFiles[fileDb.relativePath] = fileDb;
     }
   });
-  const newFiles: IResourceHash = convertFileDetailsHashToResourceHash(tempFiles);
+  const newFiles: IResourceHash = convertFileDetailsHashToResourceHash(
+    tempFiles
+  );
 
   return {
     newFiles,
     deleteFiles,
-    exisitingFiles
+    exisitingFiles,
   };
 }

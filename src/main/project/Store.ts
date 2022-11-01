@@ -1,9 +1,9 @@
-import * as path from "path";
-import ElectronStore from "electron-store";
-import { IResource } from "../../shared/IResource";
+import * as path from 'path';
+import ElectronStore from 'electron-store';
+import { IResource } from '../../shared/IResource';
 export default class Store {
-  static RESOURCE_COLLECTION = "resources";
-  static TAG_COLLECTION = "tags";
+  static RESOURCE_COLLECTION = 'resources';
+  static TAG_COLLECTION = 'tags';
   private _store;
 
   constructor(projectFolderPath: string, projectDataFolder: string) {
@@ -11,22 +11,27 @@ export default class Store {
     this._store = new ElectronStore({
       schema: {
         [Store.RESOURCE_COLLECTION]: {
-          type: "array"
+          type: 'array',
         },
         [Store.TAG_COLLECTION]: {
-          type: "array"
-        }
+          type: 'array',
+        },
       },
-      cwd: databasePath
+      cwd: databasePath,
     });
   }
 
   getResource(relativePath: string): IResource {
-    return this.getResourceList().find(resource => resource.relativePath === relativePath);
+    return this.getResourceList().find(
+      resource => resource.relativePath === relativePath
+    );
   }
 
   getResourceList(): Array<IResource> {
-    const resourceList: Array<IResource> | unknown = this._store.get(Store.RESOURCE_COLLECTION, []);
+    const resourceList: Array<IResource> | unknown = this._store.get(
+      Store.RESOURCE_COLLECTION,
+      []
+    );
     if (!resourceList) {
       throw new Error("Project List doesn't exist");
     }

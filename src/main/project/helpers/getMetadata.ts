@@ -1,25 +1,27 @@
-import { spawn } from "child_process";
+import { spawn } from 'child_process';
 
 interface Metadata {
   width?: number;
   height?: number;
   duration?: number;
 }
-export default async function getMetadata(sourceFilePath: string): Promise<Metadata> {
-  const childProcess = spawn("ffprobe", [
-    "-v",
-    "error",
-    "-select_streams",
-    "v:0",
-    "-show_entries",
-    "stream=width,height,duration",
-    "-of",
-    "default=noprint_wrappers=1:nokey=1",
-    sourceFilePath
+export default async function getMetadata(
+  sourceFilePath: string
+): Promise<Metadata> {
+  const childProcess = spawn('ffprobe', [
+    '-v',
+    'error',
+    '-select_streams',
+    'v:0',
+    '-show_entries',
+    'stream=width,height,duration',
+    '-of',
+    'default=noprint_wrappers=1:nokey=1',
+    sourceFilePath,
   ]);
   return await new Promise((resolve, reject) => {
     const metadata: Metadata = {};
-    childProcess.stdout.on("data", (data: string) => {
+    childProcess.stdout.on('data', (data: string) => {
       if (data) {
         const dataArray = data.toString().split(/[^0-9.]/g);
         metadata.width = parseInt(dataArray[0], 10);
@@ -32,7 +34,7 @@ export default async function getMetadata(sourceFilePath: string): Promise<Metad
     //     console.error(`stderr: ${data}`);
     // });
 
-    childProcess.on("close", code => {
+    childProcess.on('close', code => {
       if (code === 0) {
         resolve(metadata);
       } else {

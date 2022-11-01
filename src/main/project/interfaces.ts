@@ -1,5 +1,5 @@
-import { IFileDetails } from "../../shared/IFileDetails";
-import { IResource } from "../../shared/IResource";
+import { IFileDetails } from '../../shared/IFileDetails';
+import { IResource } from '../../shared/IResource';
 
 export type RelativeFilePath = string;
 

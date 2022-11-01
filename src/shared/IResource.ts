@@ -1,4 +1,4 @@
-import { IFileDetails } from "./IFileDetails";
+import { IFileDetails } from './IFileDetails';
 
 export type IResource = {
   id: string;

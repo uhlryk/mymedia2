@@ -1,5 +1,5 @@
-import React, { MouseEventHandler, FC } from "react";
-import { Button } from "@mui/material";
+import React, { MouseEventHandler, FC } from 'react';
+import { Button } from '@mui/material';
 
 type Props = {
   onClick: MouseEventHandler;
@@ -7,21 +7,26 @@ type Props = {
   isVisible?: boolean;
 };
 
-export const TopPanelButton: FC<Props> = ({ onClick, isActive, children, isVisible = true }) => {
+export const TopPanelButton: FC<Props> = ({
+  onClick,
+  isActive,
+  children,
+  isVisible = true,
+}) => {
   if (!isVisible) {
     return null;
   }
   return (
     <Button
-      key={"projects"}
+      key={'projects'}
       onClick={onClick}
       disableElevation
-      variant={isActive ? "contained" : "text"}
+      variant={isActive ? 'contained' : 'text'}
       color="success"
       sx={{
         my: 2,
-        color: "white",
-        display: "block"
+        color: 'white',
+        display: 'block',
       }}
     >
       {children}

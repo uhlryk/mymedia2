@@ -1,25 +1,33 @@
-import React, { useEffect, useState, useContext, KeyboardEvent, MouseEvent } from "react";
-import { IResource } from "../../../../shared/IResource";
-import fetch from "../../../utils/fetch";
-import { IProject } from "../../../../shared/IProject";
-import ResourceList from "./components/ResourceList";
-import { AppContext, AppContextType, ActionType } from "../../store/store";
-import { SwipeableDrawer, Box } from "@mui/material";
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  KeyboardEvent,
+  MouseEvent,
+} from 'react';
+import { IResource } from '../../../../shared/IResource';
+import fetch from '../../../utils/fetch';
+import { IProject } from '../../../../shared/IProject';
+import ResourceList from './components/ResourceList';
+import { AppContext, AppContextType, ActionType } from '../../store/store';
+import { SwipeableDrawer, Box } from '@mui/material';
 
 export default function ResourcePage(): JSX.Element {
   const {
     appState: { project },
-    appDispatch
+    appDispatch,
   } = useContext<AppContextType>(AppContext);
   const [resourceList, setResourceList] = useState<IResource[]>(null);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);
-    fetch<IResource[]>("set/project-data", project.folderPath).then(resourceList => {
-      setResourceList(resourceList);
-      setLoading(false);
-      console.log(resourceList);
-    });
+    fetch<IResource[]>('set/project-data', project.folderPath).then(
+      resourceList => {
+        setResourceList(resourceList);
+        setLoading(false);
+        console.log(resourceList);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -30,9 +38,9 @@ export default function ResourcePage(): JSX.Element {
           if (stopProcess) break;
           if (!resource.thumbnails) {
             // TODO: check if there is specified number of thumbnails e.g. 4 if less then we also need create missing thumbnails
-            await fetch<IResource>("set/resource-extra", {
+            await fetch<IResource>('set/resource-extra', {
               projectPath: project.folderPath,
-              resourcePath: resource.relativePath
+              resourcePath: resource.relativePath,
             }).then(updatedResource => {
               if (stopProcess) {
                 return;
@@ -41,10 +49,12 @@ export default function ResourcePage(): JSX.Element {
                 return;
               }
               const resourceIndex = resourceList.findIndex(
-                resource => resource.relativePath === updatedResource.relativePath
+                resource =>
+                  resource.relativePath === updatedResource.relativePath
               );
               if (resourceIndex !== -1) {
-                resourceList[resourceIndex].thumbnails = updatedResource.thumbnails;
+                resourceList[resourceIndex].thumbnails =
+                  updatedResource.thumbnails;
               }
               setResourceList(resourceList.slice());
             });
@@ -57,34 +67,43 @@ export default function ResourcePage(): JSX.Element {
       stopProcess = true;
     };
   }, [isLoading]);
-  const toggleLeftMenu = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+  const toggleLeftMenu = (open: boolean) => (
+    event: KeyboardEvent | MouseEvent
+  ) => {
     console.log(open);
   };
   return (
     <>
-      <SwipeableDrawer anchor={"right"} open={false} onClose={toggleLeftMenu(false)} onOpen={toggleLeftMenu(true)}>
+      <SwipeableDrawer
+        anchor={'right'}
+        open={false}
+        onClose={toggleLeftMenu(false)}
+        onOpen={toggleLeftMenu(true)}
+      >
         <h1>test</h1>
       </SwipeableDrawer>
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "row"
+          display: 'flex',
+          flexDirection: 'row',
         }}
       >
         <Box
           sx={{
-            display: "flex",
-            flexBasis: "300px",
-            flexGrow: 1
+            display: 'flex',
+            flexBasis: '300px',
+            flexGrow: 1,
           }}
         >
-          <div style={{ width: "300px" }}>{"hello world".concat("" + Math.floor(Math.random() * 100))}</div>
+          <div style={{ width: '300px' }}>
+            {'hello world'.concat('' + Math.floor(Math.random() * 100))}
+          </div>
         </Box>
         <Box
           sx={{
-            display: "flex",
-            flexBasis: "auto",
-            flexGrow: 1
+            display: 'flex',
+            flexBasis: 'auto',
+            flexGrow: 1,
           }}
         >
           <ResourceList list={resourceList}></ResourceList>

@@ -1,8 +1,15 @@
-import { ImageList, ImageListItem, ListSubheader, ImageListItemBar, IconButton, Box } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import React from "react";
-import { IResource } from "../../../../../shared/IResource";
-import Loader from "../../../../components/Loader";
+import {
+  ImageList,
+  ImageListItem,
+  ListSubheader,
+  ImageListItemBar,
+  IconButton,
+  Box,
+} from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import React from 'react';
+import { IResource } from '../../../../../shared/IResource';
+import Loader from '../../../../components/Loader';
 
 type Props = {
   list: IResource[] | null;
@@ -20,8 +27,8 @@ export default function ResourceList({ list }: Props): JSX.Element {
       cols={4}
       rowHeight={230}
       sx={{
-        width: "100%",
-        margin: 0
+        width: '100%',
+        margin: 0,
       }}
     >
       {list.map(resource => (
@@ -37,7 +44,7 @@ export default function ResourceList({ list }: Props): JSX.Element {
             actionIcon={
               <IconButton
                 sx={{
-                  color: "rgba(255, 255, 255, 0.54)"
+                  color: 'rgba(255, 255, 255, 0.54)',
                 }}
                 aria-label={`info about ${resource.baseName}`}
               >
