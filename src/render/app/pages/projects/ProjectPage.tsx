@@ -7,10 +7,10 @@ import {
 } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import React, { useEffect, useState, useContext } from 'react';
-import { AppContext, AppContextType, ActionType } from '../../store/store';
+import { AppContext, AppContextType } from '../../store/store';
 import { IProject } from '../../../../shared/IProject';
-import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/actions';
+import { getProjectList } from './api/getProjectList';
 
 export default function ProjectPage(): JSX.Element {
   console.log(`[SelectProject] start `);
@@ -18,7 +18,7 @@ export default function ProjectPage(): JSX.Element {
 
   const [projectList, setProjectList] = useState<IProject[]>([]);
   useEffect(() => {
-    fetch<IProject[]>('get/project-list').then((projectList) => {
+    getProjectList().then((projectList) => {
       setProjectList(projectList);
     });
   }, []);

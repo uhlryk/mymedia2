@@ -2,7 +2,7 @@ import { Box, CssBaseline } from '@mui/material';
 import React, { FC } from 'react';
 import './App.css';
 
-import ResourcePage from './pages/resources/ResourcePage';
+import { ResourcePage } from './pages/resources/ResourcePage';
 import ProjectPage from './pages/projects/ProjectPage';
 import CreateProject from './pages/createProject/CreateProject';
 import { Page } from './store/store';

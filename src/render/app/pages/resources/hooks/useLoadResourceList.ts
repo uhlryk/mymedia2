@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { IResource } from '../../../../../shared/IResource';
-import fetch from '../../../../utils/fetch';
+import { getProjectData } from '../api/getProjectData';
 
 export const useLoadResourceList = (
   projectFolderPath: string
@@ -10,12 +10,10 @@ export const useLoadResourceList = (
 
   useEffect(() => {
     setLoading(true);
-    fetch<IResource[]>('set/project-data', projectFolderPath).then(
-      (resourceList) => {
-        setResourceList(resourceList);
-        setLoading(false);
-      }
-    );
+    getProjectData(projectFolderPath).then((resourceList) => {
+      setResourceList(resourceList);
+      setLoading(false);
+    });
   }, []);
 
   return [resourceList, isLoading, setResourceList];

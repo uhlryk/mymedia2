@@ -1,11 +1,11 @@
-import React, { useContext, KeyboardEvent, MouseEvent } from 'react';
+import React, { FC, useContext, KeyboardEvent, MouseEvent } from 'react';
 import ResourceList from './components/ResourceList';
 import { AppContext, AppContextType } from '../../store/store';
 import { SwipeableDrawer, Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
 import { useResourceList } from './hooks/useResourceList';
 
-export default function ResourcePage(): JSX.Element {
+export const ResourcePage: FC = () => {
   const {
     appState: { project },
   } = useContext<AppContextType>(AppContext);
@@ -35,4 +35,4 @@ export default function ResourcePage(): JSX.Element {
       </Box>
     </>
   );
-}
+};
