@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { IResource } from '../../../../../shared/IResource';
 import fetch from '../../../../utils/fetch';
+import { requestThumbnails } from './requestThumbnails';
 
 export const useResourceList = (
   projectFolderPath: string
@@ -22,37 +23,28 @@ export const useResourceList = (
 
   useEffect(() => {
     let stopProcess = false;
-    if (!isLoading) {
-      const requestThumbnails = async () => {
-        for (const resource of resourceList) {
-          if (stopProcess) break;
-          if (!resource.thumbnails) {
-            // TODO: check if there is specified number of thumbnails e.g. 4 if less then we also need create missing thumbnails
-            await fetch<IResource>('set/resource-extra', {
-              projectPath: projectFolderPath,
-              resourcePath: resource.relativePath,
-            }).then((updatedResource) => {
-              if (stopProcess) {
-                return;
-              }
-              if (!updatedResource) {
-                return;
-              }
-              const resourceIndex = resourceList.findIndex(
-                (resource) =>
-                  resource.relativePath === updatedResource.relativePath
-              );
-              if (resourceIndex !== -1) {
-                resourceList[resourceIndex].thumbnails =
-                  updatedResource.thumbnails;
-              }
-              setResourceList(resourceList.slice());
-            });
+    const updateThumbnails = async () => {
+      if (!isLoading) {
+        const asyncGenRequestThumbnails = requestThumbnails({
+          projectFolderPath,
+          resourceList,
+          stopProcess
+        });
+        for await (const updatedResource of asyncGenRequestThumbnails) {
+          const resourceIndex = resourceList.findIndex(
+            (resource) =>
+              resource.id === updatedResource.id
+          );
+          if (resourceIndex !== -1) {
+            resourceList[resourceIndex] = updatedResource;
           }
+          const updatedResourceList = resourceList.slice();
+          updatedResourceList[resourceIndex] = updatedResource
+          setResourceList(updatedResourceList);
         }
-      };
-      requestThumbnails();
+      }
     }
+    updateThumbnails();
     return () => {
       stopProcess = true;
     };
