@@ -8,9 +8,11 @@ export default function createFileDetailsHash(
 ): IFileDetailsHash {
   const filesWithDetails = list.reduce<IFileDetailsHash>((acc, fileInfo) => {
     const relativePath = path.relative(projectPath, fileInfo.absolutePath);
-    const { name: fileName, base: baseName, ext: extension } = path.parse(
-      fileInfo.absolutePath
-    );
+    const {
+      name: fileName,
+      base: baseName,
+      ext: extension,
+    } = path.parse(fileInfo.absolutePath);
     acc[relativePath] = {
       relativePath,
       fileName,

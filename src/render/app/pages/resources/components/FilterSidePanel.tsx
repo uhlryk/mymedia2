@@ -11,14 +11,12 @@ import React, { FC } from 'react';
 
 export const FilterSidePanel: FC = () => {
   return (
-    <Box
-
-    >
+    <Box>
       <div style={{ width: '300px' }}>
         <Toolbar />
         <Divider />
         <List>
-          {['test1', 'test1'].map((text, index) => (
+          {['test1', 'test2'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemText primary={text} />
@@ -39,4 +37,4 @@ export const FilterSidePanel: FC = () => {
       </div>
     </Box>
   );
-}
+};

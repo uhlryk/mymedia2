@@ -18,7 +18,7 @@ export default async function readDirectory({
   acceptedFileExtensionsHash,
 }: IInputReadDirectory): Promise<FileInfo[]> {
   const files = await fs.readdir(directory);
-  const filesPromises = files.map(async file => {
+  const filesPromises = files.map(async (file) => {
     try {
       if (excludeDirectoriesHash.has(file)) {
         return [];

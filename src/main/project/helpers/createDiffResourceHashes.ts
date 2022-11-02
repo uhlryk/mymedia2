@@ -18,7 +18,7 @@ export default function createDiffResourceHashes(
   const deleteFiles: IResourceHash = {};
   const exisitingFiles: IResourceHash = {};
 
-  filesDb.forEach(fileDb => {
+  filesDb.forEach((fileDb) => {
     if (fileDb.relativePath in tempFiles) {
       exisitingFiles[fileDb.relativePath] = fileDb;
       exisitingFiles[fileDb.relativePath].size =
@@ -28,9 +28,8 @@ export default function createDiffResourceHashes(
       deleteFiles[fileDb.relativePath] = fileDb;
     }
   });
-  const newFiles: IResourceHash = convertFileDetailsHashToResourceHash(
-    tempFiles
-  );
+  const newFiles: IResourceHash =
+    convertFileDetailsHashToResourceHash(tempFiles);
 
   return {
     newFiles,

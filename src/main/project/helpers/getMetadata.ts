@@ -34,7 +34,7 @@ export default async function getMetadata(
     //     console.error(`stderr: ${data}`);
     // });
 
-    childProcess.on('close', code => {
+    childProcess.on('close', (code) => {
       if (code === 0) {
         resolve(metadata);
       } else {

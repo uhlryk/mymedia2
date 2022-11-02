@@ -34,7 +34,7 @@ export default async function generateThumbnail(
     //     }
     // });
 
-    childProcess.on('close', code => {
+    childProcess.on('close', (code) => {
       // console.log("CLOSE", code);
       if (code === 0) {
         resolve();

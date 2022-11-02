@@ -11,13 +11,13 @@ export default function CreateProject(): JSX.Element {
   const [projectName, setProjectName] = useState('');
   const [projectFolderPath, setProjectFolderPath] = useState<string>('');
   const [waitingForDialog, setWaitingForDialog] = useState<boolean>(false);
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = event => {
+  const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setSubmitting(true);
     fetch<IProject>('set/new-project', {
       name: projectName,
       folderPath: projectFolderPath,
-    }).then(result => {
+    }).then((result) => {
       console.log(`[CreateProject] status of set/new-project ${result}`);
       setSubmitting(false);
       appDispatch(setProject(result));
@@ -26,7 +26,7 @@ export default function CreateProject(): JSX.Element {
 
   const onProjectPathClick: React.MouseEventHandler<HTMLInputElement> = () => {
     setWaitingForDialog(true);
-    fetch<string | null>('get/new-project-folder').then(projectPath => {
+    fetch<string | null>('get/new-project-folder').then((projectPath) => {
       setWaitingForDialog(false);
       setProjectFolderPath(projectPath);
     });
@@ -36,7 +36,7 @@ export default function CreateProject(): JSX.Element {
       <form onSubmit={onSubmit}>
         <input
           value={projectName}
-          onChange={event => setProjectName(event.target.value)}
+          onChange={(event) => setProjectName(event.target.value)}
         />
 
         <input value={projectFolderPath} readOnly />

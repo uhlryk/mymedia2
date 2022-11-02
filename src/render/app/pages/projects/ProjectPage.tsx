@@ -18,17 +18,17 @@ export default function ProjectPage(): JSX.Element {
 
   const [projectList, setProjectList] = useState<IProject[]>([]);
   useEffect(() => {
-    fetch<IProject[]>('get/project-list').then(projectList => {
+    fetch<IProject[]>('get/project-list').then((projectList) => {
       setProjectList(projectList);
     });
   }, []);
 
   const onSelectProject = (id: string) => {
-    const project = projectList.find(project => project.id === id);
+    const project = projectList.find((project) => project.id === id);
     appDispatch(setProject(project));
   };
 
-  const list = projectList.map(project => (
+  const list = projectList.map((project) => (
     <ListItemButton
       key={project.id}
       onClick={() => onSelectProject(project.id)}

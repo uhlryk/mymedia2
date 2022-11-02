@@ -23,7 +23,7 @@ export default class Store {
 
   getResource(relativePath: string): IResource {
     return this.getResourceList().find(
-      resource => resource.relativePath === relativePath
+      (resource) => resource.relativePath === relativePath
     );
   }
 

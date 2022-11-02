@@ -43,7 +43,7 @@ export default class Project {
               [Project.PROJECT_DATA_FOLDER, true],
             ]),
             acceptedFileExtensionsHash: new Map(
-              EXTENSIONS_FOR_THUMBNAILS.map(extension => [extension, true])
+              EXTENSIONS_FOR_THUMBNAILS.map((extension) => [extension, true])
             ),
           });
           const fileDetailsHash = createFileDetailsHash(
@@ -62,17 +62,17 @@ export default class Project {
           );
           this.cachedResources = updatedResourceList;
 
-          return updatedResourceList.map(resource => ({
+          return updatedResourceList.map((resource) => ({
             ...resource,
             thumbnails: resource.thumbnails?.map(
-              thumbnail => FILE_PROTOCOL + path.join(projectPath, thumbnail)
+              (thumbnail) => FILE_PROTOCOL + path.join(projectPath, thumbnail)
             ),
           }));
         } else {
-          return this.cachedResources.map(resource => ({
+          return this.cachedResources.map((resource) => ({
             ...resource,
             thumbnails: resource.thumbnails?.map(
-              thumbnail => FILE_PROTOCOL + path.join(projectPath, thumbnail)
+              (thumbnail) => FILE_PROTOCOL + path.join(projectPath, thumbnail)
             ),
           }));
         }
@@ -99,7 +99,7 @@ export default class Project {
           return null;
         }
         const resourceIndex = this.cachedResources.findIndex(
-          cachedResource => cachedResource.relativePath === resourcePath
+          (cachedResource) => cachedResource.relativePath === resourcePath
         );
         if (resourceIndex === -1) {
           console.error(`Requested resource by path ${resourcePath} not found`);
@@ -181,4 +181,4 @@ export default class Project {
 }
 
 const fileExists = async (filePath: string) =>
-  !!(await fs.stat(filePath).catch(e => false));
+  !!(await fs.stat(filePath).catch((e) => false));

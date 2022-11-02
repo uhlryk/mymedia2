@@ -16,7 +16,7 @@ export default class Store {
   }
 
   getProject(id: string): IProject {
-    return this.getProjectList().find(project => project.id === id);
+    return this.getProjectList().find((project) => project.id === id);
   }
 
   getProjectList(): Array<IProject> {
@@ -51,7 +51,7 @@ export default class Store {
       Store.PROJECTS_COLLECTION,
       []
     ) as Array<IProject>;
-    projectList = projectList.filter(project => project.id !== projectId);
+    projectList = projectList.filter((project) => project.id !== projectId);
     this._store.set(Store.PROJECTS_COLLECTION, projectList);
   }
 }
