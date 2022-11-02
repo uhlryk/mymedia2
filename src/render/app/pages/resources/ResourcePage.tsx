@@ -1,8 +1,4 @@
-import React, {
-  useContext,
-  KeyboardEvent,
-  MouseEvent,
-} from 'react';
+import React, { useContext, KeyboardEvent, MouseEvent } from 'react';
 import ResourceList from './components/ResourceList';
 import { AppContext, AppContextType } from '../../store/store';
 import { SwipeableDrawer, Box } from '@mui/material';
