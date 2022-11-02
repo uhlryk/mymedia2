@@ -6,22 +6,16 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AppContext, AppContextType } from '../../store/store';
-import { IProject } from '../../../../shared/IProject';
 import { setProject } from '../../store/actions';
-import { getProjectList } from './api/getProjectList';
+import { useProjectList } from './hooks/useProjectList';
 
 export default function ProjectPage(): JSX.Element {
   console.log(`[SelectProject] start `);
   const { appDispatch } = useContext<AppContextType>(AppContext);
 
-  const [projectList, setProjectList] = useState<IProject[]>([]);
-  useEffect(() => {
-    getProjectList().then((projectList) => {
-      setProjectList(projectList);
-    });
-  }, []);
+  const [projectList, isLoading] = useProjectList();
 
   const onSelectProject = (id: string) => {
     const project = projectList.find((project) => project.id === id);
