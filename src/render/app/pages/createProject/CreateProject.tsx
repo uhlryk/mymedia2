@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, ReactElement } from 'react';
 import { AppContext, AppContextType, ActionType } from '../../store/store';
 import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/actions';
 
-export default function CreateProject(): JSX.Element {
+export const CreateProject = (): ReactElement => {
   const { appDispatch } = useContext<AppContextType>(AppContext);
 
   const [submitting, setSubmitting] = useState(false);

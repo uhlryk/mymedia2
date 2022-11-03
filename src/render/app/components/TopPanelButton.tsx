@@ -1,18 +1,19 @@
-import React, { MouseEventHandler, FC } from 'react';
+import React, { MouseEventHandler, ReactNode, ReactElement } from 'react';
 import { Button } from '@mui/material';
 
 type Props = {
   onClick: MouseEventHandler;
   isActive?: boolean;
   isVisible?: boolean;
+  children: ReactNode;
 };
 
-export const TopPanelButton: FC<Props> = ({
+export const TopPanelButton = ({
   onClick,
   isActive,
-  children,
   isVisible = true,
-}) => {
+  children
+}: Props): ReactElement => {
   if (!isVisible) {
     return null;
   }

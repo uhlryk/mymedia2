@@ -74,8 +74,8 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
-    "@types/react": "^17.0.21",
-    "@types/react-dom": "^17.0.9",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
     "@typescript-eslint/parser": "^4.31.1",
@@ -102,9 +102,8 @@
     "@types/react-redux": "^7.1.24",
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^8.0.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^8.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "uuid": "^9.0.0"
   }
 }

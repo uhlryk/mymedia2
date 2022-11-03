@@ -1,11 +1,11 @@
-import React, { FC, useContext, KeyboardEvent, MouseEvent } from 'react';
-import ResourceList from './components/ResourceList';
+import React, { useContext, KeyboardEvent, MouseEvent, ReactElement } from 'react';
+import { ResourceList } from './components/ResourceList';
 import { AppContext, AppContextType } from '../../store/store';
 import { SwipeableDrawer, Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
 import { useResourceList } from './hooks/useResourceList';
 
-export const ResourcePage: FC = () => {
+export const ResourcePage = (): ReactElement => {
   const {
     appState: { project },
   } = useContext<AppContextType>(AppContext);

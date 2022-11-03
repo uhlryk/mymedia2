@@ -1,7 +1,11 @@
-import React, { FC } from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 import { AppContext, useAppReducer } from './store';
 
-export const AppStoreContextProvider: FC = ({ children }) => {
+type Props = {
+  children: ReactNode
+}
+
+export const AppStoreContextProvider = ({ children }: Props): ReactElement => {
   const appStore = useAppReducer();
 
   return (

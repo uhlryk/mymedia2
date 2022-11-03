@@ -6,12 +6,12 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { AppContext, AppContextType } from '../../store/store';
 import { setProject } from '../../store/actions';
 import { useProjectList } from './hooks/useProjectList';
 
-export default function ProjectPage(): JSX.Element {
+export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
   const { appDispatch } = useContext<AppContextType>(AppContext);
 

@@ -7,9 +7,9 @@ import {
   ListItem,
   ListItemButton,
 } from '@mui/material';
-import React, { FC } from 'react';
+import React, { ReactElement } from 'react';
 
-export const FilterSidePanel: FC = () => {
+export const FilterSidePanel = (): ReactElement => {
   return (
     <Box>
       <div style={{ width: '300px' }}>

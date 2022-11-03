@@ -7,7 +7,7 @@ import {
   Box,
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { IResource } from '../../../../../shared/IResource';
 import Loader from '../../../../components/Loader';
 
@@ -15,7 +15,7 @@ type Props = {
   list: IResource[] | null;
 };
 
-export default function ResourceList({ list }: Props): JSX.Element {
+export const ResourceList = ({ list }: Props): ReactElement => {
   console.log(`[ResourceList] start resources ${list?.length}`);
 
   if (!list) {

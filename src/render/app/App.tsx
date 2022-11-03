@@ -3,8 +3,8 @@ import React, { FC } from 'react';
 import './App.css';
 
 import { ResourcePage } from './pages/resources/ResourcePage';
-import ProjectPage from './pages/projects/ProjectPage';
-import CreateProject from './pages/createProject/CreateProject';
+import { ProjectPage } from './pages/projects/ProjectPage';
+import { CreateProject } from './pages/createProject/CreateProject';
 import { Page } from './store/store';
 import { TopPanel } from './components/TopPanel';
 import { Router } from './components/Router';
