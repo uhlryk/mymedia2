@@ -1,21 +1,19 @@
 import { ipcMain } from 'electron';
 import { IResource } from '../../shared/IResource';
-import createDiffResourceHashes from './helpers/createDiffResourceHashes';
-import createFolderStructure from './helpers/createFolderStructure';
-import createFileDetailsHash from './helpers/createFileDetailsHash';
-import readDirectory from './helpers/readAllFsFiles';
+import createFolderStructure from './utils/syncResources/createFolderStructure';
 import Store from './Store';
 import * as path from 'path';
 import fs from 'fs/promises';
-import generateThumbnail from './helpers/generateThumbnail';
-import getMetadata from './helpers/getMetadata';
+import generateThumbnail from './utils/generateThumbnail';
+import getMetadata from './utils/getMetadata';
+import { syncResources } from './utils/syncResources';
+import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 
-const EXTENSIONS_FOR_THUMBNAILS = ['.mp4', '.wmv', '.mov', '.avi'];
-
-const FILE_PROTOCOL = 'file://';
 export default class Project {
+  static EXTENSIONS_FOR_THUMBNAILS = ['.mp4', '.wmv', '.mov', '.avi'];
   static PROJECT_DATA_FOLDER = 'mymedia';
   static THUMBNAILS_FOLDER = 'thumbnails';
+  static FILE_PROTOCOL = 'file://';
   private store: Store;
   private projectPath: string;
   private cachedResources: IResource[];
@@ -30,51 +28,22 @@ export default class Project {
 
           this.projectPath = projectPath;
           createFolderStructure(
-            this.projectPath,
+            projectPath,
             Project.PROJECT_DATA_FOLDER,
             Project.THUMBNAILS_FOLDER
           );
-          this.store = new Store(this.projectPath, Project.PROJECT_DATA_FOLDER);
+          this.store = new Store(projectPath, Project.PROJECT_DATA_FOLDER);
 
           const resourceList = this.store.getResourceList();
-          const allFilesFromFs = await readDirectory({
-            directory: projectPath,
-            excludeDirectoriesHash: new Map([
-              [Project.PROJECT_DATA_FOLDER, true],
-            ]),
-            acceptedFileExtensionsHash: new Map(
-              EXTENSIONS_FOR_THUMBNAILS.map((extension) => [extension, true])
-            ),
-          });
-          const fileDetailsHash = createFileDetailsHash(
-            allFilesFromFs,
-            projectPath
-          );
-          const diffResourceHashes = createDiffResourceHashes(
-            fileDetailsHash,
-            resourceList
-          );
-          const updatedResourceList = this.store.setResourceList(
-            Object.values({
-              ...diffResourceHashes.exisitingFiles,
-              ...diffResourceHashes.newFiles,
-            })
-          );
+
+          const updatedResourceList = await syncResources(this.projectPath, resourceList);
+
+          this.store.setResourceList(updatedResourceList);
           this.cachedResources = updatedResourceList;
 
-          return updatedResourceList.map((resource) => ({
-            ...resource,
-            thumbnails: resource.thumbnails?.map(
-              (thumbnail) => FILE_PROTOCOL + path.join(projectPath, thumbnail)
-            ),
-          }));
+          return updateResourceListImagesPathAbsolute(updatedResourceList, projectPath, Project.FILE_PROTOCOL)
         } else {
-          return this.cachedResources.map((resource) => ({
-            ...resource,
-            thumbnails: resource.thumbnails?.map(
-              (thumbnail) => FILE_PROTOCOL + path.join(projectPath, thumbnail)
-            ),
-          }));
+          return updateResourceListImagesPathAbsolute(this.cachedResources, projectPath, Project.FILE_PROTOCOL)
         }
       }
     );
@@ -108,7 +77,7 @@ export default class Project {
         const resource = this.cachedResources[resourceIndex];
 
         const extension = resource.extension;
-        if (!EXTENSIONS_FOR_THUMBNAILS.includes(extension)) {
+        if (!Project.EXTENSIONS_FOR_THUMBNAILS.includes(extension)) {
           console.error(
             `Requested resource by path ${resourcePath} extension ${extension} is not supported for thumbnails`
           );
@@ -145,7 +114,7 @@ export default class Project {
             return {
               ...updatedResource,
               thumbnails: [
-                FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath),
+                Project.FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath),
               ],
             };
           }
@@ -166,7 +135,7 @@ export default class Project {
             return {
               ...updatedResource,
               thumbnails: [
-                FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath),
+                Project.FILE_PROTOCOL + path.join(absoluteSpecificThumbnailPath),
               ],
             };
           } else {

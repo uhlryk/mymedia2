@@ -1,6 +1,6 @@
 import path from 'path';
-import { IFileDetailsHash } from '../interfaces';
-import { FileInfo } from './readAllFsFiles';
+import { IFileDetailsHash } from '../../interfaces';
+import { FileInfo } from './readDirectory';
 
 export default function createFileDetailsHash(
   list: FileInfo[],
