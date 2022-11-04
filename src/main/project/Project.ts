@@ -1,13 +1,11 @@
 import { ipcMain } from 'electron';
 import { IResource } from '../../shared/IResource';
-import createFolderStructure from './utils/syncResources/createFolderStructure';
 import Store from './Store';
 import * as path from 'path';
 import fs from 'fs/promises';
 import generateThumbnail from './utils/generateThumbnail';
 import getMetadata from './utils/getMetadata';
-import { syncResources } from './utils/syncResources';
-import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
+import { SpecificProject } from './SpecificProject';
 
 export default class Project {
   static EXTENSIONS_FOR_THUMBNAILS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -18,33 +16,22 @@ export default class Project {
   private projectPath: string;
   private cachedResources: IResource[];
 
+  private specificProject: SpecificProject;
+
   constructor() {
     ipcMain.handle(
       'set/project-data',
       async (event, projectPath: string): Promise<IResource[]> => {
         console.log('[Project/set/project-data] start');
-        if (this.projectPath !== projectPath) {
-          console.log('change project');
 
-          this.projectPath = projectPath;
-          createFolderStructure(
-            projectPath,
-            Project.PROJECT_DATA_FOLDER,
-            Project.THUMBNAILS_FOLDER
-          );
-          this.store = new Store(projectPath, Project.PROJECT_DATA_FOLDER);
-
-          const resourceList = this.store.getResourceList();
-
-          const updatedResourceList = await syncResources(this.projectPath, resourceList);
-
-          this.store.setResourceList(updatedResourceList);
-          this.cachedResources = updatedResourceList;
-
-          return updateResourceListImagesPathAbsolute(updatedResourceList, projectPath, Project.FILE_PROTOCOL)
-        } else {
-          return updateResourceListImagesPathAbsolute(this.cachedResources, projectPath, Project.FILE_PROTOCOL)
+        if (!this.specificProject || !this.specificProject.verifyProjectPath(projectPath)) {
+          console.log('[Project/set/project-data] new SpecificProject');
+          this.specificProject = new SpecificProject(projectPath);
         }
+
+        await this.specificProject.waitForResourcesPromise();
+
+        return this.specificProject.getResourcesWithAbsolutePaths();
       }
     );
 
