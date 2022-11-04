@@ -1,11 +1,6 @@
-import path from 'path';
 import { IResource } from "../../../shared/IResource";
+import { updateResourceImagesPathAbsolute } from './updateResourceImagesPathAbsolute';
 
-export const updateResourceListImagesPathAbsolute = (resourceList: IResource[], projectPath: string, fileProtocol: string) => {
-  return resourceList.map((resource) => ({
-    ...resource,
-    thumbnails: resource.thumbnails?.map(
-      (thumbnail) => fileProtocol + path.join(projectPath, thumbnail)
-    ),
-  }));
+export const updateResourceListImagesPathAbsolute = (resourceList: IResource[], projectPath: string, fileProtocol: string): IResource[] => {
+  return resourceList.map((resource) => updateResourceImagesPathAbsolute(resource, projectPath, fileProtocol));
 }

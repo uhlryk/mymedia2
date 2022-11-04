@@ -10,3 +10,8 @@ export interface IFileDetailsHash {
 export interface IResourceHash {
   [relativeFilePath: RelativeFilePath]: IResource;
 }
+
+export interface IAbsoluteResourceId {
+  projectPath: string;
+  resourceId: string;
+}

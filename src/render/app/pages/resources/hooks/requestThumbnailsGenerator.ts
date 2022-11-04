@@ -15,7 +15,7 @@ export async function* requestThumbnailsGenerator({
       // TODO: check if there is specified number of thumbnails e.g. 4 if less then we also need create missing thumbnails
       const updatedResource = await requestThumbnails(
         projectFolderPath,
-        resource.relativePath
+        resource.id
       );
       if (!updatedResource) {
         continue;

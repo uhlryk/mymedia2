@@ -1,13 +1,13 @@
 import { spawn } from 'child_process';
 
-interface Metadata {
+export interface IMetadata {
   width?: number;
   height?: number;
   duration?: number;
 }
 export default async function getMetadata(
   sourceFilePath: string
-): Promise<Metadata> {
+): Promise<IMetadata> {
   const childProcess = spawn('ffprobe', [
     '-v',
     'error',
@@ -20,7 +20,7 @@ export default async function getMetadata(
     sourceFilePath,
   ]);
   return await new Promise((resolve, reject) => {
-    const metadata: Metadata = {};
+    const metadata: IMetadata = {};
     childProcess.stdout.on('data', (data: string) => {
       if (data) {
         const dataArray = data.toString().split(/[^0-9.]/g);

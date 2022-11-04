@@ -3,7 +3,6 @@ import Project from './Project';
 import { initProject } from './utils/initProject';
 import { syncResources } from './utils/syncResources';
 import { IResource } from '../../shared/IResource';
-import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 
 export class SpecificProject {
     private store: Store;
@@ -49,7 +48,15 @@ export class SpecificProject {
         }
     }
 
-    getResourcesWithAbsolutePaths(): IResource[] {
-        return updateResourceListImagesPathAbsolute(this.getResources(), this.projectPath, Project.FILE_PROTOCOL)
+    getResourceById(resourceId: string): IResource {
+        return this.getResources().find(resource => resource.id === resourceId)
+    }
+
+    updateResource(resourceId: string, resourcePartial: Partial<IResource>): IResource {
+        const oldResource = this.getResourceById(resourceId);
+        // we want to preserve reference
+        Object.assign(oldResource, resourcePartial);
+        this.store.setResourceList(this.getResources());
+        return oldResource;
     }
 }
