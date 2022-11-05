@@ -34,9 +34,9 @@ export type AppStore = {
   appStateDispatch: Dispatch<AppAction>;
 };
 
-export function useAppStore(): AppStore {
+export const useAppStore = (): AppStore => {
   const [appState, appStateDispatch] = useReducer(
-    (state: AppState, action: AppAction) => {
+    (state: AppState, action: AppAction): AppState => {
       switch (action.type) {
         case ActionType.SET_PROJECT:
           return {
