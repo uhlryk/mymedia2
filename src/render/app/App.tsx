@@ -8,7 +8,7 @@ import { CreateProject } from './pages/createProject/CreateProject';
 import { Page } from './store/useAppStore';
 import { TopPanel } from './components/TopPanel';
 import { Router } from './components/Router';
-import { AppStateContextProvider } from './store/AppStateContextProvider';
+import { AppStoreContextProvider } from './store/AppStoreContextProvider';
 
 const pages = {
   [Page.PROJECT_PAGE]: <ProjectPage />,
@@ -17,12 +17,12 @@ const pages = {
 };
 export const App: FC = () => {
   return (
-    <AppStateContextProvider>
+    <AppStoreContextProvider>
       <Box display="flex">
         <CssBaseline />
         <TopPanel />
         <Router pages={pages} />
       </Box>
-    </AppStateContextProvider>
+    </AppStoreContextProvider>
   );
 };

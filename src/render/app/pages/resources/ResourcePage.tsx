@@ -1,7 +1,7 @@
 import React, { useContext, KeyboardEvent, MouseEvent, ReactElement } from 'react';
 import { ResourceList } from './components/ResourceList';
 import { AppStore } from '../../store/useAppStore';
-import { AppStateContext } from '../../store/AppStateContextProvider';
+import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { SwipeableDrawer, Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
 import { useResourceList } from './hooks/useResourceList';

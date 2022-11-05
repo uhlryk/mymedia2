@@ -7,7 +7,7 @@ type Props = {
 
 export const AppStateContext = React.createContext<AppStore | null>(null);
 
-export const AppStateContextProvider = ({ children }: Props): ReactElement => {
+export const AppStoreContextProvider = ({ children }: Props): ReactElement => {
   const appState = useAppStore();
 
   return (

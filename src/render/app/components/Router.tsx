@@ -1,6 +1,6 @@
 import React, { useContext, FC } from 'react';
 import { AppStore } from '../store/useAppStore';
-import { AppStateContext } from '../store/AppStateContextProvider';
+import { AppStateContext } from '../store/AppStoreContextProvider';
 
 import { Box } from '@mui/material';
 

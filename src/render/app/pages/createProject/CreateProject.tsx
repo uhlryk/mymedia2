@@ -1,12 +1,12 @@
 import React, { useState, useContext, ReactElement } from 'react';
 import { AppStore } from '../../store/useAppStore';
-import { AppStateContext } from '../../store/AppStateContextProvider';
+import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/actions';
 
 export const CreateProject = (): ReactElement => {
-  const { appStateDispatch } = useContext<AppStore>(AppStateContext);
+  const { dispatchAppState } = useContext<AppStore>(AppStateContext);
 
   const [submitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');
@@ -21,7 +21,7 @@ export const CreateProject = (): ReactElement => {
     }).then((result) => {
       console.log(`[CreateProject] status of set/new-project ${result}`);
       setSubmitting(false);
-      appStateDispatch(setProject(result));
+      dispatchAppState(setProject(result));
     });
   };
 

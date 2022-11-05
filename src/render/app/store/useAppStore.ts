@@ -7,18 +7,19 @@ export enum Page {
   CREATE_PROJECT_PAGE,
 }
 
-export enum ActionType {
+export enum AppActionType {
   CLEAR_PROJECT,
   SET_PROJECT,
   CREATE_PROJECT,
 }
-interface AppState {
+
+type AppState = {
   page: Page;
   project: IProject | null;
 }
 
-export interface AppAction {
-  type: ActionType;
+export type AppAction = {
+  type: AppActionType;
   payload?: {
     project?: IProject;
   };
@@ -31,24 +32,24 @@ const initialState: AppState = {
 
 export type AppStore = {
   appState: AppState;
-  appStateDispatch: Dispatch<AppAction>;
+  dispatchAppState: Dispatch<AppAction>;
 };
 
 export const useAppStore = (): AppStore => {
-  const [appState, appStateDispatch] = useReducer(
+  const [appState, dispatchAppState] = useReducer(
     (state: AppState, action: AppAction): AppState => {
       switch (action.type) {
-        case ActionType.SET_PROJECT:
+        case AppActionType.SET_PROJECT:
           return {
             project: action.payload.project,
             page: Page.RESOURCE_PAGE,
           };
-        case ActionType.CLEAR_PROJECT:
+        case AppActionType.CLEAR_PROJECT:
           return {
             project: null,
             page: Page.PROJECT_PAGE,
           };
-        case ActionType.CREATE_PROJECT:
+        case AppActionType.CREATE_PROJECT:
           return {
             project: null,
             page: Page.CREATE_PROJECT_PAGE,
@@ -60,7 +61,7 @@ export const useAppStore = (): AppStore => {
     initialState
   );
 
-  return { appState, appStateDispatch };
+  return { appState, dispatchAppState };
 }
 
 
