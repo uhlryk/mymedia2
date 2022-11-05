@@ -1,4 +1,4 @@
-import React, { Dispatch, useReducer, FC } from 'react';
+import { Dispatch, useReducer } from 'react';
 import { IProject } from '../../../shared/IProject';
 
 export enum Page {
@@ -29,13 +29,13 @@ const initialState: AppState = {
   project: null,
 };
 
-export type AppContextType = {
+export type AppStore = {
   appState: AppState;
-  appDispatch: Dispatch<AppAction>;
+  appStateDispatch: Dispatch<AppAction>;
 };
 
-export function useAppReducer(): AppContextType {
-  const [appState, appDispatch] = useReducer(
+export function useAppStore(): AppStore {
+  const [appState, appStateDispatch] = useReducer(
     (state: AppState, action: AppAction) => {
       switch (action.type) {
         case ActionType.SET_PROJECT:
@@ -60,7 +60,7 @@ export function useAppReducer(): AppContextType {
     initialState
   );
 
-  return { appState, appDispatch };
+  return { appState, appStateDispatch };
 }
 
-export const AppContext = React.createContext<AppContextType | null>(null);
+

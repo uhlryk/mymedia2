@@ -1,6 +1,7 @@
 import React, { useContext, KeyboardEvent, MouseEvent, ReactElement } from 'react';
 import { ResourceList } from './components/ResourceList';
-import { AppContext, AppContextType } from '../../store/store';
+import { AppStore } from '../../store/useAppStore';
+import { AppStateContext } from '../../store/AppStateContextProvider';
 import { SwipeableDrawer, Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
 import { useResourceList } from './hooks/useResourceList';
@@ -8,7 +9,7 @@ import { useResourceList } from './hooks/useResourceList';
 export const ResourcePage = (): ReactElement => {
   const {
     appState: { project },
-  } = useContext<AppContextType>(AppContext);
+  } = useContext<AppStore>(AppStateContext);
 
   const [resourceList, isLoading, setResourceList] = useResourceList(
     project.folderPath

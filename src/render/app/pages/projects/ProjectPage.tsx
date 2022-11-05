@@ -7,19 +7,20 @@ import {
 } from '@mui/material';
 import FolderIcon from '@mui/icons-material/Folder';
 import React, { ReactElement, useContext } from 'react';
-import { AppContext, AppContextType } from '../../store/store';
+import { AppStore } from '../../store/useAppStore';
+import { AppStateContext } from '../../store/AppStateContextProvider';
 import { setProject } from '../../store/actions';
 import { useProjectList } from './hooks/useProjectList';
 
 export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
-  const { appDispatch } = useContext<AppContextType>(AppContext);
+  const { appStateDispatch } = useContext<AppStore>(AppStateContext);
 
   const [projectList, isLoading] = useProjectList();
 
   const onSelectProject = (id: string) => {
     const project = projectList.find((project) => project.id === id);
-    appDispatch(setProject(project));
+    appStateDispatch(setProject(project));
   };
 
   const list = projectList.map((project) => (

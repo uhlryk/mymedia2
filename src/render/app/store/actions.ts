@@ -1,5 +1,5 @@
 import { IProject } from '../../../shared/IProject';
-import { ActionType, AppAction } from './store';
+import { ActionType, AppAction } from './useAppStore';
 
 export const clearProject = (): AppAction => ({
   type: ActionType.CLEAR_PROJECT,

@@ -1,5 +1,7 @@
 import React, { useContext, FC } from 'react';
-import { AppContext, AppContextType } from '../store/store';
+import { AppStore } from '../store/useAppStore';
+import { AppStateContext } from '../store/AppStateContextProvider';
+
 import { Box } from '@mui/material';
 
 type Props = {
@@ -10,6 +12,6 @@ type Props = {
 export const Router: FC<Props> = ({ pages }) => {
   const {
     appState: { page },
-  } = useContext<AppContextType>(AppContext);
+  } = useContext<AppStore>(AppStateContext);
   return <Box sx={{ marginTop: '70px' }}>{pages[page] || null}</Box>;
 };

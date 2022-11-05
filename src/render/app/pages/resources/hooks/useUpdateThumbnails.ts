@@ -27,6 +27,7 @@ export const useUpdateThumbanails = ({
             break;
           }
 
+          // this is using as a base resourceList whic don't have changes from prev update. We should create a store and send to update specific resource only
           const updatedResourceList = resourceList.map((resource) =>
             resource.id === updatedResource.id ? updatedResource : resource
           );

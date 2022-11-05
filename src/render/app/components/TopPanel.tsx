@@ -1,21 +1,22 @@
-import { AppBar, Toolbar, Box, Button, Container } from '@mui/material';
+import { AppBar, Toolbar } from '@mui/material';
 import React, { MouseEventHandler, useContext, FC } from 'react';
 import { clearProject, createProject } from '../store/actions';
-import { AppContext, AppContextType, Page } from '../store/store';
+import { AppStore, Page } from '../store/useAppStore';
+import { AppStateContext } from '../store/AppStateContextProvider';
 import { TopPanelButton } from './TopPanelButton';
 
 export const TopPanel: FC = () => {
   const {
     appState: { page },
-    appDispatch,
-  } = useContext<AppContextType>(AppContext);
+    appStateDispatch,
+  } = useContext<AppStore>(AppStateContext);
 
   const onProjectsClick: MouseEventHandler = () => {
-    appDispatch(clearProject());
+    appStateDispatch(clearProject());
   };
 
   const onCreateProjectClick: MouseEventHandler = () => {
-    appDispatch(createProject());
+    appStateDispatch(createProject());
   };
 
   return (

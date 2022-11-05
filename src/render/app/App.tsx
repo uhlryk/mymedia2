@@ -5,10 +5,10 @@ import './App.css';
 import { ResourcePage } from './pages/resources/ResourcePage';
 import { ProjectPage } from './pages/projects/ProjectPage';
 import { CreateProject } from './pages/createProject/CreateProject';
-import { Page } from './store/store';
+import { Page } from './store/useAppStore';
 import { TopPanel } from './components/TopPanel';
 import { Router } from './components/Router';
-import { AppStoreContextProvider } from './store/AppContextProvider';
+import { AppStateContextProvider } from './store/AppStateContextProvider';
 
 const pages = {
   [Page.PROJECT_PAGE]: <ProjectPage />,
@@ -17,12 +17,12 @@ const pages = {
 };
 export const App: FC = () => {
   return (
-    <AppStoreContextProvider>
+    <AppStateContextProvider>
       <Box display="flex">
         <CssBaseline />
         <TopPanel />
         <Router pages={pages} />
       </Box>
-    </AppStoreContextProvider>
+    </AppStateContextProvider>
   );
 };
