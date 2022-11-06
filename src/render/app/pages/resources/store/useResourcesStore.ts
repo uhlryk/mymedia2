@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch, useReducer } from "react";
+import { Dispatch, useReducer } from "react";
 import { IResource } from '../../../../../shared/IResource';
 
 export enum ResourceActionType {
@@ -6,43 +6,43 @@ export enum ResourceActionType {
     UPDATE_RESOURCE
 }
 
-type SetResourcesAction = {
+export type SetResourcesAction = {
     type: ResourceActionType.SET_RESOURCES,
     payload: {
         resources: IResource[]
     }
 }
 
-type UpdateResourceAction = {
+export type UpdateResourceAction = {
     type: ResourceActionType.UPDATE_RESOURCE,
     payload: {
         resource: IResource
     }
 }
 
-type ResourceAction = SetResourcesAction | UpdateResourceAction;
+export type ResourceAction = SetResourcesAction | UpdateResourceAction;
 
 type ResourceState = {
     resources: IResource[],
-    loaded: boolean
+    isLoaded: boolean
 }
 
 const initialState: ResourceState = {
     resources: [],
-    loaded: false,
+    isLoaded: false,
 }
 
-type ResourceStore = {
-    resourceState: ResourceState;
-    dispatchResourceState: Dispatch<ResourceAction>
-}
+export type ResourceStore = [
+    resourcesState: ResourceState,
+    dispatchResourcesState: Dispatch<ResourceAction>
+]
 
-export const useResourceStore = (): ResourceStore => {
-    const [resourceState, dispatchResourceState] = useReducer((state: ResourceState, action: ResourceAction): ResourceState => {
+export const useResourcesStore = (): ResourceStore => {
+    const [resourcesState, dispatchResourcesState] = useReducer((state: ResourceState, action: ResourceAction): ResourceState => {
         switch (action.type) {
             case ResourceActionType.SET_RESOURCES: {
                 return {
-                    loaded: true,
+                    isLoaded: true,
                     resources: action.payload.resources
                 }
             }
@@ -58,5 +58,5 @@ export const useResourceStore = (): ResourceStore => {
         }
     }, initialState);
 
-    return { resourceState, dispatchResourceState };
+    return [resourcesState, dispatchResourcesState];
 }

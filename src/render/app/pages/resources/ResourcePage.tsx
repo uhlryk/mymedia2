@@ -4,14 +4,14 @@ import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { SwipeableDrawer, Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
-import { useResourceList } from './hooks/useResourceList';
+import { useResources } from './hooks/useResources';
 
 export const ResourcePage = (): ReactElement => {
-  const {
-    appState: { project },
-  } = useContext<AppStore>(AppStateContext);
+  const [
+    { project }
+  ] = useContext<AppStore>(AppStateContext);
 
-  const [resourceList, isLoading, setResourceList] = useResourceList(
+  const [resourcesState] = useResources(
     project.folderPath
   );
 
@@ -32,7 +32,7 @@ export const ResourcePage = (): ReactElement => {
       <Box display="flex" flexDirection="row">
         <FilterSidePanel />
 
-        <ResourceList list={resourceList}></ResourceList>
+        <ResourceList list={resourcesState.resources}></ResourceList>
       </Box>
     </>
   );

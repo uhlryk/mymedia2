@@ -3,10 +3,10 @@ import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../utils/fetch';
-import { setProject } from '../../store/actions';
+import { setProject } from '../../store/appStoreActions';
 
-export const CreateProject = (): ReactElement => {
-  const { dispatchAppState } = useContext<AppStore>(AppStateContext);
+export const CreateProjectPage = (): ReactElement => {
+  const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
 
   const [submitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');

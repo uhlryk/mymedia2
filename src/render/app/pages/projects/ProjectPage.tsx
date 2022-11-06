@@ -9,12 +9,12 @@ import FolderIcon from '@mui/icons-material/Folder';
 import React, { ReactElement, useContext } from 'react';
 import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
-import { setProject } from '../../store/actions';
+import { setProject } from '../../store/appStoreActions';
 import { useProjectList } from './hooks/useProjectList';
 
 export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
-  const { dispatchAppState } = useContext<AppStore>(AppStateContext);
+  const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
 
   const [projectList, isLoading] = useProjectList();
 

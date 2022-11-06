@@ -1,37 +1,39 @@
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, useEffect } from 'react';
 import { IResource } from '../../../../../shared/IResource';
+import { updateResource } from '../store/resourcesStoreActions';
+import { ResourceAction } from '../store/useResourcesStore';
 import { requestThumbnailsGenerator } from './requestThumbnailsGenerator';
 
 type IInputUseUpdateThumbanails = {
   projectFolderPath: string;
-  isLoading: boolean;
-  resourceList: IResource[];
-  setResourceList: Dispatch<SetStateAction<IResource[]>>;
+  isLoaded: boolean;
+  resources: IResource[];
+  dispatchResourcesState: Dispatch<ResourceAction>;
 };
 export const useUpdateThumbanails = ({
   projectFolderPath,
-  isLoading,
-  resourceList,
-  setResourceList,
+  isLoaded,
+  resources,
+  dispatchResourcesState,
 }: IInputUseUpdateThumbanails): void => {
   useEffect(() => {
     let stopProcess = false;
     const updateThumbnails = async () => {
-      if (!isLoading) {
+      if (!isLoaded) {
         const asyncGenRequestThumbnails = requestThumbnailsGenerator({
           projectFolderPath,
-          resourceList,
+          resources,
         });
         for await (const updatedResource of asyncGenRequestThumbnails) {
           if (stopProcess) {
             break;
           }
-
+          dispatchResourcesState(updateResource(updatedResource))
           // this is using as a base resourceList whic don't have changes from prev update. We should create a store and send to update specific resource only
-          const updatedResourceList = resourceList.map((resource) =>
-            resource.id === updatedResource.id ? updatedResource : resource
-          );
-          setResourceList(updatedResourceList);
+          // const updatedResourceList = resources.map((resource) =>
+          //   resource.id === updatedResource.id ? updatedResource : resource
+          // );
+          // setResourceList(updatedResourceList);
         }
       }
     };
@@ -39,5 +41,5 @@ export const useUpdateThumbanails = ({
     return () => {
       stopProcess = true;
     };
-  }, [isLoading]);
+  }, [isLoaded]);
 };

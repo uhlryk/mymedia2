@@ -30,10 +30,10 @@ const initialState: AppState = {
   project: null,
 };
 
-export type AppStore = {
-  appState: AppState;
-  dispatchAppState: Dispatch<AppAction>;
-};
+export type AppStore = [
+  appState: AppState,
+  dispatchAppState: Dispatch<AppAction>,
+];
 
 export const useAppStore = (): AppStore => {
   const [appState, dispatchAppState] = useReducer(
@@ -61,7 +61,7 @@ export const useAppStore = (): AppStore => {
     initialState
   );
 
-  return { appState, dispatchAppState };
+  return [appState, dispatchAppState];
 }
 
 
