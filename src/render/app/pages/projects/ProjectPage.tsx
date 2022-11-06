@@ -1,11 +1,15 @@
-import {
-  List,
-  ListItemButton,
-  ListItemText,
-  Stack,
-  ListItemIcon,
-} from '@mui/material';
-import FolderIcon from '@mui/icons-material/Folder';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import React, { ReactElement, useContext } from 'react';
 import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
@@ -23,29 +27,48 @@ export const ProjectPage = (): ReactElement => {
     dispatchAppState(setProject(project));
   };
 
-  const list = projectList.map((project) => (
-    <ListItemButton
-      key={project.id}
-      onClick={() => onSelectProject(project.id)}
-    >
-      <ListItemIcon>
-        <FolderIcon />
-      </ListItemIcon>
-      <ListItemText primary={project.name} secondary={project.folderPath} />
-    </ListItemButton>
+  const tableRows = projectList.map((project) => (
+    <TableRow hover key={project.id} >
+      <TableCell component="th" scope="row" onClick={() => onSelectProject(project.id)}>{project.name}</TableCell>
+      <TableCell component="th" scope="row" onClick={() => onSelectProject(project.id)}>{project.folderPath}</TableCell>
+      <TableCell component="th" scope="row" align="center">
+        <IconButton aria-label="open" onClick={() => onSelectProject(project.id)}>
+          <FolderOpenIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell component="th" scope="row" align="center">
+        <IconButton aria-label="rename">
+          <DriveFileRenameOutlineIcon />
+        </IconButton>
+      </TableCell>
+      <TableCell component="th" scope="row" align="center">
+        <IconButton aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      </TableCell>
+    </TableRow >
   ));
 
   return (
-    <Stack alignItems="left">
-      <List
-        sx={{
-          width: '100%',
-          maxWidth: 560,
-          margin: '0 200px',
-        }}
-      >
-        {list}
-      </List>
-    </Stack>
+
+    <TableContainer component={Paper} sx={{
+      padding: '30px'
+    }}>
+      <Table stickyHeader aria-label="simple table">
+        <TableHead>
+          <TableRow hover>
+            <TableCell>Project Name</TableCell>
+            <TableCell>Project Path</TableCell>
+            <TableCell align="center">Open</TableCell>
+            <TableCell align="center">Rename</TableCell>
+            <TableCell align="center">Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {tableRows}
+        </TableBody>
+      </Table>
+    </TableContainer >
+
   );
 }
