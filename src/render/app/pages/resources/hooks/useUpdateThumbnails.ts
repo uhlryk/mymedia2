@@ -19,25 +19,21 @@ export const useUpdateThumbanails = ({
   useEffect(() => {
     let stopProcess = false;
     const updateThumbnails = async () => {
-      if (!isLoaded) {
-        const asyncGenRequestThumbnails = requestThumbnailsGenerator({
-          projectFolderPath,
-          resources,
-        });
-        for await (const updatedResource of asyncGenRequestThumbnails) {
-          if (stopProcess) {
-            break;
-          }
-          dispatchResourcesState(updateResource(updatedResource))
-          // this is using as a base resourceList whic don't have changes from prev update. We should create a store and send to update specific resource only
-          // const updatedResourceList = resources.map((resource) =>
-          //   resource.id === updatedResource.id ? updatedResource : resource
-          // );
-          // setResourceList(updatedResourceList);
+      const asyncGenRequestThumbnails = requestThumbnailsGenerator({
+        projectFolderPath,
+        resources,
+      });
+      for await (const updatedResource of asyncGenRequestThumbnails) {
+        if (stopProcess) {
+          break;
         }
+        dispatchResourcesState(updateResource(updatedResource))
       }
+
     };
-    updateThumbnails();
+    if (isLoaded) {
+      updateThumbnails();
+    }
     return () => {
       stopProcess = true;
     };

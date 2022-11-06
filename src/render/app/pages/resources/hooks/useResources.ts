@@ -7,9 +7,6 @@ import { setResources } from '../store/resourcesStoreActions';
 export const useResources = (
   projectFolderPath: string
 ): ResourceStore => {
-  // const [resourceList, setResourceList] = useState<IResource[]>(null);
-  // const [isLoading, setLoading] = useState(true);
-
   const [resourcesState, dispatchResourcesState] = useResourcesStore();
   useEffect(() => {
     getProjectData(projectFolderPath).then((resources) => {
