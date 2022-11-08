@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { getProjectList } from '../api/getProjectList';
 import { IProject } from '../../../../../shared/IProject';
 
-export const useProjectList = (): [IProject[], boolean] => {
+export const useProjectList = (): [IProject[], boolean, Dispatch<SetStateAction<IProject[]>>] => {
     const [projectList, setProjectList] = useState<IProject[]>([]);
     const [isLoading, setLoading] = useState(true);
     useEffect(() => {
@@ -13,5 +13,5 @@ export const useProjectList = (): [IProject[], boolean] => {
         });
     }, []);
 
-    return [projectList, isLoading];
+    return [projectList, isLoading, setProjectList];
 }

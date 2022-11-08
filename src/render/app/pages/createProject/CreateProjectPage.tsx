@@ -15,19 +15,19 @@ export const CreateProjectPage = (): ReactElement => {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setSubmitting(true);
-    fetch<IProject>('set/new-project', {
+    fetch<IProject>('add-new-project', {
       name: projectName,
       folderPath: projectFolderPath,
-    }).then((result) => {
-      console.log(`[CreateProject] status of set/new-project ${result}`);
+    }).then((project) => {
+      console.log(`[CreateProject] status of set/new-project ${project}`);
       setSubmitting(false);
-      dispatchAppState(setProject(result));
+      dispatchAppState(setProject(project));
     });
   };
 
   const onProjectPathClick: React.MouseEventHandler<HTMLInputElement> = () => {
     setWaitingForDialog(true);
-    fetch<string | null>('get/new-project-folder').then((projectPath) => {
+    fetch<string | null>('open-folder-dialog').then((projectPath) => {
       setWaitingForDialog(false);
       setProjectFolderPath(projectPath);
     });

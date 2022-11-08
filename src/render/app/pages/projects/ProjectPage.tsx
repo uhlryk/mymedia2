@@ -15,17 +15,26 @@ import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { setProject } from '../../store/appStoreActions';
 import { useProjectList } from './hooks/useProjectList';
+import { removeProjectFromList } from './api/removeProjectFromList';
 
 export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
   const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
 
-  const [projectList, isLoading] = useProjectList();
+  const [projectList, isLoading, setProjectList] = useProjectList();
 
   const onSelectProject = (id: string) => {
     const project = projectList.find((project) => project.id === id);
     dispatchAppState(setProject(project));
   };
+
+  const onRemoveProject = (projectId: string) => {
+    removeProjectFromList(projectId).then(projects => {
+      console.log("A1");
+      console.log(projects);
+      setProjectList(projects)
+    })
+  }
 
   const tableRows = projectList.map((project) => (
     <TableRow hover key={project.id} >
@@ -42,7 +51,7 @@ export const ProjectPage = (): ReactElement => {
         </IconButton>
       </TableCell>
       <TableCell component="th" scope="row" align="center">
-        <IconButton aria-label="delete">
+        <IconButton aria-label="delete" onClick={() => onRemoveProject(project.id)}>
           <DeleteIcon />
         </IconButton>
       </TableCell>

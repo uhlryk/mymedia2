@@ -9,12 +9,12 @@ export default class ProjectList {
     console.log('Init ProjectList');
     this.store = new Store();
 
-    ipcMain.handle('get/project-list', async (event, message) => {
+    ipcMain.handle('get-project-list', async (event, message): Promise<IProject[]> => {
       const projectList = this.store.getProjectList();
       return projectList;
     });
 
-    ipcMain.handle('get/new-project-folder', async (event, message) => {
+    ipcMain.handle('open-folder-dialog', async (event, message): Promise<string> => {
       const dialogResponse = await dialog.showOpenDialog({
         properties: ['openDirectory'],
       });
@@ -22,9 +22,17 @@ export default class ProjectList {
     });
 
     ipcMain.handle(
-      'set/new-project',
-      async (event, projectWithId: Omit<IProject, 'id'>) => {
-        const projectList = this.store.addProject(projectWithId);
+      'add-new-project',
+      async (event, projectWithoutId: Omit<IProject, 'id'>): Promise<IProject> => {
+        const project = this.store.addProject(projectWithoutId);
+        return project;
+      }
+    );
+
+    ipcMain.handle(
+      'remove-project',
+      async (event, projectId: string): Promise<IProject[]> => {
+        const projectList = this.store.removeProject(projectId);
         return projectList;
       }
     );

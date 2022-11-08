@@ -30,9 +30,9 @@ export default class Store {
     return projectList as Array<IProject>;
   }
 
-  addProject(project: Omit<IProject, 'id'>): IProject {
+  addProject(projectWithoutId: Omit<IProject, 'id'>): IProject {
     const projectWithId: IProject = {
-      ...project,
+      ...projectWithoutId,
       id: uuidv4(),
     };
     const projectList: Array<IProject> = this._store.get(
@@ -46,12 +46,13 @@ export default class Store {
     return projectWithId;
   }
 
-  removeProject(projectId: string): void {
+  removeProject(projectId: string): IProject[] {
     let projectList: Array<IProject> = this._store.get(
       Store.PROJECTS_COLLECTION,
       []
     ) as Array<IProject>;
     projectList = projectList.filter((project) => project.id !== projectId);
     this._store.set(Store.PROJECTS_COLLECTION, projectList);
+    return projectList;
   }
 }
