@@ -57,4 +57,4 @@ export const CreateProjectPage = (): ReactElement => {
       </form>
     </div>
   );
-}
+};

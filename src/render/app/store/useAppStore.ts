@@ -16,14 +16,14 @@ export enum AppActionType {
 type AppState = {
   page: Page;
   project: IProject | null;
-}
+};
 
 export type AppAction = {
   type: AppActionType;
   payload?: {
     project?: IProject;
   };
-}
+};
 
 const initialState: AppState = {
   page: Page.PROJECT_PAGE,
@@ -32,7 +32,7 @@ const initialState: AppState = {
 
 export type AppStore = [
   appState: AppState,
-  dispatchAppState: Dispatch<AppAction>,
+  dispatchAppState: Dispatch<AppAction>
 ];
 
 export const useAppStore = (): AppStore => {
@@ -62,6 +62,4 @@ export const useAppStore = (): AppStore => {
   );
 
   return [appState, dispatchAppState];
-}
-
-
+};

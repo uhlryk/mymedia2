@@ -12,7 +12,7 @@ export const TopPanelButton = ({
   onClick,
   isActive,
   isVisible = true,
-  children
+  children,
 }: Props): ReactElement => {
   if (!isVisible) {
     return null;

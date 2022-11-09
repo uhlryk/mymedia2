@@ -4,9 +4,7 @@ import { getProjectData } from '../api/getProjectData';
 import { useResourcesStore, ResourceStore } from '../store/useResourcesStore';
 import { setResources } from '../store/resourcesStoreActions';
 
-export const useResources = (
-  projectFolderPath: string
-): ResourceStore => {
+export const useResources = (projectFolderPath: string): ResourceStore => {
   const [resourcesState, dispatchResourcesState] = useResourcesStore();
   useEffect(() => {
     getProjectData(projectFolderPath).then((resources) => {

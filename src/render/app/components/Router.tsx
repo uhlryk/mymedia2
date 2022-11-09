@@ -10,8 +10,8 @@ type Props = {
   };
 };
 export const Router = ({ pages }: Props): ReactElement => {
-  const [
-    { page }
-  ] = useContext<AppStore>(AppStateContext);
-  return <Box sx={{ marginTop: '70px', width: '100%' }}>{pages[page] || null}</Box>;
+  const [{ page }] = useContext<AppStore>(AppStateContext);
+  return (
+    <Box sx={{ marginTop: '70px', width: '100%' }}>{pages[page] || null}</Box>
+  );
 };

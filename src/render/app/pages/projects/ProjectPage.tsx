@@ -29,19 +29,34 @@ export const ProjectPage = (): ReactElement => {
   };
 
   const onRemoveProject = (projectId: string) => {
-    removeProjectFromList(projectId).then(projects => {
-      console.log("A1");
+    removeProjectFromList(projectId).then((projects) => {
+      console.log('A1');
       console.log(projects);
-      setProjectList(projects)
-    })
-  }
+      setProjectList(projects);
+    });
+  };
 
   const tableRows = projectList.map((project) => (
-    <TableRow hover key={project.id} >
-      <TableCell component="th" scope="row" onClick={() => onSelectProject(project.id)}>{project.name}</TableCell>
-      <TableCell component="th" scope="row" onClick={() => onSelectProject(project.id)}>{project.folderPath}</TableCell>
+    <TableRow hover key={project.id}>
+      <TableCell
+        component="th"
+        scope="row"
+        onClick={() => onSelectProject(project.id)}
+      >
+        {project.name}
+      </TableCell>
+      <TableCell
+        component="th"
+        scope="row"
+        onClick={() => onSelectProject(project.id)}
+      >
+        {project.folderPath}
+      </TableCell>
       <TableCell component="th" scope="row" align="center">
-        <IconButton aria-label="open" onClick={() => onSelectProject(project.id)}>
+        <IconButton
+          aria-label="open"
+          onClick={() => onSelectProject(project.id)}
+        >
           <FolderOpenIcon />
         </IconButton>
       </TableCell>
@@ -51,18 +66,23 @@ export const ProjectPage = (): ReactElement => {
         </IconButton>
       </TableCell>
       <TableCell component="th" scope="row" align="center">
-        <IconButton aria-label="delete" onClick={() => onRemoveProject(project.id)}>
+        <IconButton
+          aria-label="delete"
+          onClick={() => onRemoveProject(project.id)}
+        >
           <DeleteIcon />
         </IconButton>
       </TableCell>
-    </TableRow >
+    </TableRow>
   ));
 
   return (
-
-    <TableContainer component={Paper} sx={{
-      padding: '30px'
-    }}>
+    <TableContainer
+      component={Paper}
+      sx={{
+        padding: '30px',
+      }}
+    >
       <Table stickyHeader aria-label="simple table">
         <TableHead>
           <TableRow hover>
@@ -73,11 +93,8 @@ export const ProjectPage = (): ReactElement => {
             <TableCell align="center">Delete</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {tableRows}
-        </TableBody>
+        <TableBody>{tableRows}</TableBody>
       </Table>
-    </TableContainer >
-
+    </TableContainer>
   );
-}
+};

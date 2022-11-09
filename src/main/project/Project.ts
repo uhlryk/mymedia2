@@ -20,22 +20,35 @@ export default class Project {
       async (event, projectPath: string): Promise<IResource[]> => {
         console.log('[Project/set/project-data] start');
 
-        if (!this.specificProject || !this.specificProject.verifyProjectPath(projectPath)) {
+        if (
+          !this.specificProject ||
+          !this.specificProject.verifyProjectPath(projectPath)
+        ) {
           console.log('[Project/set/project-data] new SpecificProject');
           this.specificProject = new SpecificProject(projectPath);
         }
 
         await this.specificProject.waitForResourcesPromise();
 
-        return updateResourceListImagesPathAbsolute(this.specificProject.getResources(), projectPath, Project.FILE_PROTOCOL);
+        return updateResourceListImagesPathAbsolute(
+          this.specificProject.getResources(),
+          projectPath,
+          Project.FILE_PROTOCOL
+        );
       }
     );
 
     ipcMain.handle(
       'set/resource-extra',
-      async (event, { projectPath, resourceId }: IAbsoluteResourceId): Promise<IResource | null> => {
+      async (
+        event,
+        { projectPath, resourceId }: IAbsoluteResourceId
+      ): Promise<IResource | null> => {
         console.log('[Project/set/resource-extra] start');
-        if (!this.specificProject || !this.specificProject.verifyProjectPath(projectPath)) {
+        if (
+          !this.specificProject ||
+          !this.specificProject.verifyProjectPath(projectPath)
+        ) {
           console.error(
             `Requested path ${projectPath} is different than current project path ${projectPath}`
           );
@@ -47,11 +60,21 @@ export default class Project {
           console.error(`Requested resource by path ${resourceId} not found`);
           return null;
         }
-        const resourcePartial = await calculateExtraResourceProps(projectPath, resource);
-        const updatedResource = this.specificProject.updateResource(resource.id, resourcePartial);
+        const resourcePartial = await calculateExtraResourceProps(
+          projectPath,
+          resource
+        );
+        const updatedResource = this.specificProject.updateResource(
+          resource.id,
+          resourcePartial
+        );
 
-        return updateResourceImagesPathAbsolute(updatedResource, projectPath, Project.FILE_PROTOCOL);
-
-      });
+        return updateResourceImagesPathAbsolute(
+          updatedResource,
+          projectPath,
+          Project.FILE_PROTOCOL
+        );
+      }
+    );
   }
 }

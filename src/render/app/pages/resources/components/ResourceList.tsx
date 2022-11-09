@@ -51,4 +51,4 @@ export const ResourceList = ({ list }: Props): ReactElement => {
       </ImageList>
     </Box>
   );
-}
+};

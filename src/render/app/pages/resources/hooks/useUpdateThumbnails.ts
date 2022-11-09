@@ -27,9 +27,8 @@ export const useUpdateThumbanails = ({
         if (stopProcess) {
           break;
         }
-        dispatchResourcesState(updateResource(updatedResource))
+        dispatchResourcesState(updateResource(updatedResource));
       }
-
     };
     if (isLoaded) {
       updateThumbnails();

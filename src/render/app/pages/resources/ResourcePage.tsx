@@ -1,4 +1,9 @@
-import React, { useContext, KeyboardEvent, MouseEvent, ReactElement } from 'react';
+import React, {
+  useContext,
+  KeyboardEvent,
+  MouseEvent,
+  ReactElement,
+} from 'react';
 import { ResourceList } from './components/ResourceList';
 import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
@@ -7,13 +12,9 @@ import { FilterSidePanel } from './components/FilterSidePanel';
 import { useResources } from './hooks/useResources';
 
 export const ResourcePage = (): ReactElement => {
-  const [
-    { project }
-  ] = useContext<AppStore>(AppStateContext);
+  const [{ project }] = useContext<AppStore>(AppStateContext);
 
-  const [resourcesState] = useResources(
-    project.folderPath
-  );
+  const [resourcesState] = useResources(project.folderPath);
 
   const toggleDetailsMenu =
     (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
