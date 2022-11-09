@@ -5,6 +5,7 @@ import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/appStoreActions';
 import { addNewProject } from './api/addNewProject';
+import { Box, TextField, Button } from '@mui/material';
 
 export const CreateProjectPage = (): ReactElement => {
   const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
@@ -16,10 +17,7 @@ export const CreateProjectPage = (): ReactElement => {
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setSubmitting(true);
-    addNewProject(
-      projectName,
-      projectFolderPath
-    ).then((project) => {
+    addNewProject(projectName, projectFolderPath).then((project) => {
       console.log(`[CreateProject] status of set/new-project ${project}`);
       setSubmitting(false);
       dispatchAppState(setProject(project));
@@ -34,28 +32,35 @@ export const CreateProjectPage = (): ReactElement => {
     });
   };
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <input
+    <form onSubmit={onSubmit} >
+      <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{ height: '200px', width: '500px', margin: '50px auto' }} >
+        <TextField
+          id="outlined-basic"
+          label="Set project name"
+          variant="outlined"
           value={projectName}
           onChange={(event) => setProjectName(event.target.value)}
         />
-
-        <input value={projectFolderPath} readOnly />
-
-        <button
+        <TextField
+          id="outlined-basic"
+          label="Project path"
+          variant="outlined"
           onClick={onProjectPathClick}
-          disabled={waitingForDialog || isSubmitting}
-        >
-          Select Folder
-        </button>
-        <button
+          value={projectFolderPath}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
+
+        <Button
           type="submit"
           disabled={!(projectFolderPath && projectName) || isSubmitting}
+          variant="contained"
+          color="primary"
         >
           Submit
-        </button>
-      </form>
-    </div>
+        </Button>
+      </Box>
+    </form >
   );
 };
