@@ -4,21 +4,22 @@ import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/appStoreActions';
+import { addNewProject } from './api/addNewProject';
 
 export const CreateProjectPage = (): ReactElement => {
   const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
 
-  const [submitting, setSubmitting] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectFolderPath, setProjectFolderPath] = useState<string>('');
   const [waitingForDialog, setWaitingForDialog] = useState<boolean>(false);
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setSubmitting(true);
-    fetch<IProject>('add-new-project', {
-      name: projectName,
-      folderPath: projectFolderPath,
-    }).then((project) => {
+    addNewProject(
+      projectName,
+      projectFolderPath
+    ).then((project) => {
       console.log(`[CreateProject] status of set/new-project ${project}`);
       setSubmitting(false);
       dispatchAppState(setProject(project));
@@ -44,13 +45,13 @@ export const CreateProjectPage = (): ReactElement => {
 
         <button
           onClick={onProjectPathClick}
-          disabled={waitingForDialog || submitting}
+          disabled={waitingForDialog || isSubmitting}
         >
           Select Folder
         </button>
         <button
           type="submit"
-          disabled={!(projectFolderPath && projectName) || submitting}
+          disabled={!(projectFolderPath && projectName) || isSubmitting}
         >
           Submit
         </button>
