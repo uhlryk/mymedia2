@@ -1,7 +1,7 @@
 import React, { useState, useContext, ReactElement } from 'react';
+import './createProjectPage.css';
 import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
-import { IProject } from '../../../../shared/IProject';
 import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/appStoreActions';
 import { addNewProject } from './api/addNewProject';
@@ -33,7 +33,7 @@ export const CreateProjectPage = (): ReactElement => {
   };
   return (
     <form onSubmit={onSubmit} >
-      <Box display="flex" flexDirection="column" justifyContent="space-between" sx={{ height: '200px', width: '500px', margin: '50px auto' }} >
+      <Box className='create-project__wrapper' >
         <TextField
           id="outlined-basic"
           label="Set project name"
