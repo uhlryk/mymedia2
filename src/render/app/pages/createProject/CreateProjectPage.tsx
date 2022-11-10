@@ -2,10 +2,10 @@ import React, { useState, useContext, ReactElement } from 'react';
 import './createProjectPage.css';
 import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
-import fetch from '../../../utils/fetch';
 import { setProject } from '../../store/appStoreActions';
 import { addNewProject } from './api/addNewProject';
 import { Box, TextField, Button } from '@mui/material';
+import { openFolderDialog } from './api/openFolderDialog';
 
 export const CreateProjectPage = (): ReactElement => {
   const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
@@ -26,9 +26,11 @@ export const CreateProjectPage = (): ReactElement => {
 
   const onProjectPathClick: React.MouseEventHandler<HTMLInputElement> = () => {
     setWaitingForDialog(true);
-    fetch<string | null>('open-folder-dialog').then((projectPath) => {
+    openFolderDialog().then((projectPath) => {
       setWaitingForDialog(false);
-      setProjectFolderPath(projectPath);
+      if (projectPath) {
+        setProjectFolderPath(projectPath);
+      }
     });
   };
   return (
