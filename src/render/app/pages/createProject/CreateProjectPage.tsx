@@ -8,12 +8,12 @@ import { Box, TextField, Button } from '@mui/material';
 import { openFolderDialog } from './api/openFolderDialog';
 
 export const CreateProjectPage = (): ReactElement => {
-  const [appState, dispatchAppState] = useContext<AppStore>(AppStateContext);
+  const [, dispatchAppState] = useContext<AppStore>(AppStateContext);
 
   const [isSubmitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectFolderPath, setProjectFolderPath] = useState<string>('');
-  const [waitingForDialog, setWaitingForDialog] = useState<boolean>(false);
+  const [, setWaitingForDialog] = useState<boolean>(false);
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     setSubmitting(true);
@@ -34,8 +34,8 @@ export const CreateProjectPage = (): ReactElement => {
     });
   };
   return (
-    <form onSubmit={onSubmit} >
-      <Box className='create-project__wrapper' >
+    <form onSubmit={onSubmit}>
+      <Box className="create-project__wrapper">
         <TextField
           id="outlined-basic"
           label="Set project name"
@@ -63,6 +63,6 @@ export const CreateProjectPage = (): ReactElement => {
           Submit
         </Button>
       </Box>
-    </form >
+    </form>
   );
 };
