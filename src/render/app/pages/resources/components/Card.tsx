@@ -14,16 +14,12 @@ export const Card = ({ resource }: Props): ReactElement => {
                 thumbnail={resource.thumbnails?.at(0)}
                 alt={resource.baseName}
             />
-            {/* <img
-                src={`${resource.thumbnails?.at(0)}?w=248&fit=crop&auto=format`}
-                alt={resource.baseName}
-                loading="lazy"
-            /> */}
             <ImageListItemBar
                 title={resource.baseName}
                 subtitle={resource.relativePath}
                 actionIcon={
                     <IconButton
+                        onClick={() => console.log('show popup with details of resource')}
                         sx={{
                             color: 'rgba(255, 255, 255, 0.54)',
                         }}
@@ -31,6 +27,7 @@ export const Card = ({ resource }: Props): ReactElement => {
                     >
                         <InfoIcon />
                     </IconButton>
+
                 }
             />
         </ImageListItem>

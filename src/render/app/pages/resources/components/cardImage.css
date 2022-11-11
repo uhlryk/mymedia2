@@ -1,0 +1,14 @@
+.card-image__wrapper {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
+  flex-grow: 1;
+}
+
+.card-image__wrapper > img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
