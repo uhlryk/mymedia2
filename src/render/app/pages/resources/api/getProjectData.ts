@@ -4,4 +4,4 @@ import { IResource } from '../../../../../shared/IResource';
 export const getProjectData = async (
   projectFolderPath: string
 ): Promise<IResource[]> =>
-  fetch<IResource[]>('set/project-data', projectFolderPath);
+  fetch<IResource[]>('set-project-data', projectFolderPath);

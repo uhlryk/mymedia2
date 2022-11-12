@@ -1,7 +1,7 @@
 import * as path from 'path';
 import fs from 'fs/promises';
-import { IResource } from '../../../shared/IResource';
-import Project from '../Project';
+import { IResource } from '../../../../shared/IResource';
+import Project from '../../Project';
 import getMetadata, { IMetadata } from './getMetadata';
 import generateThumbnail from './generateThumbnail';
 
@@ -12,13 +12,7 @@ export const calculateExtraResourceProps = async (
   projectPath: string,
   resource: IResource
 ): Promise<ResourceExtraParts> => {
-  const extension = resource.extension;
-  if (!Project.EXTENSIONS_FOR_THUMBNAILS.includes(extension)) {
-    console.error(
-      `Requested resource by path ${resource.relativePath} extension ${extension} is not supported for thumbnails`
-    );
-    return null;
-  }
+
 
   const absoluteResourcePath = getAbsoluteResourcePath(
     projectPath,

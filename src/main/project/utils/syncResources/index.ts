@@ -12,7 +12,7 @@ export const syncResources = async (
     directory: projectPath,
     excludeDirectoriesHash: new Map([[Project.PROJECT_DATA_FOLDER, true]]),
     acceptedFileExtensionsHash: new Map(
-      Project.EXTENSIONS_FOR_THUMBNAILS.map((extension) => [extension, true])
+      Project.VIDEO_EXTENSIONS.map((extension) => [extension, true])
     ),
   });
   const fileDetailsHash = createFileDetailsHash(allFilesFromFs, projectPath);

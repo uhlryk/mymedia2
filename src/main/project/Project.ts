@@ -1,13 +1,15 @@
-import { ipcMain } from 'electron';
+import { ipcMain, shell } from 'electron';
+import path from 'path';
 import { IResource } from '../../shared/IResource';
 import { SpecificProject } from './SpecificProject';
 import { IAbsoluteResourceId } from './interfaces';
-import { calculateExtraResourceProps } from './utils/calculateExtraResourceProps';
+import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraResourceProps';
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
+import { getVideoResourceById } from './utils/getVideoResourceById';
 
 export default class Project {
-  static EXTENSIONS_FOR_THUMBNAILS = ['.mp4', '.wmv', '.mov', '.avi'];
+  static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
   static PROJECT_DATA_FOLDER = 'mymedia';
   static THUMBNAILS_FOLDER = 'thumbnails';
   static FILE_PROTOCOL = 'file://';
@@ -16,7 +18,7 @@ export default class Project {
 
   constructor() {
     ipcMain.handle(
-      'set/project-data',
+      'set-project-data',
       async (event, projectPath: string): Promise<IResource[]> => {
         console.log('[Project/set/project-data] start');
 
@@ -39,42 +41,47 @@ export default class Project {
     );
 
     ipcMain.handle(
-      'set/resource-extra',
+      'set-resource-extra',
       async (
         event,
         { projectPath, resourceId }: IAbsoluteResourceId
       ): Promise<IResource | null> => {
         console.log('[Project/set/resource-extra] start');
-        if (
-          !this.specificProject ||
-          !this.specificProject.verifyProjectPath(projectPath)
-        ) {
-          console.error(
-            `Requested path ${projectPath} is different than current project path ${projectPath}`
-          );
-          return null;
-        }
-        await this.specificProject.waitForResourcesPromise();
-        const resource = this.specificProject.getResourceById(resourceId);
-        if (!resource) {
-          console.error(`Requested resource by path ${resourceId} not found`);
-          return null;
-        }
-        const resourcePartial = await calculateExtraResourceProps(
-          projectPath,
-          resource
-        );
-        const updatedResource = this.specificProject.updateResource(
-          resource.id,
-          resourcePartial
-        );
+        try {
+          const resource = await getVideoResourceById(this.specificProject, projectPath, resourceId);
 
-        return updateResourceImagesPathAbsolute(
-          updatedResource,
-          projectPath,
-          Project.FILE_PROTOCOL
-        );
+          const resourcePartial = await calculateExtraResourceProps(
+            projectPath,
+            resource
+          );
+          const updatedResource = this.specificProject.updateResource(
+            resource.id,
+            resourcePartial
+          );
+
+          return updateResourceImagesPathAbsolute(
+            updatedResource,
+            projectPath,
+            Project.FILE_PROTOCOL
+          );
+        } catch (err) {
+          return null;
+        }
       }
     );
+
+    ipcMain.handle('play-video', async (
+      event,
+      { projectPath, resourceId }: IAbsoluteResourceId
+    ): Promise<boolean | null> => {
+      console.log('[Project/set/resource-extra] start');
+      try {
+        const resource = await getVideoResourceById(this.specificProject, projectPath, resourceId);
+
+        shell.openPath(path.join(projectPath, resource.relativePath));
+      } catch (err) {
+        return null;
+      }
+    });
   }
 }
