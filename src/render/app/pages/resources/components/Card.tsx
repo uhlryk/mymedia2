@@ -1,27 +1,21 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import { IResource } from '../../../../../shared/IResource';
 import { CardImage } from './CardImage';
-import { playVideo } from '../api/playVideo';
-import { AppStateContext } from '../../../store/AppStoreContextProvider';
-import { AppStore } from '../../../store/useAppStore';
 
 type Props = {
     resource: IResource;
+    onPlayVideo: (resourceId: string) => void;
 };
-export const Card = ({ resource }: Props): ReactElement => {
-    const [{ project }] = useContext<AppStore>(AppStateContext);
+export const Card = ({ resource, onPlayVideo }: Props): ReactElement => {
 
-    const onPlayVideo = () => {
-        playVideo(project.folderPath, resource.id);
-    }
     return (
         <ImageListItem>
             <CardImage
                 thumbnail={resource.thumbnails?.at(0)}
                 alt={resource.baseName}
-                onPlayVideo={() => onPlayVideo()}
+                onPlayVideo={() => onPlayVideo(resource.id)}
             />
             <ImageListItemBar
                 title={resource.baseName}
