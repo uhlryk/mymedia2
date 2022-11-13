@@ -8,10 +8,11 @@ import Loader from '../../../../components/Loader';
 import { Card } from './Card';
 type Props = {
   list: IResource[] | null;
-  onPlayVideo: (resourceId: string) => void
+  onPlayVideo: (resourceId: string) => void;
+  onClickDetails: (resourceId: string) => void;
 };
 
-export const ResourceList = ({ list, onPlayVideo }: Props): ReactElement => {
+export const ResourceList = ({ list, onPlayVideo, onClickDetails }: Props): ReactElement => {
   console.log(`[ResourceList] start resources ${list?.length}`);
 
   if (!list) {
@@ -22,7 +23,7 @@ export const ResourceList = ({ list, onPlayVideo }: Props): ReactElement => {
     <Box sx={{ display: 'flex', flexBasis: 'auto', flexGrow: 1 }}>
       <ImageList cols={4} rowHeight={230} sx={{ width: '100%', margin: 0 }}>
         {list.map((resource) => (
-          <Card key={resource.id} resource={resource} onPlayVideo={onPlayVideo} />
+          <Card key={resource.id} resource={resource} onPlayVideo={onPlayVideo} onClickDetails={onClickDetails} />
         ))}
       </ImageList>
     </Box>

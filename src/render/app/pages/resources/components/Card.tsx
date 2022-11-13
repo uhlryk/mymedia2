@@ -7,8 +7,9 @@ import { CardImage } from './CardImage';
 type Props = {
     resource: IResource;
     onPlayVideo: (resourceId: string) => void;
+    onClickDetails: (resourceId: string) => void;
 };
-export const Card = ({ resource, onPlayVideo }: Props): ReactElement => {
+export const Card = ({ resource, onPlayVideo, onClickDetails }: Props): ReactElement => {
 
     return (
         <ImageListItem>
@@ -22,7 +23,7 @@ export const Card = ({ resource, onPlayVideo }: Props): ReactElement => {
                 subtitle={resource.relativePath}
                 actionIcon={
                     <IconButton
-                        onClick={() => console.log('show popup with details of resource')}
+                        onClick={() => onClickDetails(resource.id)}
                         sx={{
                             color: 'rgba(255, 255, 255, 0.54)',
                         }}
