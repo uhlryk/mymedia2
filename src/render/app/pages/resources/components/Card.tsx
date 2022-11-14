@@ -8,7 +8,7 @@ type Props = {
     title?: string;
     subtitle?: string;
     imageSrc: string | null;
-
+    className?: string;
     onClickImage: () => void;
     onClickInfo?: () => void;
 };
@@ -16,6 +16,7 @@ export const Card = ({
     title,
     subtitle,
     imageSrc,
+    className,
     onClickImage,
     onClickInfo,
 }: Props): ReactElement => {
@@ -42,7 +43,7 @@ export const Card = ({
         />
     }
     return (
-        <ImageListItem>
+        <ImageListItem className={className}>
             <CardImage
                 thumbnail={imageSrc}
                 alt={title}

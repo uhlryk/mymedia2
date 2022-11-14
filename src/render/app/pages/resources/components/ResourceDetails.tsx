@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Box,
     Modal,
+    Drawer,
     Fade,
     Backdrop,
     Typography,
@@ -37,27 +38,28 @@ export const ResourceDetails = ({
         />);
     }
     return (
-        <Modal
+        <Drawer
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
             open={!!resourceId}
             onClose={onHideDetails}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
+            anchor='right'
+
         >
-            <Fade in={!!resourceId}>
-                <Box className="resource-details__wrapper">
-                    <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: 0 }}>
-                        {cards}
-                    </ImageList>
-                    <Typography id="transition-modal-title" variant="h6" component="h2">
-                        {resource.baseName}
-                    </Typography>
-                </Box>
-            </Fade>
-        </Modal>
+            <Box className='resource-details__wrapper'>
+                <ImageList cols={1} rowHeight={350} sx={{ width: '100%', margin: 0 }}>
+                    <Card
+                        imageSrc={resource.thumbnails?.at(0)}
+                        onClickImage={() => onClickImage(resource.id)}
+                    />
+                </ImageList>
+                <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: 0 }}>
+                    {cards}
+                </ImageList>
+                <Typography id="transition-modal-title" variant="h6" component="h2">
+                    {resource.baseName}
+                </Typography>
+            </Box>
+        </Drawer>
     );
 };
