@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Modal, Fade, Backdrop, Typography, Button } from '@mui/material';
+import './resourceDetails.css';
 
 import { IResource } from '../../../../../shared/IResource';
 type Props = {
@@ -8,17 +9,6 @@ type Props = {
     onHideDetails: () => void;
 }
 export const ResourceDetails = ({ resourceId, resources, onHideDetails }: Props) => {
-    const style = {
-        position: 'absolute' as const,
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: '70%',
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-    };
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -33,7 +23,7 @@ export const ResourceDetails = ({ resourceId, resources, onHideDetails }: Props)
         >
 
             <Fade in={!!resourceId}>
-                <Box sx={style}>
+                <Box className='resource-details__wrapper'>
                     <Typography id="transition-modal-title" variant="h6" component="h2">
                         Text in a modal
                     </Typography>
