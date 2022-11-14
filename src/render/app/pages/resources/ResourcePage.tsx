@@ -1,7 +1,5 @@
 import React, {
   useContext,
-  KeyboardEvent,
-  MouseEvent,
   ReactElement,
 } from 'react';
 import { ResourceList } from './components/ResourceList';
@@ -19,11 +17,11 @@ export const ResourcePage = (): ReactElement => {
 
   const [resourcesState, dispatchResourcesState] = useResources(project.folderPath);
 
-  const onPlayVideo = (resourceId: string) => {
+  const onClickImage = (resourceId: string) => {
     playVideo(project.folderPath, resourceId);
   }
 
-  const onClickDetails = (resourceId: string) => {
+  const onClickInfo = (resourceId: string) => {
     dispatchResourcesState(showResourceDetails(resourceId))
   }
 
@@ -35,8 +33,8 @@ export const ResourcePage = (): ReactElement => {
     <>
       <Box display="flex" flexDirection="row">
         <FilterSidePanel />
-        <ResourceList list={resourcesState.resources} onPlayVideo={onPlayVideo} onClickDetails={onClickDetails}></ResourceList>
-        <ResourceDetails resourceId={resourcesState.selectedResourceId} resources={resourcesState.resources} onHideDetails={onHideDetails} />
+        <ResourceList list={resourcesState.resources} onClickImage={onClickImage} onClickInfo={onClickInfo}></ResourceList>
+        <ResourceDetails resourceId={resourcesState.selectedResourceId} resources={resourcesState.resources} onHideDetails={onHideDetails} onClickImage={onClickImage} />
       </Box>
     </>
   );
