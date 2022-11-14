@@ -48,7 +48,11 @@ export default class Project {
       ): Promise<IResource | null> => {
         console.log('[Project/set/resource-extra] start');
         try {
-          const resource = await getVideoResourceById(this.specificProject, projectPath, resourceId);
+          const resource = await getVideoResourceById(
+            this.specificProject,
+            projectPath,
+            resourceId
+          );
 
           const resourcePartial = await calculateExtraResourceProps(
             projectPath,
@@ -70,18 +74,25 @@ export default class Project {
       }
     );
 
-    ipcMain.handle('play-video', async (
-      event,
-      { projectPath, resourceId }: IAbsoluteResourceId
-    ): Promise<boolean | null> => {
-      console.log('[Project/set/resource-extra] start');
-      try {
-        const resource = await getVideoResourceById(this.specificProject, projectPath, resourceId);
+    ipcMain.handle(
+      'play-video',
+      async (
+        event,
+        { projectPath, resourceId }: IAbsoluteResourceId
+      ): Promise<boolean | null> => {
+        console.log('[Project/set/resource-extra] start');
+        try {
+          const resource = await getVideoResourceById(
+            this.specificProject,
+            projectPath,
+            resourceId
+          );
 
-        shell.openPath(path.join(projectPath, resource.relativePath));
-      } catch (err) {
-        return null;
+          shell.openPath(path.join(projectPath, resource.relativePath));
+        } catch (err) {
+          return null;
+        }
       }
-    });
+    );
   }
 }

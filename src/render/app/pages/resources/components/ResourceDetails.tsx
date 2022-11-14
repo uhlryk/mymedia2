@@ -1,5 +1,12 @@
 import React from 'react';
-import { Box, Modal, Fade, Backdrop, Typography, ImageList } from '@mui/material';
+import {
+    Box,
+    Modal,
+    Fade,
+    Backdrop,
+    Typography,
+    ImageList,
+} from '@mui/material';
 import './resourceDetails.css';
 import { Card } from './Card';
 import { IResource } from '../../../../../shared/IResource';
@@ -8,13 +15,27 @@ type Props = {
     resources: IResource[];
     onClickImage: (resourceId: string) => void;
     onHideDetails: () => void;
-}
-export const ResourceDetails = ({ resourceId, resources, onHideDetails, onClickImage }: Props) => {
+};
+export const ResourceDetails = ({
+    resourceId,
+    resources,
+    onHideDetails,
+    onClickImage,
+}: Props) => {
     if (!resourceId) {
         return;
     }
-    const resource = resources.find(resource => resource.id === resourceId);
+    const resource = resources.find((resource) => resource.id === resourceId);
 
+
+    const cards = [];
+    for (let i = 0; i < 4; i++) {
+        cards.push(<Card
+            key={`${resource.id}_${i}`}
+            imageSrc={resource.thumbnails?.at(i)}
+            onClickImage={() => onClickImage(resource.id)}
+        />);
+    }
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -27,22 +48,16 @@ export const ResourceDetails = ({ resourceId, resources, onHideDetails, onClickI
                 timeout: 500,
             }}
         >
-
             <Fade in={!!resourceId}>
-                <Box className='resource-details__wrapper'>
-                    <ImageList cols={4} rowHeight={230} sx={{ width: '100%', margin: 0 }}>
-                        {resource.thumbnails.map((thumbnail) => (
-                            <Card key={resource.id} resource={resource} onClickImage={onClickImage} />
-                        ))}
+                <Box className="resource-details__wrapper">
+                    <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: 0 }}>
+                        {cards}
                     </ImageList>
                     <Typography id="transition-modal-title" variant="h6" component="h2">
                         {resource.baseName}
-                    </Typography>
-                    <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
                     </Typography>
                 </Box>
             </Fade>
         </Modal>
     );
-}
+};

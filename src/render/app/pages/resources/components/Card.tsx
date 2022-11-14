@@ -5,36 +5,50 @@ import { IResource } from '../../../../../shared/IResource';
 import { CardImage } from './CardImage';
 
 type Props = {
-    resource: IResource;
-    onClickImage: (resourceId: string) => void;
-    onClickInfo?: (resourceId: string) => void;
-};
-export const Card = ({ resource, onClickImage, onClickInfo }: Props): ReactElement => {
+    title?: string;
+    subtitle?: string;
+    imageSrc: string | null;
 
+    onClickImage: () => void;
+    onClickInfo?: () => void;
+};
+export const Card = ({
+    title,
+    subtitle,
+    imageSrc,
+    onClickImage,
+    onClickInfo,
+}: Props): ReactElement => {
     let iconButton;
     if (onClickInfo) {
-        iconButton = <IconButton
-            onClick={() => onClickInfo(resource.id)}
-            sx={{
-                color: 'rgba(255, 255, 255, 0.54)',
-            }}
-            aria-label={`info about ${resource.baseName}`}
-        >
-            <InfoIcon />
-        </IconButton>;
+        iconButton = (
+            <IconButton
+                onClick={() => onClickInfo()}
+                sx={{
+                    color: 'rgba(255, 255, 255, 0.54)',
+                }}
+                aria-label={`info about ${title}`}
+            >
+                <InfoIcon />
+            </IconButton>
+        );
+    }
+    let itemBar;
+    if (title || subtitle || iconButton) {
+        itemBar = <ImageListItemBar
+            title={title}
+            subtitle={subtitle}
+            actionIcon={iconButton}
+        />
     }
     return (
         <ImageListItem>
             <CardImage
-                thumbnail={resource.thumbnails?.at(0)}
-                alt={resource.baseName}
-                onClickImage={() => onClickImage(resource.id)}
+                thumbnail={imageSrc}
+                alt={title}
+                onClickImage={() => onClickImage()}
             />
-            <ImageListItemBar
-                title={resource.baseName}
-                subtitle={resource.relativePath}
-                actionIcon={iconButton}
-            />
+            {itemBar}
         </ImageListItem>
     );
 };

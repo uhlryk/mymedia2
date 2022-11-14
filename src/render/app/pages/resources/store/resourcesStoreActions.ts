@@ -4,7 +4,7 @@ import {
   SetResourcesAction,
   UpdateResourceAction,
   ShowResourceDetailsAction,
-  HideResourceDetailsAction
+  HideResourceDetailsAction,
 } from './useResourcesStore';
 
 export const setResources = (resources: IResource[]): SetResourcesAction => ({
@@ -21,7 +21,9 @@ export const updateResource = (resource: IResource): UpdateResourceAction => ({
   },
 });
 
-export const showResourceDetails = (resourceId: string): ShowResourceDetailsAction => ({
+export const showResourceDetails = (
+  resourceId: string
+): ShowResourceDetailsAction => ({
   type: ResourceActionType.SHOW_RESOURCE_DETAILS,
   payload: {
     resourceId,
@@ -29,5 +31,5 @@ export const showResourceDetails = (resourceId: string): ShowResourceDetailsActi
 });
 
 export const hideResourceDetails = (): HideResourceDetailsAction => ({
-  type: ResourceActionType.HIDE_RESOURCE_DETAILS
+  type: ResourceActionType.HIDE_RESOURCE_DETAILS,
 });

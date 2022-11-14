@@ -12,8 +12,6 @@ export const calculateExtraResourceProps = async (
   projectPath: string,
   resource: IResource
 ): Promise<ResourceExtraParts> => {
-
-
   const absoluteResourcePath = getAbsoluteResourcePath(
     projectPath,
     resource.relativePath

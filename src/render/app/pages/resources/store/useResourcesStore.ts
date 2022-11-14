@@ -5,7 +5,7 @@ export enum ResourceActionType {
   SET_RESOURCES,
   UPDATE_RESOURCE,
   SHOW_RESOURCE_DETAILS,
-  HIDE_RESOURCE_DETAILS
+  HIDE_RESOURCE_DETAILS,
 }
 
 export type SetResourcesAction = {
@@ -33,7 +33,11 @@ export type HideResourceDetailsAction = {
   type: ResourceActionType.HIDE_RESOURCE_DETAILS;
 };
 
-export type ResourceAction = SetResourcesAction | UpdateResourceAction | ShowResourceDetailsAction | HideResourceDetailsAction;
+export type ResourceAction =
+  | SetResourcesAction
+  | UpdateResourceAction
+  | ShowResourceDetailsAction
+  | HideResourceDetailsAction;
 
 type ResourceState = {
   resources: IResource[];
@@ -44,7 +48,7 @@ type ResourceState = {
 const initialState: ResourceState = {
   resources: [],
   isLoaded: false,
-  selectedResourceId: null
+  selectedResourceId: null,
 };
 
 export type ResourceStore = [
