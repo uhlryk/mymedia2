@@ -46,7 +46,7 @@ export default class Project {
         event,
         { projectPath, resourceId }: IAbsoluteResourceId
       ): Promise<IResource | null> => {
-        console.log('[Project/set/resource-extra] start');
+        console.log(`[Project/set/resource-extra] start ${resourceId}`);
         try {
           const resource = await getVideoResourceById(
             this.specificProject,
@@ -62,13 +62,15 @@ export default class Project {
             resource.id,
             resourcePartial
           );
-
+          console.log(`[Project/set/resource-extra] finished ${resourceId}`);
           return updateResourceImagesPathAbsolute(
             updatedResource,
             projectPath,
             Project.FILE_PROTOCOL
           );
         } catch (err) {
+          console.error(`[Project/set/resource-extra] error ${resourceId}`);
+          console.error(err);
           return null;
         }
       }

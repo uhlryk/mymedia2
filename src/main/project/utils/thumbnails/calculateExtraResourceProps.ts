@@ -10,29 +10,28 @@ export const calculateExtraResourceProps = async (
   projectPath: string,
   resource: IResource
 ): Promise<ResourceExtraParts> => {
+  console.log(`[calculateExtraResourceProps] start ${resource.id}`);
   const absoluteResourcePath = getAbsoluteResourcePath(
     projectPath,
     resource.relativePath
   );
+  console.log(`[calculateExtraResourceProps] start metadata ${resource.id}`);
+  const metadata = await getMetadata(absoluteResourcePath);
 
-  try {
-    const metadata = await getMetadata(absoluteResourcePath);
+  console.log(`[calculateExtraResourceProps] start thumbnails ${resource.id}`);
+  const thumbnails = await generateAllVideoThumbnails({
+    projectPath,
+    absoluteResourcePath,
+    resourceId: resource.id,
+    duration: metadata.duration,
+  });
 
-    const thumbnails = await generateAllVideoThumbnails({
-      projectPath,
-      absoluteResourcePath,
-      resourceId: resource.id,
-      duration: metadata.duration,
-    });
-
-    const updatedResourceParts = {
-      thumbnails,
-      ...metadata,
-    };
-    return updatedResourceParts;
-  } catch (err) {
-    console.log(err);
-  }
+  console.log(`[calculateExtraResourceProps] finished thumbnails ${resource.id}`);
+  const updatedResourceParts = {
+    thumbnails,
+    ...metadata,
+  };
+  return updatedResourceParts;
 };
 
 

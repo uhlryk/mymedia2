@@ -46,6 +46,7 @@ export const generateAllVideoThumbnails = async ({ projectPath, resourceId, abso
         const relativeThumbnailPath = getRelativeThumbnailPath(resourceId, i);
         if (await fileExists(absoluteThumbnailPath)) {
             thumbnails[i] = relativeThumbnailPath;
+            continue;
         }
         const videoPostion = getVideoPosition(i, duration, NUMBER_OF_THUMBNAILS);
         if (
