@@ -1,11 +1,12 @@
 import fetch from '../../../../utils/fetch';
 import { IResource } from '../../../../../shared/IResource';
+import { SET_RESOURCE_EXTRA_CHANNEL } from '../../../../../shared/IPCChannels';
 
 export const requestThumbnails = async (
   projectFolderPath: string,
   resourceId: string
 ): Promise<IResource> =>
-  fetch<IResource>('set-resource-extra', {
+  fetch<IResource>(SET_RESOURCE_EXTRA_CHANNEL, {
     projectPath: projectFolderPath,
     resourceId,
   });

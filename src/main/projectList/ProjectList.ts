@@ -1,6 +1,7 @@
 import { dialog, ipcMain } from 'electron';
 import { IProject } from '../../shared/IProject';
 import Store from './Store';
+import { GET_PROJECT_LIST_CHANNEL, OPEN_FOLDER_DIALOG_CHANNEL, ADD_NEW_PROJECT_CHANNEL, REMOVE_PROJECT_CHANNEL } from '../../shared/IPCChannels';
 
 export default class ProjectList {
   store: Store;
@@ -10,7 +11,7 @@ export default class ProjectList {
     this.store = new Store();
 
     ipcMain.handle(
-      'get-project-list',
+      GET_PROJECT_LIST_CHANNEL,
       async (event, message): Promise<IProject[]> => {
         const projectList = this.store.getProjectList();
         return projectList;
@@ -18,7 +19,7 @@ export default class ProjectList {
     );
 
     ipcMain.handle(
-      'open-folder-dialog',
+      OPEN_FOLDER_DIALOG_CHANNEL,
       async (event, message): Promise<string> => {
         const dialogResponse = await dialog.showOpenDialog({
           properties: ['openDirectory'],
@@ -28,7 +29,7 @@ export default class ProjectList {
     );
 
     ipcMain.handle(
-      'add-new-project',
+      ADD_NEW_PROJECT_CHANNEL,
       async (
         event,
         projectWithoutId: Omit<IProject, 'id'>
@@ -39,7 +40,7 @@ export default class ProjectList {
     );
 
     ipcMain.handle(
-      'remove-project',
+      REMOVE_PROJECT_CHANNEL,
       async (event, projectId: string): Promise<IProject[]> => {
         const projectList = this.store.removeProject(projectId);
         return projectList;

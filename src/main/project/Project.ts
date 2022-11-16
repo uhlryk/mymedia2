@@ -7,6 +7,7 @@ import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraRe
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
 import { getVideoResourceById } from './utils/getVideoResourceById';
+import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL } from '../../shared/IPCChannels';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -18,7 +19,7 @@ export default class Project {
 
   constructor() {
     ipcMain.handle(
-      'set-project-data',
+      SET_PROJECT_DATA_CHANNEL,
       async (event, projectPath: string): Promise<IResource[]> => {
         console.log('[Project/set/project-data] start');
 
@@ -41,7 +42,7 @@ export default class Project {
     );
 
     ipcMain.handle(
-      'set-resource-extra',
+      SET_RESOURCE_EXTRA_CHANNEL,
       async (
         event,
         { projectPath, resourceId }: IAbsoluteResourceId
@@ -77,7 +78,7 @@ export default class Project {
     );
 
     ipcMain.handle(
-      'play-video',
+      PLAY_VIDEO_CHANNEL,
       async (
         event,
         { projectPath, resourceId }: IAbsoluteResourceId
