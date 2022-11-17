@@ -26,23 +26,23 @@ export const CreateProjectPage = (): ReactElement => {
 
   const onProjectPathClick: React.MouseEventHandler<HTMLInputElement> = () => {
     setWaitingForDialog(true);
-    openFolderDialog().then((projectPath) => {
+    openFolderDialog().then((response) => {
+
       setWaitingForDialog(false);
-      if (projectPath) {
+      if (response) {
+        const [projectPath, name] = response;
         setProjectFolderPath(projectPath);
+
+        if (!projectName) {
+          setProjectName(name);
+        }
+
       }
     });
   };
   return (
     <form onSubmit={onSubmit}>
       <Box className="create-project__wrapper">
-        <TextField
-          id="outlined-basic"
-          label="Set project name"
-          variant="outlined"
-          value={projectName}
-          onChange={(event) => setProjectName(event.target.value)}
-        />
         <TextField
           id="outlined-basic"
           label="Project path"
@@ -52,6 +52,13 @@ export const CreateProjectPage = (): ReactElement => {
           InputProps={{
             readOnly: true,
           }}
+        />
+        <TextField
+          id="outlined-basic"
+          label="Set project name"
+          variant="outlined"
+          value={projectName}
+          onChange={(event) => setProjectName(event.target.value)}
         />
 
         <Button

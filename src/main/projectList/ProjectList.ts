@@ -1,4 +1,5 @@
 import { dialog, ipcMain } from 'electron';
+import path from 'path';
 import { IProject } from '../../shared/IProject';
 import Store from './Store';
 import { GET_PROJECT_LIST_CHANNEL, OPEN_FOLDER_DIALOG_CHANNEL, ADD_NEW_PROJECT_CHANNEL, REMOVE_PROJECT_CHANNEL } from '../../shared/IPCChannels';
@@ -20,11 +21,13 @@ export default class ProjectList {
 
     ipcMain.handle(
       OPEN_FOLDER_DIALOG_CHANNEL,
-      async (event, message): Promise<string> => {
+      async (event, message): Promise<[string, string]> => {
         const dialogResponse = await dialog.showOpenDialog({
           properties: ['openDirectory'],
         });
-        return dialogResponse.filePaths[0];
+        const filePath = dialogResponse.filePaths[0];
+        const name = path.parse(filePath).name;
+        return [filePath, name];
       }
     );
 
