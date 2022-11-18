@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import { IFileDetailsHash, IResourceHash } from '../../interfaces';
 import { IResource } from '../../../../shared/IResource';
 
@@ -9,7 +9,10 @@ export default function convertFileDetailsHashToResourceHash(
     [key: string]: IResource;
   }>((acc, [filePath, fileDetails]) => {
     acc[filePath] = {
-      id: uuidv4(),
+      id: crypto.createHash('md5').update(fileDetails.relativePath).digest("hex"),
+      details: '',
+      rating: 0,
+      tags: [],
       ...fileDetails,
     };
     return acc;

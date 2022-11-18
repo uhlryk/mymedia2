@@ -57,7 +57,7 @@ export const ResourceDetails = ({
                     {cards}
                 </ImageList>
                 <Typography id="transition-modal-title" variant="h6" component="h2">
-                    {resource.baseName}
+                    {resource.name}
                 </Typography>
             </Box>
         </Drawer>

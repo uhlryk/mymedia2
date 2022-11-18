@@ -26,7 +26,7 @@ export const ResourceList = ({
         {list.map((resource) => (
           <Card
             key={resource.id}
-            title={resource.baseName}
+            title={resource.name}
             subtitle={resource.relativePath}
             imageSrc={resource.thumbnails?.at(0)}
             onClickImage={() => onClickImage(resource.id)}
