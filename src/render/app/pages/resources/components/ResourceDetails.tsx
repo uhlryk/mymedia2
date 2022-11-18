@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import {
     Box,
-    Modal,
     Drawer,
-    Fade,
-    Backdrop,
-    Typography,
     ImageList,
 } from '@mui/material';
 import './resourceDetails.css';
 import { Card } from './Card';
 import { IResource } from '../../../../../shared/IResource';
+import { ReadWriteValue } from '../../../components/ReadWriteValue';
 type Props = {
     resourceId: string | null;
     resources: IResource[];
@@ -22,7 +19,7 @@ export const ResourceDetails = ({
     resources,
     onHideDetails,
     onClickImage,
-}: Props) => {
+}: Props): ReactElement => {
     if (!resourceId) {
         return;
     }
@@ -53,12 +50,12 @@ export const ResourceDetails = ({
                         onClickImage={() => onClickImage(resource.id)}
                     />
                 </ImageList>
-                <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: 0 }}>
+                <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: '10px 0' }}>
                     {cards}
                 </ImageList>
-                <Typography id="transition-modal-title" variant="h6" component="h2">
-                    {resource.name}
-                </Typography>
+
+                <ReadWriteValue value={resource.name} label='name' onChange={(t) => console.log(t)} />
+
             </Box>
         </Drawer>
     );
