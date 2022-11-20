@@ -3,7 +3,7 @@ import { ResourceList } from './components/ResourceList';
 import { AppStore } from '../../store/useAppStore';
 import { AppStateContext } from '../../store/AppStoreContextProvider';
 import { Box, Modal, Fade, Backdrop, Typography, Button } from '@mui/material';
-import { FilterSidePanel } from './components/FilterSidePanel';
+
 import { useResources } from './hooks/useResources';
 import { playVideo } from './api/playVideo';
 import { ResourceDetails } from './components/ResourceDetails';
@@ -44,21 +44,18 @@ export const ResourcePage = (): ReactElement => {
 
   return (
     <>
-      <Box display="flex" flexDirection="row">
-        <FilterSidePanel />
-        <ResourceList
-          list={resourcesState.resources}
-          onClickImage={onClickImage}
-          onClickInfo={onClickInfo}
-        ></ResourceList>
-        <ResourceDetails
-          resourceId={resourcesState.selectedResourceId}
-          resources={resourcesState.resources}
-          onHideDetails={onHideDetails}
-          onClickImage={onClickImage}
-          onChangeProps={handleOnChangeProps}
-        />
-      </Box>
+      <ResourceList
+        list={resourcesState.resources}
+        onClickImage={onClickImage}
+        onClickInfo={onClickInfo}
+      ></ResourceList>
+      <ResourceDetails
+        resourceId={resourcesState.selectedResourceId}
+        resources={resourcesState.resources}
+        onHideDetails={onHideDetails}
+        onClickImage={onClickImage}
+        onChangeProps={handleOnChangeProps}
+      />
     </>
   );
 };
