@@ -11,8 +11,9 @@ type Props = {
     label: string;
     value: string;
     onChange: (text: string) => void;
+    multiline?: boolean
 }
-export const ReadWriteValue = ({ id, label, value, onChange }: Props) => {
+export const ReadWriteValue = ({ id, label, value, onChange, multiline }: Props) => {
     const [localOnChange, setLocalOnChange] = useState(value);
     const [isEditMode, setEditMode] = useState(false);
     const handleIconClick: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -43,12 +44,15 @@ export const ReadWriteValue = ({ id, label, value, onChange }: Props) => {
     };
 
     return <TextField
+        sx={{ margin: '10px 0' }}
         {...{ id }}
         required
         label={label}
         onChange={(event) => setLocalOnChange(event.target.value)}
         onBlur={handleOnBlur}
         onDoubleClick={handleOnDoubleClick}
+        multiline={multiline}
+        rows={4}
         type='text'
         color={isEditMode ? 'success' : 'secondary'}
         fullWidth={true}

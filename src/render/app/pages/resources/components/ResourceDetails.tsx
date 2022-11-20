@@ -44,6 +44,12 @@ export const ResourceDetails = ({
         })
     }
 
+    const handleOnChangeDetails = (details: string) => {
+        onChangeProps(resourceId, {
+            details
+        })
+    }
+
     return (
         <Drawer
             aria-labelledby="transition-modal-title"
@@ -65,6 +71,7 @@ export const ResourceDetails = ({
                 </ImageList>
 
                 <ReadWriteValue value={resource.name} label='name' onChange={handleOnChangeName} />
+                <ReadWriteValue value={resource.details} label='details' onChange={handleOnChangeDetails} multiline={true} />
 
             </Box>
         </Drawer>
