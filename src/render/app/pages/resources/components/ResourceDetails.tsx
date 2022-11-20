@@ -6,19 +6,22 @@ import {
 } from '@mui/material';
 import './resourceDetails.css';
 import { Card } from './Card';
-import { IResource } from '../../../../../shared/IResource';
+import { IChangeResource, IResource } from '../../../../../shared/IResource';
 import { ReadWriteValue } from '../../../components/ReadWriteValue';
+
 type Props = {
     resourceId: string | null;
     resources: IResource[];
     onClickImage: (resourceId: string) => void;
     onHideDetails: () => void;
+    onChangeProps: (resourceId: string, props: IChangeResource) => void;
 };
 export const ResourceDetails = ({
     resourceId,
     resources,
     onHideDetails,
     onClickImage,
+    onChangeProps
 }: Props): ReactElement => {
     if (!resourceId) {
         return;
@@ -34,6 +37,13 @@ export const ResourceDetails = ({
             onClickImage={() => onClickImage(resource.id)}
         />);
     }
+
+    const handleOnChangeName = (name: string) => {
+        onChangeProps(resourceId, {
+            name
+        })
+    }
+
     return (
         <Drawer
             aria-labelledby="transition-modal-title"
@@ -54,7 +64,7 @@ export const ResourceDetails = ({
                     {cards}
                 </ImageList>
 
-                <ReadWriteValue value={resource.name} label='name' onChange={(t) => console.log(t)} />
+                <ReadWriteValue value={resource.name} label='name' onChange={handleOnChangeName} />
 
             </Box>
         </Drawer>

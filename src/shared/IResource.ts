@@ -10,3 +10,5 @@ export type IResource = {
   height?: number;
   duration?: number;
 } & IFileDetails;
+
+export type IChangeResource = Partial<Omit<IResource, 'id'>>

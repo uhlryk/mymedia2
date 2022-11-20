@@ -10,7 +10,10 @@ import { ResourceDetails } from './components/ResourceDetails';
 import {
   showResourceDetails,
   hideResourceDetails,
+  updateResource,
 } from './store/resourcesStoreActions';
+import { changeResource } from './api/changeResource';
+import { IChangeResource } from '../../../../shared/IResource';
 
 export const ResourcePage = (): ReactElement => {
   const [{ project }] = useContext<AppStore>(AppStateContext);
@@ -31,6 +34,14 @@ export const ResourcePage = (): ReactElement => {
     dispatchResourcesState(hideResourceDetails());
   };
 
+  const handleOnChangeProps = (resourceId: string, props: IChangeResource) => {
+    console.log('res to change', resourceId, props);
+    changeResource(project.folderPath, resourceId, props).then(updatedResource => {
+      console.log('res changed', updatedResource);
+      dispatchResourcesState(updateResource(updatedResource));
+    })
+  };
+
   return (
     <>
       <Box display="flex" flexDirection="row">
@@ -45,6 +56,7 @@ export const ResourcePage = (): ReactElement => {
           resources={resourcesState.resources}
           onHideDetails={onHideDetails}
           onClickImage={onClickImage}
+          onChangeProps={handleOnChangeProps}
         />
       </Box>
     </>

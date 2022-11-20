@@ -2,7 +2,7 @@ import Store from './Store';
 import Project from './Project';
 import { initProject } from './utils/initProject';
 import { syncResources } from './utils/syncResources';
-import { IResource } from '../../shared/IResource';
+import { IResource, IChangeResource } from '../../shared/IResource';
 
 export class SpecificProject {
   private store: Store;
@@ -57,7 +57,7 @@ export class SpecificProject {
 
   updateResource(
     resourceId: string,
-    resourcePartial: Partial<IResource>
+    resourcePartial: IChangeResource
   ): IResource {
     const oldResource = this.getResourceById(resourceId);
     // we want to preserve reference

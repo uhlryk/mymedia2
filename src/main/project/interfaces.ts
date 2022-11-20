@@ -1,5 +1,5 @@
 import { IFileDetails } from '../../shared/IFileDetails';
-import { IResource } from '../../shared/IResource';
+import { IResource, IChangeResource } from '../../shared/IResource';
 
 export type RelativeFilePath = string;
 
@@ -14,4 +14,10 @@ export interface IResourceHash {
 export interface IAbsoluteResourceId {
   projectPath: string;
   resourceId: string;
+}
+
+export interface IAbsoluteResourceIdChanges {
+  projectPath: string;
+  resourceId: string;
+  props: IChangeResource;
 }

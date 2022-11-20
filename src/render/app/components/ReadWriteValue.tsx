@@ -12,7 +12,7 @@ type Props = {
     value: string;
     onChange: (text: string) => void;
 }
-export const ReadWriteValue = ({ label, value, onChange }: Props) => {
+export const ReadWriteValue = ({ id, label, value, onChange }: Props) => {
     const [localOnChange, setLocalOnChange] = useState(value);
     const [isEditMode, setEditMode] = useState(false);
     const handleIconClick: MouseEventHandler<HTMLButtonElement> = (event) => {
@@ -30,6 +30,7 @@ export const ReadWriteValue = ({ label, value, onChange }: Props) => {
     };
 
     return <TextField
+        {...{ id }}
         required
         label={label}
         onChange={(event) => setLocalOnChange(event.target.value)}

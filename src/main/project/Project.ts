@@ -2,12 +2,12 @@ import { ipcMain, shell } from 'electron';
 import path from 'path';
 import { IResource } from '../../shared/IResource';
 import { SpecificProject } from './SpecificProject';
-import { IAbsoluteResourceId } from './interfaces';
+import { IAbsoluteResourceId, IAbsoluteResourceIdChanges } from './interfaces';
 import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraResourceProps';
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
 import { getVideoResourceById } from './utils/getVideoResourceById';
-import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL } from '../../shared/IPCChannels';
+import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE } from '../../shared/IPCChannels';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -97,5 +97,27 @@ export default class Project {
         }
       }
     );
+
+    ipcMain.handle(CHANGE_RESOURCE, async (event, { projectPath, resourceId, props }: IAbsoluteResourceIdChanges): Promise<IResource> => {
+      try {
+        const resource = await getVideoResourceById(
+          this.specificProject,
+          projectPath,
+          resourceId
+        );
+
+        const updatedResource = this.specificProject.updateResource(
+          resource.id,
+          props
+        );
+        return updateResourceImagesPathAbsolute(
+          updatedResource,
+          projectPath,
+          Project.FILE_PROTOCOL
+        );
+      } catch (err) {
+        return null;
+      }
+    })
   }
 }
