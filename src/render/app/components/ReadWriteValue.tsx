@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler, FocusEventHandler, useState } from 'react';
 import {
     TextField,
     InputAdornment,
@@ -29,11 +29,26 @@ export const ReadWriteValue = ({ id, label, value, onChange }: Props) => {
         event.preventDefault();
     };
 
+    const handleOnBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+        if (isEditMode) {
+            onChange(localOnChange);
+            setEditMode(false);
+        }
+    }
+
+    const handleOnDoubleClick: MouseEventHandler<HTMLInputElement> = (event) => {
+        if (!isEditMode) {
+            setEditMode(true);
+        }
+    };
+
     return <TextField
         {...{ id }}
         required
         label={label}
         onChange={(event) => setLocalOnChange(event.target.value)}
+        onBlur={handleOnBlur}
+        onDoubleClick={handleOnDoubleClick}
         type='text'
         color={isEditMode ? 'success' : 'secondary'}
         fullWidth={true}
