@@ -1,9 +1,12 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, SyntheticEvent } from 'react';
 import {
     Box,
     Drawer,
     ImageList,
+    Rating,
+    RatingProps,
 } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
 import './resourceDetails.css';
 import { Card } from './Card';
 import { IChangeResource, IResource } from '../../../../../shared/IResource';
@@ -50,6 +53,23 @@ export const ResourceDetails = ({
         })
     }
 
+    const handleOnChangeRating = (event: SyntheticEvent, value: number) => {
+        onChangeProps(resourceId, {
+            rating: value
+        })
+    }
+
+    const [hover, setHover] = React.useState(-1);
+
+    const labels: { [index: string]: string } = {
+        0: 'Not rated',
+        1: 'Useless',
+        2: 'Poor',
+        3: 'Ok',
+        4: 'Good',
+        5: 'Excellent',
+    };
+
     return (
         <Drawer
             aria-labelledby="transition-modal-title"
@@ -69,6 +89,29 @@ export const ResourceDetails = ({
                 <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: '10px 0' }}>
                     {cards}
                 </ImageList>
+
+                <Box
+                    sx={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        height: '80px',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Rating
+                        name="hover-feedback"
+                        size="large"
+                        value={resource.rating}
+                        onChange={handleOnChangeRating}
+                        onChangeActive={(event, newHover) => {
+                            setHover(newHover);
+                        }}
+                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                    />
+                    <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : resource.rating]}</Box>
+                </Box>
 
                 <ReadWriteValue value={resource.name} label='name' onChange={handleOnChangeName} />
                 <ReadWriteValue value={resource.details} label='details' onChange={handleOnChangeDetails} multiline={true} />
