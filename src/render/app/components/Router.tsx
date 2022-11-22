@@ -1,17 +1,15 @@
-import React, { useContext, ReactElement } from 'react';
-import { AppStore } from '../store/useAppStore';
-import { AppStateContext } from '../store/AppStoreContextProvider';
-
+import React, { ReactElement } from 'react';
+import { Page } from '../store/useAppStore';
 import { Box } from '@mui/material';
 
 type Props = {
   pages: {
     [key: string]: ReactElement;
   };
+  currentPage: Page
 };
-export const Router = ({ pages }: Props): ReactElement => {
-  const [{ page }] = useContext<AppStore>(AppStateContext);
+export const Router = ({ pages, currentPage }: Props): ReactElement => {
   return (
-    <Box sx={{ marginTop: '75px', width: '100%' }}>{pages[page] || null}</Box>
+    <Box sx={{ marginTop: '75px', width: '100%' }}>{pages[currentPage] || null}</Box>
   );
 };
