@@ -6,8 +6,8 @@ import {
 } from '@mui/material';
 import './resourceDetails.css';
 import { Card } from './Card';
-import { IChangeResource, IResource } from '../../../../../shared/IResource';
-import { ReadWriteValue } from '../../../components/ReadWriteValue';
+import { IChangeResource, IResource } from '../../../../../../../shared/IResource';
+import { ReadWriteValue } from '../../../../../components/ReadWriteValue';
 import { ResourceRating } from './ResourceRating';
 
 type Props = {

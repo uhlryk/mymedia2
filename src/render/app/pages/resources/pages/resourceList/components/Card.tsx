@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { ImageListItem, ImageListItemBar, IconButton } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-import { IResource } from '../../../../../shared/IResource';
+import { IResource } from '../../../../../../../shared/IResource';
 import { CardImage } from './CardImage';
 
 type Props = {
