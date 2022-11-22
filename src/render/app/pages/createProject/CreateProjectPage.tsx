@@ -1,14 +1,14 @@
 import React, { useState, useContext, ReactElement } from 'react';
 import './createProjectPage.css';
 import { AppStore } from '../../store/useAppStore';
-import { AppStateContext } from '../../store/AppStoreContextProvider';
+import { AppStoreContext } from '../../store/AppStoreContextProvider';
 import { setProject } from '../../store/appStoreActions';
 import { addNewProject } from './api/addNewProject';
 import { Box, TextField, Button } from '@mui/material';
 import { openFolderDialog } from './api/openFolderDialog';
 
 export const CreateProjectPage = (): ReactElement => {
-  const [, dispatchAppState] = useContext<AppStore>(AppStateContext);
+  const [, dispatchAppState] = useContext<AppStore>(AppStoreContext);
 
   const [isSubmitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');

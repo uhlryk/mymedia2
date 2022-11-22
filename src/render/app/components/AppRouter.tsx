@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { AppStore } from '../store/useAppStore';
-import { AppStateContext } from '../store/AppStoreContextProvider';
+import { AppStoreContext } from '../store/AppStoreContextProvider';
 import { Page } from '../store/useAppStore';
 import { ResourcePage } from '../pages/resources/ResourcePage';
 import { ProjectPage } from '../pages/projects/ProjectPage';
@@ -14,7 +14,7 @@ const pages = {
     [Page.CREATE_PROJECT_PAGE]: <CreateProjectPage />,
 };
 export const AppRouter = () => {
-    const [{ page }] = useContext<AppStore>(AppStateContext);
+    const [{ page }] = useContext<AppStore>(AppStoreContext);
 
     return <Router pages={pages} currentPage={page} />
 }

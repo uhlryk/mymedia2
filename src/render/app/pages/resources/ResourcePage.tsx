@@ -1,7 +1,7 @@
 import React, { useContext, ReactElement } from 'react';
 import { ResourceList } from './components/ResourceList';
 import { AppStore } from '../../store/useAppStore';
-import { AppStateContext } from '../../store/AppStoreContextProvider';
+import { AppStoreContext } from '../../store/AppStoreContextProvider';
 import { Box, Modal, Fade, Backdrop, Typography, Button } from '@mui/material';
 
 import { useResources } from './hooks/useResources';
@@ -14,13 +14,18 @@ import {
 } from './store/resourcesStoreActions';
 import { changeResource } from './api/changeResource';
 import { IChangeResource } from '../../../../shared/IResource';
+import { ResourceContext } from './store/ResourceContextProvider';
 
 export const ResourcePage = (): ReactElement => {
-  const [{ project }] = useContext<AppStore>(AppStateContext);
+  const [{ project }] = useContext<AppStore>(AppStoreContext);
 
-  const [resourcesState, dispatchResourcesState] = useResources(
-    project.folderPath
-  );
+  // const [resourcesState, dispatchResourcesState] = useResources(
+  //   project.folderPath
+  // );
+
+  const resourceStore = useResources(project.folderPath);
+
+  const [resourcesState, dispatchResourcesState] = resourceStore;
 
   const onClickImage = (resourceId: string) => {
     playVideo(project.folderPath, resourceId);
@@ -43,7 +48,7 @@ export const ResourcePage = (): ReactElement => {
   };
 
   return (
-    <>
+    <ResourceContext.Provider value={resourceStore}>
       <ResourceList
         list={resourcesState.resources}
         onClickImage={onClickImage}
@@ -56,6 +61,6 @@ export const ResourcePage = (): ReactElement => {
         onClickImage={onClickImage}
         onChangeProps={handleOnChangeProps}
       />
-    </>
+    </ResourceContext.Provider>
   );
 };

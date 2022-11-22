@@ -2,11 +2,11 @@ import { AppBar, Toolbar } from '@mui/material';
 import React, { MouseEventHandler, useContext, ReactElement } from 'react';
 import { clearProject, createProject } from '../store/appStoreActions';
 import { AppStore, Page } from '../store/useAppStore';
-import { AppStateContext } from '../store/AppStoreContextProvider';
+import { AppStoreContext } from '../store/AppStoreContextProvider';
 import { TopPanelButton } from './TopPanelButton';
 
 export const TopPanel = (): ReactElement => {
-  const [{ page }, dispatchAppState] = useContext<AppStore>(AppStateContext);
+  const [{ page }, dispatchAppState] = useContext<AppStore>(AppStoreContext);
 
   const onProjectsClick: MouseEventHandler = () => {
     dispatchAppState(clearProject());

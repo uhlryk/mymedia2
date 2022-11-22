@@ -1,17 +1,17 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, ReactElement, createContext } from 'react';
 import { useAppStore, AppStore } from './useAppStore';
+
+export const AppStoreContext = createContext<AppStore | null>(null);
 
 type Props = {
   children: ReactNode;
 };
 
-export const AppStateContext = React.createContext<AppStore | null>(null);
-
 export const AppStoreContextProvider = ({ children }: Props): ReactElement => {
-  const appState = useAppStore();
+  const appStore = useAppStore();
   return (
-    <AppStateContext.Provider value={appState}>
+    <AppStoreContext.Provider value={appStore}>
       {children}{' '}
-    </AppStateContext.Provider>
+    </AppStoreContext.Provider>
   );
 };
