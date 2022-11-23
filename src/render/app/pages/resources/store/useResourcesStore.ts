@@ -1,26 +1,13 @@
 import { Dispatch, useReducer } from 'react';
 import { IResource } from '../../../../../shared/IResource';
 
-export enum Page {
-  RESOURCE_LIST_PAGE,
-  TAGS_LIST_PAGE,
-  PLAYLIST_PAGE,
-}
-
 export enum ResourceActionType {
   SET_RESOURCES,
   UPDATE_RESOURCE,
   SHOW_RESOURCE_DETAILS,
-  HIDE_RESOURCE_DETAILS,
-  NAVIGATE_PAGE,
+  HIDE_RESOURCE_DETAILS
 }
 
-export type RouteAction = {
-  type: ResourceActionType.NAVIGATE_PAGE;
-  payload: {
-    page: Page.PLAYLIST_PAGE | Page.RESOURCE_LIST_PAGE | Page.TAGS_LIST_PAGE;
-  };
-};
 
 export type SetResourcesAction = {
   type: ResourceActionType.SET_RESOURCES;
@@ -52,17 +39,14 @@ export type ResourceAction =
   | UpdateResourceAction
   | ShowResourceDetailsAction
   | HideResourceDetailsAction
-  | RouteAction;
 
 type ResourceState = {
-  page: Page;
   resources: IResource[];
   isLoaded: boolean;
   selectedResourceId: string | null;
 };
 
 const initialState: ResourceState = {
-  page: Page.RESOURCE_LIST_PAGE,
   resources: [],
   isLoaded: false,
   selectedResourceId: null,
@@ -104,12 +88,6 @@ export const useResourcesStore = (): ResourceStore => {
           return {
             ...state,
             selectedResourceId: null,
-          };
-        }
-        case ResourceActionType.NAVIGATE_PAGE: {
-          return {
-            ...state,
-            page: action.payload.page,
           };
         }
         default:

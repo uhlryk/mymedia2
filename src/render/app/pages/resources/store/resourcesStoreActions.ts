@@ -5,8 +5,6 @@ import {
   UpdateResourceAction,
   ShowResourceDetailsAction,
   HideResourceDetailsAction,
-  ResourceAction,
-  Page,
 } from './useResourcesStore';
 
 export const setResources = (resources: IResource[]): SetResourcesAction => ({
@@ -34,13 +32,4 @@ export const showResourceDetails = (
 
 export const hideResourceDetails = (): HideResourceDetailsAction => ({
   type: ResourceActionType.HIDE_RESOURCE_DETAILS,
-});
-
-export const routeAction = (
-  page: Page
-): ResourceAction => ({
-  type: ResourceActionType.NAVIGATE_PAGE,
-  payload: {
-    page,
-  },
 });

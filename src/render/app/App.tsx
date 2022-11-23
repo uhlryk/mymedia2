@@ -11,7 +11,9 @@ export const App: FC = () => {
       <Box display="flex">
         <CssBaseline />
         <TopPanel />
-        <AppRouter />
+        <Box sx={{ marginTop: '75px', width: '100%' }}>
+          <AppRouter />
+        </Box>
       </Box>
     </AppStoreContextProvider>
   );

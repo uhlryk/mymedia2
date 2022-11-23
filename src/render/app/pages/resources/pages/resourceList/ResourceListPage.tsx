@@ -1,6 +1,4 @@
-import { Box } from '@mui/material';
 import React, { ReactElement, useContext } from 'react';
-import { FilterSidePanel } from './components/FilterSidePanel';
 import Loader from '../../../../../components/Loader';
 import { ResourceStore } from '../../store/useResourcesStore';
 import { ResourceStoreContext } from '../../store/ResourceStoreContextProvider';
@@ -32,9 +30,7 @@ export const ResourceListPage = (): ReactElement => {
   };
 
   const handleOnChangeProps = (resourceId: string, props: IChangeResource) => {
-    console.log('res to change', resourceId, props);
     changeResource(project.folderPath, resourceId, props).then(updatedResource => {
-      console.log('res changed', updatedResource);
       dispatchResourcesState(updateResource(updatedResource));
     })
   };
@@ -45,10 +41,7 @@ export const ResourceListPage = (): ReactElement => {
 
   return (
     <>
-      <Box display="flex" flexDirection="row">
-        <FilterSidePanel />
-        <CardList list={resourcesState.resources} onClickImage={onClickImage} onClickInfo={onClickInfo} />
-      </Box >
+      <CardList list={resourcesState.resources} onClickImage={onClickImage} onClickInfo={onClickInfo} />
       <ResourceDetails
         resourceId={resourcesState.selectedResourceId}
         resources={resourcesState.resources}

@@ -1,20 +1,19 @@
 import React, { useContext } from 'react';
 
-import { AppStore } from '../../../store/useAppStore';
-import { AppStoreContext } from '../../../store/AppStoreContextProvider';
-import { Page } from '../../../store/useAppStore';
-import { ResourcePage } from '../ResourcePage';
-import { ProjectPage } from '../../projects/ProjectPage';
-import { CreateProjectPage } from '../../createProject/CreateProjectPage';
 import { Router } from '../../../components/Router';
+import { PlayListPage } from '../pages/playList/PlayListPage';
+import { ResourceListPage } from '../pages/resourceList/ResourceListPage';
+import { TagsListPage } from '../pages/tagsList/TagsListPage';
+import { AppStore, ResourceSubPage } from '../../../store/useAppStore';
+import { AppStoreContext } from '../../../store/AppStoreContextProvider';
 
 const pages = {
-    [Page.PROJECT_PAGE]: <ProjectPage />,
-    [Page.RESOURCE_PAGE]: <ResourcePage />,
-    [Page.CREATE_PROJECT_PAGE]: <CreateProjectPage />,
+    [ResourceSubPage.PLAY_LIST_PAGE]: <PlayListPage />,
+    [ResourceSubPage.RESOURCE_LIST_PAGE]: <ResourceListPage />,
+    [ResourceSubPage.TAGS_LIST_PAGE]: <TagsListPage />,
 };
-export const AppRouter = () => {
-    const [{ page }] = useContext<AppStore>(AppStoreContext);
+export const ResourceRouter = () => {
+    const [{ subPage }] = useContext<AppStore>(AppStoreContext);
 
-    return <Router pages={pages} currentPage={page} />
+    return <Router pages={pages} currentPage={subPage} />
 }
