@@ -5,7 +5,9 @@ import { AppStoreContext } from '../../store/AppStoreContextProvider';
 import { ResourceStoreContextProvider } from './store/ResourceStoreContextProvider';
 import { Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
-import { ResourceRouter } from './components/ResourceRouter';
+import {
+  Outlet
+} from "react-router-dom";
 
 export const ResourcePage = (): ReactElement => {
   const [{ project }] = useContext<AppStore>(AppStoreContext);
@@ -14,7 +16,7 @@ export const ResourcePage = (): ReactElement => {
     <ResourceStoreContextProvider projectPath={project.folderPath}>
       <Box display="flex" flexDirection="row">
         <FilterSidePanel />
-        <ResourceRouter />
+        <Outlet />
       </Box>
 
 

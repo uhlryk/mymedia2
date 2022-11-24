@@ -30,8 +30,6 @@ export const ProjectPage = (): ReactElement => {
 
   const onRemoveProject = (projectId: string) => {
     removeProjectFromList(projectId).then((projects) => {
-      console.log('A1');
-      console.log(projects);
       setProjectList(projects);
     });
   };
