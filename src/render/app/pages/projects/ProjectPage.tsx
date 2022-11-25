@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement, ReactNode, useContext, useEffect } from 'react';
 import { AppStore } from '../../store/useAppStore';
 import { AppStoreContext } from '../../store/AppStoreContextProvider';
 import { setProject } from '../../store/appStoreActions';
@@ -19,9 +19,9 @@ import { removeProjectFromList } from './api/removeProjectFromList';
 
 export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
-  const [appState, dispatchAppState] = useContext<AppStore>(AppStoreContext);
-
+  const [, dispatchAppState] = useContext<AppStore>(AppStoreContext);
   const [projectList, isLoading, setProjectList] = useProjectList();
+
 
   const onSelectProject = (id: string) => {
     const project = projectList.find((project) => project.id === id);
