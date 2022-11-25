@@ -22,8 +22,7 @@ export const projectsSlice = createSlice({
         setCurrentProject: (state, action: PayloadAction<IProject>) => {
             state.current = action.payload;
         },
-        setNewCurrentProject: (state, action: PayloadAction<IProject>) => {
-            state.current = action.payload;
+        addNewProject: (state, action: PayloadAction<IProject>) => {
             state.list.push(action.payload);
         },
         clearCurrentProject: (state) => {
@@ -33,6 +32,6 @@ export const projectsSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setProjects, setCurrentProject, setNewCurrentProject, clearCurrentProject } = projectsSlice.actions
+export const { setProjects, setCurrentProject, addNewProject, clearCurrentProject } = projectsSlice.actions
 
 export default projectsSlice.reducer

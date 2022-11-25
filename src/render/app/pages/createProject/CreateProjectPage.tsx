@@ -1,13 +1,15 @@
-import React, { useState, useContext, ReactElement } from 'react';
+import React, { useState, ReactElement } from 'react';
 import './createProjectPage.css';
 import { addNewProject } from './api/addNewProject';
 import { Box, TextField, Button } from '@mui/material';
 import { openFolderDialog } from './api/openFolderDialog';
-import { useSelector, useDispatch } from 'react-redux';
-import { setNewCurrentProject } from '../../store/projectsSlice';
+import { useDispatch } from 'react-redux';
+import { addNewProject as addNewProjectAction } from '../../store/projectsSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateProjectPage = (): ReactElement => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const [isSubmitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectFolderPath, setProjectFolderPath] = useState<string>('');
@@ -18,7 +20,8 @@ export const CreateProjectPage = (): ReactElement => {
     addNewProject(projectName, projectFolderPath).then((project) => {
       console.log(`[CreateProject] status of set/new-project ${project}`);
       setSubmitting(false);
-      dispatch(setNewCurrentProject(project));
+      dispatch(addNewProjectAction(project))
+      navigate(`/resources/${project.id}/resources`);
     });
   };
 
