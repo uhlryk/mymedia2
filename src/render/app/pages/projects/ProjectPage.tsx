@@ -1,17 +1,16 @@
-import React, { ReactElement, useState, useContext, useEffect } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { removeProjectFromList } from './api/removeProjectFromList';
 import { ProjectList } from './components/ProjectList';
-import { useDispatch, useSelector } from 'react-redux';
-import { setProjects } from '../../store/projectsSlice';
+import { selectProjectList, setProjects } from '../../store/projectsSlice';
 import { getProjectList } from './api/getProjectList';
-import { RootState } from '../../store/store';
+import { useAppSelector, useAppDispatch } from '../../store/store';
 
 export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
-  const { list: projectList } = useSelector((state: RootState) => state.projects)
+  const projectList = useAppSelector(selectProjectList);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(true);

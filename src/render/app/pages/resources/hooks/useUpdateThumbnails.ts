@@ -1,40 +1,38 @@
-import { Dispatch, useEffect } from 'react';
-import { IResource } from '../../../../../shared/IResource';
-import { updateResource } from '../store/resourcesStoreActions';
-import { ResourceAction } from '../store/useResourcesStore';
+import { useEffect } from 'react';
+import { selectCurrentProject } from '../../../store/projectsSlice';
+import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { requestThumbnailsGenerator } from './requestThumbnailsGenerator';
+import { selectIsResourcesLoaded, selectResouceList, updateResource } from '../store/resourcesSlice';
 
-type IInputUseUpdateThumbanails = {
-  projectFolderPath: string;
-  isLoaded: boolean;
-  resources: IResource[];
-  dispatchResourcesState: Dispatch<ResourceAction>;
-};
-export const useUpdateThumbanails = ({
-  projectFolderPath,
-  isLoaded,
-  resources,
-  dispatchResourcesState,
-}: IInputUseUpdateThumbanails): void => {
+export const useUpdateThumbanails = (): void => {
+  const currentProject = useAppSelector(selectCurrentProject);
+  const folderPath = currentProject?.folderPath;
+
+  const isLoaded = useAppSelector(selectIsResourcesLoaded);
+  const resourceList = useAppSelector(selectResouceList);
+  const dispatch = useAppDispatch()
+
   useEffect(() => {
     let stopProcess = false;
-    const updateThumbnails = async () => {
-      const asyncGenRequestThumbnails = requestThumbnailsGenerator({
-        projectFolderPath,
-        resources,
-      });
-      for await (const updatedResource of asyncGenRequestThumbnails) {
-        if (stopProcess) {
-          break;
+    if (folderPath) {
+      const updateThumbnails = async () => {
+        const asyncGenRequestThumbnails = requestThumbnailsGenerator({
+          projectFolderPath: folderPath,
+          resources: resourceList,
+        });
+        for await (const updatedResource of asyncGenRequestThumbnails) {
+          if (stopProcess) {
+            break;
+          }
+          dispatch(updateResource(updatedResource));
         }
-        dispatchResourcesState(updateResource(updatedResource));
+      };
+      if (isLoaded) {
+        updateThumbnails();
       }
-    };
-    if (isLoaded) {
-      updateThumbnails();
     }
     return () => {
       stopProcess = true;
     };
-  }, [isLoaded]);
+  }, [isLoaded, folderPath]);
 };

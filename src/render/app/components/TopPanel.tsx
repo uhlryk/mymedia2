@@ -1,11 +1,11 @@
 import { AppBar, Toolbar, Tabs, Tab } from '@mui/material';
 import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
-import { RootState } from '../store/store';
+import { selectCurrentProject } from '../store/projectsSlice';
+import { useAppSelector } from '../store/store';
 
 export const TopPanel = (): ReactElement => {
-  const { current: currentProject } = useSelector((state: RootState) => state.projects)
+  const currentProject = useAppSelector(selectCurrentProject)
   const { pathname } = useLocation();
   console.log(pathname);
   return (

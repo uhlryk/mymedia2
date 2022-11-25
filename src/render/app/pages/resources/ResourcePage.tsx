@@ -5,13 +5,18 @@ import { FilterSidePanel } from './components/FilterSidePanel';
 import {
   Outlet, useParams
 } from "react-router-dom";
-import { RootState } from '../../store/store';
-import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentProject } from '../../store/projectsSlice';
+import { useAppSelector, useAppDispatch } from '../../store/store';
+import { selectProjects, setCurrentProject } from '../../store/projectsSlice';
+import { getProjectData } from './api/getProjectData';
+import { selectIsResourcesLoaded, selectResouceList, setResources } from './store/resourcesSlice';
+import { useUpdateThumbanails } from './hooks/useUpdateThumbnails';
 
 export const ResourcePage = (): ReactElement => {
-  const { current: currentProject, list: projectList } = useSelector((state: RootState) => state.projects);
-  const dispatch = useDispatch()
+  const { current: currentProject, list: projectList } = useAppSelector(selectProjects);
+  const resourceList = useAppSelector(selectResouceList);
+
+
+  const dispatch = useAppDispatch()
   const { projectId } = useParams();
 
   useEffect(() => {
@@ -20,6 +25,16 @@ export const ResourcePage = (): ReactElement => {
       dispatch(setCurrentProject(project))
     }
   }, [currentProject, projectId]);
+
+  useEffect(() => {
+    if (currentProject) {
+      getProjectData(currentProject.folderPath).then((resources) => {
+        dispatch(setResources(resources));
+      });
+    }
+  }, [currentProject]);
+
+  useUpdateThumbanails();
 
   if (!currentProject) {
     return <></>;
