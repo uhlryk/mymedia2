@@ -1,15 +1,13 @@
 import React, { useState, useContext, ReactElement } from 'react';
 import './createProjectPage.css';
-import { AppStore } from '../../store/useAppStore';
-import { AppStoreContext } from '../../store/AppStoreContextProvider';
-import { setProject } from '../../store/appStoreActions';
 import { addNewProject } from './api/addNewProject';
 import { Box, TextField, Button } from '@mui/material';
 import { openFolderDialog } from './api/openFolderDialog';
+import { useSelector, useDispatch } from 'react-redux';
+import { setNewCurrentProject } from '../../store/projectsSlice';
 
 export const CreateProjectPage = (): ReactElement => {
-  const [, dispatchAppState] = useContext<AppStore>(AppStoreContext);
-
+  const dispatch = useDispatch()
   const [isSubmitting, setSubmitting] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectFolderPath, setProjectFolderPath] = useState<string>('');
@@ -20,7 +18,7 @@ export const CreateProjectPage = (): ReactElement => {
     addNewProject(projectName, projectFolderPath).then((project) => {
       console.log(`[CreateProject] status of set/new-project ${project}`);
       setSubmitting(false);
-      dispatchAppState(setProject(project));
+      dispatch(setNewCurrentProject(project));
     });
   };
 

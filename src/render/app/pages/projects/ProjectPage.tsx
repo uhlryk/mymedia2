@@ -1,26 +1,33 @@
-import React, { ReactElement, ReactNode, useContext, useEffect } from 'react';
+import React, { ReactElement, useState, useContext, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { AppStore } from '../../store/useAppStore';
-import { AppStoreContext } from '../../store/AppStoreContextProvider';
-import { setProject } from '../../store/appStoreActions';
-import { useProjectList } from './hooks/useProjectList';
 import { removeProjectFromList } from './api/removeProjectFromList';
 import { ProjectList } from './components/ProjectList';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProjects } from '../../store/projectsSlice';
+import { getProjectList } from './api/getProjectList';
+import { RootState } from '../../store/store';
 
 export const ProjectPage = (): ReactElement => {
   console.log(`[SelectProject] start `);
-  const [, dispatchAppState] = useContext<AppStore>(AppStoreContext);
-  const [projectList, isLoading, setProjectList] = useProjectList();
-
+  const { list: projectList } = useSelector((state: RootState) => state.projects)
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    getProjectList().then((projectList) => {
+      setLoading(false);
+      dispatch(setProjects(projectList))
+    });
+  }, []);
 
   const onSelectProject = (id: string) => {
-    const project = projectList.find((project) => project.id === id);
-    dispatchAppState(setProject(project));
+    navigate(`/resources/${id}/resources`);
   };
 
   const onRemoveProject = (projectId: string) => {
-    removeProjectFromList(projectId).then((projects) => {
-      setProjectList(projects);
+    removeProjectFromList(projectId).then((projectList) => {
+      dispatch(setProjects(projectList))
     });
   };
 

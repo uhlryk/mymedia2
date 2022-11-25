@@ -3,11 +3,13 @@ import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import './App.css';
 import { TopPanel } from './components/TopPanel';
-import { AppStoreContextProvider } from './store/AppStoreContextProvider';
+// import { AppStoreContextProvider } from './store/AppStoreContextProvider';
+import { store } from './store/store'
+import { Provider } from 'react-redux'
 
 export const App: FC = () => {
   return (
-    <AppStoreContextProvider>
+    <Provider store={store}>
       <Box display="flex">
         <CssBaseline />
         <TopPanel />
@@ -15,6 +17,6 @@ export const App: FC = () => {
           <Outlet />
         </Box>
       </Box>
-    </AppStoreContextProvider>
+    </Provider>
   );
 };

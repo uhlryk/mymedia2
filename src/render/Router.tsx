@@ -25,11 +25,11 @@ const router = createMemoryRouter([
         element: <CreateProjectPage />
       },
       {
-        path: 'resources',
+        path: 'resources/:projectId',
         element: <ResourcePage />,
         children: [
           {
-            index: true,
+            path: 'resources',
             element: <ResourceListPage />
           },
           {

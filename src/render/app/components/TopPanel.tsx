@@ -1,11 +1,11 @@
 import { AppBar, Toolbar, Tabs, Tab } from '@mui/material';
-import React, { useContext, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from "react-router-dom";
-import { AppStoreContext } from '../store/AppStoreContextProvider';
-import { AppStore } from '../store/useAppStore';
+import { RootState } from '../store/store';
 
 export const TopPanel = (): ReactElement => {
-  const [{ project }] = useContext<AppStore>(AppStoreContext);
+  const { current: currentProject } = useSelector((state: RootState) => state.projects)
   const { pathname } = useLocation();
   console.log(pathname);
   return (
@@ -15,7 +15,7 @@ export const TopPanel = (): ReactElement => {
           <Tab label="Select Project" value="/" to="/" component={Link} />
           <Tab label="Create Project" value="/new-project" to="/new-project" component={Link} />
 
-          {project &&
+          {currentProject &&
             <>
               <Tab label="Resources" value="/resources" to="/resources" component={Link} />
               <Tab label="Tags" value="/resources/tags" to="/resources/tags" component={Link} />
