@@ -11,24 +11,20 @@ import { ReadWriteValue } from '../../../../../components/ReadWriteValue';
 import { ResourceRating } from './ResourceRating';
 
 type Props = {
-    resourceId: string | null;
-    resources: IResource[];
+    resource: IResource | null;
     onClickImage: (resourceId: string) => void;
     onHideDetails: () => void;
     onChangeProps: (resourceId: string, props: IChangeResource) => void;
 };
 export const ResourceDetails = ({
-    resourceId,
-    resources,
+    resource,
     onHideDetails,
     onClickImage,
     onChangeProps
 }: Props): ReactElement => {
-    if (!resourceId) {
+    if (!resource) {
         return;
     }
-    const resource = resources.find((resource) => resource.id === resourceId);
-
 
     const cards = [];
     for (let i = 0; i < 4; i++) {
@@ -40,19 +36,19 @@ export const ResourceDetails = ({
     }
 
     const handleOnChangeName = (name: string) => {
-        onChangeProps(resourceId, {
+        onChangeProps(resource.id, {
             name
         })
     }
 
     const handleOnChangeDetails = (details: string) => {
-        onChangeProps(resourceId, {
+        onChangeProps(resource.id, {
             details
         })
     }
 
     const handleOnChangeRating = (value: number) => {
-        onChangeProps(resourceId, {
+        onChangeProps(resource.id, {
             rating: value
         })
     }
@@ -61,7 +57,7 @@ export const ResourceDetails = ({
         <Drawer
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            open={!!resourceId}
+            open={!!resource.id}
             onClose={onHideDetails}
             anchor='right'
 

@@ -1,23 +1,51 @@
-import React, { useContext, ReactElement } from 'react';
-import { AppStore } from '../../store/useAppStore';
-import { AppStoreContext } from '../../store/AppStoreContextProvider';
+import React, { ReactElement, useEffect } from 'react';
 
-import { ResourceStoreContextProvider } from './store/ResourceStoreContextProvider';
 import { Box } from '@mui/material';
 import { FilterSidePanel } from './components/FilterSidePanel';
-import { ResourceRouter } from './components/ResourceRouter';
+import {
+  Outlet, useParams
+} from "react-router-dom";
+import { useAppSelector, useAppDispatch } from '../../store/store';
+import { selectProjects, setCurrentProject } from '../../store/projectsSlice';
+import { getProjectData } from './api/getProjectData';
+import { selectIsResourcesLoaded, selectResouceList, setResources } from './store/resourcesSlice';
+import { useUpdateThumbanails } from './hooks/useUpdateThumbnails';
 
 export const ResourcePage = (): ReactElement => {
-  const [{ project }] = useContext<AppStore>(AppStoreContext);
+  const { current: currentProject, list: projectList } = useAppSelector(selectProjects);
+  const resourceList = useAppSelector(selectResouceList);
+
+
+  const dispatch = useAppDispatch()
+  const { projectId } = useParams();
+
+  useEffect(() => {
+    if (!currentProject || currentProject.id !== projectId) {
+      const project = projectList.find(project => project.id === projectId);
+      dispatch(setCurrentProject(project))
+    }
+  }, [currentProject, projectId]);
+
+  useEffect(() => {
+    if (currentProject) {
+      getProjectData(currentProject.folderPath).then((resources) => {
+        dispatch(setResources(resources));
+      });
+    }
+  }, [currentProject]);
+
+  useUpdateThumbanails();
+
+  if (!currentProject) {
+    return <></>;
+  }
 
   return (
-    <ResourceStoreContextProvider projectPath={project.folderPath}>
-      <Box display="flex" flexDirection="row">
-        <FilterSidePanel />
-        <ResourceRouter />
-      </Box>
+    <Box display="flex" flexDirection="row">
+      <FilterSidePanel />
+      <Outlet />
+    </Box>
 
 
-    </ResourceStoreContextProvider>
   );
 };
