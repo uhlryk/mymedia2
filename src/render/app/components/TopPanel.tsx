@@ -24,32 +24,6 @@ export const TopPanel = (): ReactElement => {
   const possibleMatch = useRouteMatch(getRoutesPattern());
   const currentTab = possibleMatch?.pattern?.path;
 
-  let resourceTabs: ReactElement[] = [];
-  if (currentProject) {
-    resourceTabs = [
-      <Tab
-        key="/resources/:projectId/resources"
-        label="Resources"
-        value="/resources/:projectId/resources"
-        to={`/resources/${currentProject.id}/resources`}
-        component={Link}
-      />,
-      <Tab
-        key="/resources/:projectId/tags"
-        label="Tags"
-        value="/resources/:projectId/tags"
-        to={`/resources/${currentProject.id}/tags`}
-        component={Link}
-      />,
-      <Tab
-        key="/resources/:projectId/playlist"
-        label="Playlist"
-        value="/resources/:projectId/playlist"
-        to={`/resources/${currentProject.id}/playlist`}
-        component={Link}
-      />
-    ]
-  }
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: 'white' }} >
@@ -57,7 +31,30 @@ export const TopPanel = (): ReactElement => {
         <Tabs value={currentTab}>
           <Tab label="Select Project" value="/" to="/" component={Link} />
           <Tab label="Create Project" value="/new-project" to="/new-project" component={Link} />
-          {resourceTabs}
+          <Tab
+            key="/resources/:projectId/resources"
+            label="Resources"
+            disabled={!currentProject}
+            value="/resources/:projectId/resources"
+            to={`/resources/${currentProject?.id}/resources`}
+            component={Link}
+          />,
+          <Tab
+            key="/resources/:projectId/tags"
+            label="Tags"
+            disabled={!currentProject}
+            value="/resources/:projectId/tags"
+            to={`/resources/${currentProject?.id}/tags`}
+            component={Link}
+          />,
+          <Tab
+            key="/resources/:projectId/playlist"
+            label="Playlist"
+            disabled={!currentProject}
+            value="/resources/:projectId/playlist"
+            to={`/resources/${currentProject?.id}/playlist`}
+            component={Link}
+          />
 
         </Tabs>
       </Toolbar>
