@@ -7,6 +7,7 @@ import { PlayListPage } from './app/pages/resources/pages/playList/PlayListPage'
 import { TagsListPage } from './app/pages/resources/pages/tagsList/TagsListPage';
 import { App } from './app/App';
 import { getPatterns } from './utils/getPatterns';
+import { CreateTagPage } from './app/pages/resources/pages/createTag/CreateTagPage';
 
 export const routes = [
     {
@@ -31,6 +32,10 @@ export const routes = [
                     {
                         path: 'tags',
                         element: <TagsListPage />
+                    },
+                    {
+                        path: 'new-tag',
+                        element: <CreateTagPage />
                     },
                     {
                         path: 'playlist',

@@ -48,6 +48,14 @@ export const TopPanel = (): ReactElement => {
             component={Link}
           />,
           <Tab
+            key="/resources/:projectId/new-tag"
+            label="Create Tag"
+            disabled={!currentProject}
+            value="/resources/:projectId/new-tag"
+            to={`/resources/${currentProject?.id}/new-tag`}
+            component={Link}
+          />,
+          <Tab
             key="/resources/:projectId/playlist"
             label="Playlist"
             disabled={!currentProject}
