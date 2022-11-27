@@ -7,4 +7,3 @@ export const ADD_NEW_PROJECT_CHANNEL = 'add-new-project';
 export const REMOVE_PROJECT_CHANNEL = 'remove-project';
 export const CHANGE_RESOURCE = 'change-resource';
 export const ADD_NEW_TAG_CHANNEL = 'add-new-tag';
-export const GET_TAG_LIST_CHANNEL = 'get-tag-list';

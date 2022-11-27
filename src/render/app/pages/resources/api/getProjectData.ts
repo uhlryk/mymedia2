@@ -1,8 +1,8 @@
 import fetch from '../../../../utils/fetch';
-import { IResource } from '../../../../../shared/IResource';
 import { SET_PROJECT_DATA_CHANNEL } from '../../../../../shared/IPCChannels';
+import { IProjectDetails } from '../../../../../shared/IProjectDetails';
 
 export const getProjectData = async (
   projectFolderPath: string
-): Promise<IResource[]> =>
-  fetch<IResource[]>(SET_PROJECT_DATA_CHANNEL, projectFolderPath);
+): Promise<IProjectDetails> =>
+  fetch<IProjectDetails>(SET_PROJECT_DATA_CHANNEL, projectFolderPath);

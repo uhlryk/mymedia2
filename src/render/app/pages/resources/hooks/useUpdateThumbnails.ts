@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { selectCurrentProject } from '../../../store/projectsSlice';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
 import { requestThumbnailsGenerator } from './requestThumbnailsGenerator';
-import { selectIsResourcesLoaded, selectResouceList, updateResource } from '../store/resourcesSlice';
+import { selectIsProjectDetailsLoaded, selectResouceList, updateResource } from '../store/resourcesSlice';
 
 export const useUpdateThumbanails = (): void => {
   const currentProject = useAppSelector(selectCurrentProject);
   const folderPath = currentProject?.folderPath;
 
-  const isLoaded = useAppSelector(selectIsResourcesLoaded);
+  const isLoaded = useAppSelector(selectIsProjectDetailsLoaded);
   const resourceList = useAppSelector(selectResouceList);
   const dispatch = useAppDispatch()
 

@@ -8,7 +8,7 @@ import {
 import { useAppSelector, useAppDispatch } from '../../store/store';
 import { selectProjects, setCurrentProject } from '../../store/projectsSlice';
 import { getProjectData } from './api/getProjectData';
-import { selectIsResourcesLoaded, selectResouceList, setResources } from './store/resourcesSlice';
+import { selectResouceList, setProjectDetails } from './store/resourcesSlice';
 import { useUpdateThumbanails } from './hooks/useUpdateThumbnails';
 
 export const ResourcePage = (): ReactElement => {
@@ -28,8 +28,8 @@ export const ResourcePage = (): ReactElement => {
 
   useEffect(() => {
     if (currentProject) {
-      getProjectData(currentProject.folderPath).then((resources) => {
-        dispatch(setResources(resources));
+      getProjectData(currentProject.folderPath).then((projectDetails) => {
+        dispatch(setProjectDetails(projectDetails));
       });
     }
   }, [currentProject]);

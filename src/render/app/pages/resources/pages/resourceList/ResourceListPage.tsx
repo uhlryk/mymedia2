@@ -7,11 +7,10 @@ import { ResourceDetails } from './components/ResourceDetails';
 import { CardList } from './components/CardList';
 import { selectCurrentProject } from '../../../../store/projectsSlice';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';
-import { selectCurrentResource, selectIsResourcesLoaded, selectResouceList, updateResource, setCurrentResource, clearCurrentResource } from '../../store/resourcesSlice';
+import { selectCurrentResource, selectResouceList, updateResource, setCurrentResource, clearCurrentResource } from '../../store/resourcesSlice';
 
 export const ResourceListPage = (): ReactElement => {
   const { folderPath } = useAppSelector(selectCurrentProject);
-  const isLoaded = useAppSelector(selectIsResourcesLoaded);
   const resourceList = useAppSelector(selectResouceList);
   const currentResource = useAppSelector(selectCurrentResource);
   const dispatch = useAppDispatch()

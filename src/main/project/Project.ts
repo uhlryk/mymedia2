@@ -9,6 +9,7 @@ import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPa
 import { getVideoResourceById } from './utils/getVideoResourceById';
 import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL } from '../../shared/IPCChannels';
 import { ITag } from '../../shared/ITag';
+import { IProjectDetails } from '../../shared/IProjectDetails';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -21,7 +22,7 @@ export default class Project {
   constructor() {
     ipcMain.handle(
       SET_PROJECT_DATA_CHANNEL,
-      async (event, projectPath: string): Promise<IResource[]> => {
+      async (event, projectPath: string): Promise<IProjectDetails> => {
         console.log('[Project/set/project-data] start');
 
         if (
@@ -34,11 +35,14 @@ export default class Project {
 
         await this.specificProject.waitForResourcesPromise();
 
-        return updateResourceListImagesPathAbsolute(
-          this.specificProject.getResources(),
-          projectPath,
-          Project.FILE_PROTOCOL
-        );
+        return {
+          resources: updateResourceListImagesPathAbsolute(
+            this.specificProject.getResources(),
+            projectPath,
+            Project.FILE_PROTOCOL
+          ),
+          tags: this.specificProject.getTags()
+        }
       }
     );
 
