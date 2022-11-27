@@ -1,0 +1,8 @@
+.create-tag__wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  width: 500px;
+  margin: 50px auto;
+}

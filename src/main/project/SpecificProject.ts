@@ -3,6 +3,7 @@ import Project from './Project';
 import { initProject } from './utils/initProject';
 import { syncResources } from './utils/syncResources';
 import { IResource, IChangeResource } from '../../shared/IResource';
+import { ITag } from '../../shared/ITag';
 
 export class SpecificProject {
   private store: Store;
@@ -64,5 +65,15 @@ export class SpecificProject {
     Object.assign(oldResource, resourcePartial);
     this.store.setResourceList(this.getResources());
     return oldResource;
+  }
+
+  addTag(name: string, parentId: string = null): ITag {
+    const tag = this.store.addNewTag(name, parentId);
+
+    return tag;
+  }
+
+  getTags(): ITag[] {
+    return this.store.getTags();
   }
 }

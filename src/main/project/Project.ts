@@ -7,7 +7,8 @@ import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraRe
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
 import { getVideoResourceById } from './utils/getVideoResourceById';
-import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE } from '../../shared/IPCChannels';
+import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL } from '../../shared/IPCChannels';
+import { ITag } from '../../shared/ITag';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -115,6 +116,22 @@ export default class Project {
           projectPath,
           Project.FILE_PROTOCOL
         );
+      } catch (err) {
+        return null;
+      }
+    });
+
+    ipcMain.handle(ADD_NEW_TAG_CHANNEL, async (event, { projectPath, tagName, parentTagId = null }): Promise<ITag> => {
+      try {
+        if (!this.specificProject || !this.specificProject.verifyProjectPath(projectPath)) {
+          console.error(
+            `Requested path ${projectPath} is different than current project path ${projectPath}`
+          );
+          throw new Error('Project not setup or wrong project path');
+        }
+        const tag = this.specificProject.addTag(tagName, parentTagId);
+
+        return tag;
       } catch (err) {
         return null;
       }

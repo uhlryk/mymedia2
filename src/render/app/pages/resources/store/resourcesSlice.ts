@@ -1,17 +1,20 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { IResource } from '../../../../../shared/IResource'
+import { ITag } from '../../../../../shared/ITag'
 import { RootState } from '../../../store/store';
 
 export interface ResourcesState {
     current: IResource | null;
     list: IResource[];
+    tags: ITag[];
     isLoaded: boolean,
 }
 
 const initialState: ResourcesState = {
     current: null,
     list: [],
+    tags: [],
     isLoaded: false,
 }
 
@@ -36,10 +39,13 @@ export const resourcesSlice = createSlice({
         clearCurrentResource: (state) => {
             state.current = null;
         },
+        addNewTag: (state, action: PayloadAction<ITag>) => {
+            state.tags.unshift(action.payload);
+        },
     },
 })
 
-export const { setResources, updateResource, setCurrentResource, clearCurrentResource } = resourcesSlice.actions;
+export const { setResources, updateResource, setCurrentResource, clearCurrentResource, addNewTag } = resourcesSlice.actions;
 
 export default resourcesSlice.reducer;
 
