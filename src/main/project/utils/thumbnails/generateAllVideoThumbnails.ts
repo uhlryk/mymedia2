@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs/promises';
 import Project from '../../Project';
-import generateThumbnail from './generateThumbnail';
-import { getVideoPosition } from './getVideoPosition';
+import generateAllThumbnails from './generateAllThumbnails';
+import { getFramePerSec } from './getFramePerSec';
 
 const getAbsoluteThumbnailPath = (
     projectPath: string,
@@ -15,6 +15,15 @@ const getAbsoluteThumbnailPath = (
         Project.THUMBNAILS_FOLDER,
         resourceId,
         `${num}.jpg`
+    );
+
+const getTemplateForAbsolutePath = (projectPath: string,
+    resourceId: string,) => path.join(
+        projectPath,
+        Project.PROJECT_DATA_FOLDER,
+        Project.THUMBNAILS_FOLDER,
+        resourceId,
+        '%04d.jpg'
     );
 
 
@@ -34,31 +43,27 @@ type IInputGenerateAllVideoThumbnails = {
     absoluteResourcePath: string;
     duration: number;
 }
-const NUMBER_OF_THUMBNAILS = 4;
 export const generateAllVideoThumbnails = async ({ projectPath, resourceId, absoluteResourcePath, duration }: IInputGenerateAllVideoThumbnails): Promise<string[]> => {
-    const thumbnails: string[] = [];
-    for (let i = 0; i < NUMBER_OF_THUMBNAILS; i++) {
-        const absoluteThumbnailPath = getAbsoluteThumbnailPath(
-            projectPath,
-            resourceId,
-            i
-        );
-        const relativeThumbnailPath = getRelativeThumbnailPath(resourceId, i);
-        if (await fileExists(absoluteThumbnailPath)) {
-            thumbnails[i] = relativeThumbnailPath;
-            continue;
-        }
-        const videoPostion = getVideoPosition(i, duration, NUMBER_OF_THUMBNAILS);
-        if (
-            await generateThumbnail(
-                absoluteResourcePath,
-                absoluteThumbnailPath,
-                videoPostion
-            )
-        ) {
-            thumbnails[i] = relativeThumbnailPath;
-        }
+    try {
+        const templateForThumbanailAbsolutePath = getTemplateForAbsolutePath(projectPath, resourceId);
+
+        console.log(`[generateAllVideoThumbnails] templateForAbsolutePath ${templateForThumbanailAbsolutePath} duration ${duration}`);
+
+        const thumbnailAbsoluteFolderPath: string = path.dirname(templateForThumbanailAbsolutePath);
+        await fs.rmdir(thumbnailAbsoluteFolderPath, { recursive: true });
+        await fs.mkdir(thumbnailAbsoluteFolderPath, { recursive: true });
+
+        const framePerSec = getFramePerSec(duration);;
+        console.time('generateAllThumbnails')
+        await generateAllThumbnails(absoluteResourcePath, templateForThumbanailAbsolutePath, framePerSec);
+        console.timeEnd('generateAllThumbnails')
+        const fileNames = await fs.readdir(thumbnailAbsoluteFolderPath);
+        const thumbnails = fileNames.map(fileName => path.join(Project.PROJECT_DATA_FOLDER, Project.THUMBNAILS_FOLDER, resourceId, fileName));
+
+        console.log(`[generateAllVideoThumbnails] created thumbnails ${thumbnails.length}`);
+        return thumbnails;
+    } catch (err) {
+        console.log(`[generateAllVideoThumbnails] error ${err}`);
     }
-    return thumbnails;
 }
 
