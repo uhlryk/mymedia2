@@ -12,8 +12,6 @@ export default async function generateAllThumbnails(
   const options = [
     '-i',
     sourceFilePath,
-    '-s',
-    '320x240',
     '-vframes',
     '4',
     '-vf',
