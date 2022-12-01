@@ -4,18 +4,19 @@ import { IResource } from '../../../../../shared/IResource'
 import { ITag } from '../../../../../shared/ITag'
 import { RootState } from '../../../store/store';
 import { IProjectDetails } from '../../../../../shared/IProjectDetails';
+import { ITagGroup } from '../../../../../shared/ITagGroup';
 
 export interface ResourcesState {
     current: IResource | null;
     list: IResource[];
-    tags: ITag[];
+    tagGroups: ITagGroup[];
     isLoaded: boolean,
 }
 
 const initialState: ResourcesState = {
     current: null,
     list: [],
-    tags: [],
+    tagGroups: [],
     isLoaded: false,
 }
 
@@ -25,7 +26,7 @@ export const resourcesSlice = createSlice({
     reducers: {
         setProjectDetails: (state, action: PayloadAction<IProjectDetails>) => {
             state.list = action.payload.resources;
-            state.tags = action.payload.tags;
+            state.tagGroups = action.payload.tagGroups;
             state.isLoaded = true;
         },
         updateResource: (state, action: PayloadAction<IResource>) => {
@@ -42,7 +43,16 @@ export const resourcesSlice = createSlice({
             state.current = null;
         },
         addNewTag: (state, action: PayloadAction<ITag>) => {
-            state.tags.unshift(action.payload);
+            if (action.payload.parentId) {
+                state.tagGroups.map(tagGroup => {
+                    if (tagGroup.id === action.payload.parentId) {
+                        tagGroup.children.unshift(action.payload)
+                    }
+                    return tagGroup;
+                });
+            } else {
+                state.tagGroups.unshift({ ...action.payload, children: [] });
+            }
         },
     },
 })
@@ -53,7 +63,7 @@ export default resourcesSlice.reducer;
 
 export const selectResources = (state: RootState) => state.resources;
 
-export const selectTagsList = createSelector(selectResources, (resources) => resources.tags);
+export const selectTagGroupsList = createSelector(selectResources, (resources) => resources.tagGroups);
 export const selectResouceList = createSelector(selectResources, (resources) => resources.list);
 export const selectCurrentResource = createSelector(selectResources, (resources) => resources.current);
 export const selectIsProjectDetailsLoaded = createSelector(selectResources, (projects) => projects.isLoaded);

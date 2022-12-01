@@ -1,13 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { ITag } from '../../../../../../../shared/ITag';
 
 type Props = {
-    openWithGroup: ITag | null;
+    isOpen: boolean;
     setClose: () => void;
-    addNewTag: (groupId: string, tagName: string,) => void
+    addNewTag: (tagName: string) => void
 }
-export const NewTagPrompt = ({ openWithGroup, setClose, addNewTag }: Props) => {
+export const NewGroupTagPrompt = ({ isOpen, setClose, addNewTag }: Props) => {
     const [tagName, setTagName] = useState<string>("");
 
     const handleClose = () => {
@@ -15,23 +14,19 @@ export const NewTagPrompt = ({ openWithGroup, setClose, addNewTag }: Props) => {
     };
 
     const handleAddTag = () => {
-        const groupId = openWithGroup.id;
         setClose();
-        addNewTag(groupId, tagName);
+        addNewTag(tagName);
     }
 
     return (
-        <Dialog open={!!openWithGroup} onClose={handleClose}>
-            <DialogTitle>Add Tag</DialogTitle>
+        <Dialog open={isOpen} onClose={handleClose}>
+            <DialogTitle>Add Group Tag</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {openWithGroup?.name}
-                </DialogContentText>
                 <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="tag name"
+                    label="group tag name"
                     type="text"
                     fullWidth
                     variant="standard"

@@ -41,7 +41,7 @@ export default class Project {
             projectPath,
             Project.FILE_PROTOCOL
           ),
-          tags: this.specificProject.getTags()
+          tagGroups: this.specificProject.getTagGroups()
         }
       }
     );
@@ -133,7 +133,7 @@ export default class Project {
           );
           throw new Error('Project not setup or wrong project path');
         }
-        const tag = this.specificProject.addTag(tagName, parentTagId);
+        const tag = this.specificProject.addNewTag(tagName, parentTagId);
 
         return tag;
       } catch (err) {

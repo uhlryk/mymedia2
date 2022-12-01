@@ -3,6 +3,7 @@ import ElectronStore from 'electron-store';
 import { v4 as uuidv4 } from 'uuid';
 import { IResource } from '../../shared/IResource';
 import { ITag } from '../../shared/ITag';
+import { ITagGroup } from '../../shared/ITagGroup';
 export default class Store {
   static RESOURCE_COLLECTION = 'resources';
   static TAG_COLLECTION = 'tags';
@@ -52,22 +53,30 @@ export default class Store {
       name,
       parentId
     };
-    const tagList: Array<ITag> = this._store.get(
+    const tagGroupList: Array<ITagGroup> = this._store.get(
       Store.TAG_COLLECTION,
       []
-    ) as ITag[];
+    ) as ITagGroup[];
 
-    tagList.push(tag);
-    this._store.set(Store.TAG_COLLECTION, tagList);
+    if (parentId) {
+      tagGroupList.map(tagGroup => {
+        if (tagGroup.id === parentId) {
+          tagGroup.children.unshift(tag)
+        }
+        return tagGroup;
+      });
+    } else {
+      tagGroupList.unshift({ ...tag, children: [] });
+    }
+    this._store.set(Store.TAG_COLLECTION, tagGroupList);
 
     return tag;
   }
-
-  getTags(): ITag[] {
+  getTagGroups(): ITagGroup[] {
     return this._store.get(
       Store.TAG_COLLECTION,
       []
-    ) as ITag[];
+    ) as ITagGroup[];
   }
 
 }
