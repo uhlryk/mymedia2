@@ -1,4 +1,5 @@
 import React, { ReactElement } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 import './cardImage.css';
 
 type Props = {
@@ -13,11 +14,17 @@ export const CardImage = ({
 }: Props): ReactElement => {
     return (
         <div className="card-image__wrapper" onClick={() => onClickImage()}>
-            <img
-                src={thumbnail}
-                alt={alt}
-                loading="lazy"
-            />
+            {thumbnail ?
+                <img
+                    src={thumbnail}
+                    alt={alt}
+                    loading="lazy"
+                />
+                :
+                <div className="card-image__placeholder">
+                    <div><CircularProgress /></div>
+                </div>
+            }
         </div>
     );
 };
