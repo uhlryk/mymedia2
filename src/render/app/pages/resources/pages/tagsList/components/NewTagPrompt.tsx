@@ -26,8 +26,8 @@ export const NewTagPrompt = ({ isOpen, setOpen, addNewTag }: Props) => {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Email Address"
-                    type="email"
+                    label="tag name"
+                    type="text"
                     fullWidth
                     variant="standard"
                     onChange={(event) => setTagName(event.target.value)}

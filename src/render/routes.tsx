@@ -34,10 +34,6 @@ export const routes = [
                         element: <TagsListPage />
                     },
                     {
-                        path: 'new-tag',
-                        element: <CreateTagPage />
-                    },
-                    {
                         path: 'playlist',
                         element: <PlayListPage />
                     }

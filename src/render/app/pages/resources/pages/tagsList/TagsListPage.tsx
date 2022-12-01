@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { useAppSelector } from '../../../../store/store';
@@ -42,20 +44,26 @@ export const TagsListPage = () => {
             >
                 {tag.parentId ? "" : ""}
             </TableCell>
-            <TableCell component="th" scope="row" align="center">
-                <IconButton
-                    aria-label="open"
-                >
-                    <FolderOpenIcon />
-                </IconButton>
-            </TableCell>
+
             <TableCell component="th" scope="row" align="center">
                 <IconButton aria-label="rename">
                     <DriveFileRenameOutlineIcon />
                 </IconButton>
             </TableCell>
             <TableCell component="th" scope="row" align="center">
-
+                <IconButton
+                    aria-label="add"
+                    onClick={handleClickAddTagGroup}
+                >
+                    <AddIcon />
+                </IconButton>
+            </TableCell>
+            <TableCell component="th" scope="row" align="center">
+                <IconButton
+                    aria-label="delete"
+                >
+                    <DeleteIcon />
+                </IconButton>
             </TableCell>
         </TableRow >
     ));
@@ -72,10 +80,10 @@ export const TagsListPage = () => {
                 <Table stickyHeader aria-label="simple table">
                     <TableHead>
                         <TableRow hover>
-                            <TableCell>Project Name</TableCell>
-                            <TableCell>Project Path</TableCell>
+                            <TableCell>Group Name</TableCell>
+                            <TableCell>Tag Name</TableCell>
                             <TableCell align="center">Rename</TableCell>
-                            <TableCell align="center">Open</TableCell>
+
                             <TableCell align="center">
                                 <IconButton
                                     aria-label="add"
@@ -84,6 +92,7 @@ export const TagsListPage = () => {
                                     <AddBoxIcon />
                                 </IconButton>
                             </TableCell>
+                            <TableCell align="center">Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>{tableRows}</TableBody>
