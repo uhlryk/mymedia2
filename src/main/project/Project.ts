@@ -10,6 +10,8 @@ import { getVideoResourceById } from './utils/getVideoResourceById';
 import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL } from '../../shared/IPCChannels';
 import { ITag } from '../../shared/ITag';
 import { IProjectDetails } from '../../shared/IProjectDetails';
+import ProjectList from '../projectList/ProjectList';
+import { checkSpecificProject } from './utils/checkSpecificProject';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -19,26 +21,27 @@ export default class Project {
 
   private specificProject: SpecificProject;
 
-  constructor() {
+  constructor(private projectList: ProjectList) { }
+
+  listen(): void {
     ipcMain.handle(
       SET_PROJECT_DATA_CHANNEL,
-      async (event, projectPath: string): Promise<IProjectDetails> => {
+      async (event, projectId: string): Promise<IProjectDetails> => {
         console.log('[Project/set/project-data] start');
 
-        if (
-          !this.specificProject ||
-          !this.specificProject.verifyProjectPath(projectPath)
-        ) {
+        try {
+          await checkSpecificProject(this.specificProject, projectId);
+        } catch {
           console.log('[Project/set/project-data] new SpecificProject');
-          this.specificProject = new SpecificProject(projectPath);
+          const project = this.projectList.getSpecificProject(projectId);
+          this.specificProject = new SpecificProject(project);
+          await this.specificProject.waitForResourcesPromise();
         }
-
-        await this.specificProject.waitForResourcesPromise();
 
         return {
           resources: updateResourceListImagesPathAbsolute(
             this.specificProject.getResources(),
-            projectPath,
+            this.specificProject.getProjectPath(),
             Project.FILE_PROTOCOL
           ),
           tagGroups: this.specificProject.getTagGroups()
@@ -50,18 +53,19 @@ export default class Project {
       SET_RESOURCE_EXTRA_CHANNEL,
       async (
         event,
-        { projectPath, resourceId }: IAbsoluteResourceId
+        { projectId, resourceId }: IAbsoluteResourceId
       ): Promise<IResource | null> => {
         console.log(`[Project/set/resource-extra] start ${resourceId}`);
         try {
+          checkSpecificProject(this.specificProject, projectId);
+
           const resource = await getVideoResourceById(
             this.specificProject,
-            projectPath,
             resourceId
           );
 
           const resourcePartial = await calculateExtraResourceProps(
-            projectPath,
+            this.specificProject.getProjectPath(),
             resource
           );
           const updatedResource = this.specificProject.updateResource(
@@ -71,7 +75,7 @@ export default class Project {
           console.log(`[Project/set/resource-extra] finished ${resourceId}`);
           return updateResourceImagesPathAbsolute(
             updatedResource,
-            projectPath,
+            this.specificProject.getProjectPath(),
             Project.FILE_PROTOCOL
           );
         } catch (err) {
@@ -86,28 +90,29 @@ export default class Project {
       PLAY_VIDEO_CHANNEL,
       async (
         event,
-        { projectPath, resourceId }: IAbsoluteResourceId
+        { projectId, resourceId }: IAbsoluteResourceId
       ): Promise<boolean | null> => {
         console.log('[Project/set/resource-extra] start');
         try {
+          checkSpecificProject(this.specificProject, projectId);
+
           const resource = await getVideoResourceById(
             this.specificProject,
-            projectPath,
             resourceId
           );
 
-          shell.openPath(path.join(projectPath, resource.relativePath));
+          shell.openPath(path.join(this.specificProject.getProjectPath(), resource.relativePath));
         } catch (err) {
           return null;
         }
       }
     );
 
-    ipcMain.handle(CHANGE_RESOURCE, async (event, { projectPath, resourceId, props }: IAbsoluteResourceIdChanges): Promise<IResource> => {
+    ipcMain.handle(CHANGE_RESOURCE, async (event, { projectId, resourceId, props }: IAbsoluteResourceIdChanges): Promise<IResource> => {
       try {
+        checkSpecificProject(this.specificProject, projectId);
         const resource = await getVideoResourceById(
           this.specificProject,
-          projectPath,
           resourceId
         );
 
@@ -117,7 +122,7 @@ export default class Project {
         );
         return updateResourceImagesPathAbsolute(
           updatedResource,
-          projectPath,
+          this.specificProject.getProjectPath(),
           Project.FILE_PROTOCOL
         );
       } catch (err) {
@@ -125,14 +130,9 @@ export default class Project {
       }
     });
 
-    ipcMain.handle(ADD_NEW_TAG_CHANNEL, async (event, { projectPath, tagName, parentTagId = null }): Promise<ITag> => {
+    ipcMain.handle(ADD_NEW_TAG_CHANNEL, async (event, { projectId, tagName, parentTagId = null }): Promise<ITag> => {
       try {
-        if (!this.specificProject || !this.specificProject.verifyProjectPath(projectPath)) {
-          console.error(
-            `Requested path ${projectPath} is different than current project path ${projectPath}`
-          );
-          throw new Error('Project not setup or wrong project path');
-        }
+        checkSpecificProject(this.specificProject, projectId);
         const tag = this.specificProject.addNewTag(tagName, parentTagId);
 
         return tag;

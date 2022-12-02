@@ -6,7 +6,7 @@ import { selectIsProjectDetailsLoaded, selectResouceList, updateResource } from 
 
 export const useUpdateThumbanails = (): void => {
   const currentProject = useAppSelector(selectCurrentProject);
-  const folderPath = currentProject?.folderPath;
+  const projectId = currentProject?.id;
 
   const isLoaded = useAppSelector(selectIsProjectDetailsLoaded);
   const resourceList = useAppSelector(selectResouceList);
@@ -14,10 +14,10 @@ export const useUpdateThumbanails = (): void => {
 
   useEffect(() => {
     let stopProcess = false;
-    if (folderPath) {
+    if (projectId) {
       const updateThumbnails = async () => {
         const asyncGenRequestThumbnails = requestThumbnailsGenerator({
-          projectFolderPath: folderPath,
+          projectId,
           resources: resourceList,
         });
         for await (const updatedResource of asyncGenRequestThumbnails) {
@@ -34,5 +34,5 @@ export const useUpdateThumbanails = (): void => {
     return () => {
       stopProcess = true;
     };
-  }, [isLoaded, folderPath]);
+  }, [isLoaded, projectId]);
 };

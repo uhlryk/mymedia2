@@ -3,12 +3,12 @@ import { ITag } from '../../../../../../../shared/ITag';
 import { ADD_NEW_TAG_CHANNEL } from '../../../../../../../shared/IPCChannels';
 
 export const addNewTag = async (
-  projectPath: string,
+  projectId: string,
   tagName: string,
   parentTagId?: string
 ): Promise<ITag> =>
   fetch<ITag>(ADD_NEW_TAG_CHANNEL, {
-    projectPath,
+    projectId,
     tagName,
     parentTagId,
   });

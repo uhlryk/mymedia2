@@ -42,8 +42,11 @@ const createWindow = (): void => {
     mainWindow.show();
   });
 
-  new ProjectList();
-  new Project();
+  const projectList = new ProjectList();
+
+  const project = new Project(projectList);
+  projectList.listen();
+  project.listen();
 };
 
 // This method will be called when Electron has finished

@@ -2,13 +2,11 @@ import fs from 'fs/promises';
 import path from 'path';
 
 export default async function createFolderStructure(
-  projectFolder: string,
-  projectDataFolder: string,
+  projectDataPath: string,
   thumbnailFolder: string
-) {
+): Promise<void> {
   const absolutePath = path.resolve(
-    projectFolder,
-    projectDataFolder,
+    projectDataPath,
     thumbnailFolder
   );
   await fs.mkdir(absolutePath, {

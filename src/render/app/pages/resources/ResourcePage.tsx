@@ -28,7 +28,7 @@ export const ResourcePage = (): ReactElement => {
 
   useEffect(() => {
     if (currentProject) {
-      getProjectData(currentProject.folderPath).then((projectDetails) => {
+      getProjectData(currentProject.id).then((projectDetails) => {
         dispatch(setProjectDetails(projectDetails));
       });
     }

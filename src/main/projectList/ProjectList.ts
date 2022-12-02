@@ -10,11 +10,21 @@ export default class ProjectList {
   constructor() {
     console.log('Init ProjectList');
     this.store = new Store();
+  }
 
+  getProjectList() {
+    return this.store.getProjectList();
+  }
+
+  getSpecificProject(projectId: string) {
+    return this.getProjectList().find(project => project.id === projectId);
+  }
+
+  listen() {
     ipcMain.handle(
       GET_PROJECT_LIST_CHANNEL,
       async (event, message): Promise<IProject[]> => {
-        const projectList = this.store.getProjectList();
+        const projectList = this.getProjectList();
         return projectList;
       }
     );

@@ -13,20 +13,20 @@ import { ITagGroup } from '../../../../../../shared/ITagGroup';
 import { TagGroupRow } from './components/TagGroupRow';
 
 export const TagsListPage = () => {
-    const { folderPath, id: projectId } = useAppSelector(selectCurrentProject);
+    const { id: projectId } = useAppSelector(selectCurrentProject);
     const tagGroupList = useAppSelector(selectTagGroupsList);
     const dispatch = useDispatch()
     const [openGroupDialog, setOpenGroupDialog] = useState(false);
     const [openDialogWithGroupTag, setOpenDialogWithGroupTag] = useState<ITag | null>(null);
 
     const handleAddNewTagGroup = (tagName: string) => {
-        addNewTagApi(folderPath, tagName).then((tag) => {
+        addNewTagApi(projectId, tagName).then((tag) => {
             dispatch(addNewTag(tag))
         });
     };
 
     const handleAddNewTag = (tagGroupId: string, tagName: string) => {
-        addNewTagApi(folderPath, tagName, tagGroupId).then((tag) => {
+        addNewTagApi(projectId, tagName, tagGroupId).then((tag) => {
             dispatch(addNewTag(tag))
         });
     };

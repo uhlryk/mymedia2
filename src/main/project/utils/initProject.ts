@@ -2,12 +2,11 @@ import Store from '../Store';
 import createFolderStructure from './syncResources/createFolderStructure';
 
 export const initProject = async (
-  projectPath: string,
-  projectDataFolder: string,
+  projectDataPath: string,
   thumbnailFolder: string
 ): Promise<Store> => {
-  await createFolderStructure(projectPath, projectDataFolder, thumbnailFolder);
-  const store = new Store(projectPath, projectDataFolder);
+  await createFolderStructure(projectDataPath, thumbnailFolder);
+  const store = new Store(projectDataPath);
 
   return store;
 };

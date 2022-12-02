@@ -12,12 +12,10 @@ export interface IResourceHash {
 }
 
 export interface IAbsoluteResourceId {
-  projectPath: string;
+  projectId: string;
   resourceId: string;
 }
 
-export interface IAbsoluteResourceIdChanges {
-  projectPath: string;
-  resourceId: string;
+export interface IAbsoluteResourceIdChanges extends IAbsoluteResourceId {
   props: IChangeResource;
 }

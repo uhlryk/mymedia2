@@ -10,13 +10,13 @@ import { useAppSelector, useAppDispatch } from '../../../../store/store';
 import { selectCurrentResource, selectResouceList, updateResource, setCurrentResource, clearCurrentResource } from '../../store/resourcesSlice';
 
 export const ResourceListPage = (): ReactElement => {
-  const { folderPath } = useAppSelector(selectCurrentProject);
+  const { id: projectId } = useAppSelector(selectCurrentProject);
   const resourceList = useAppSelector(selectResouceList);
   const currentResource = useAppSelector(selectCurrentResource);
   const dispatch = useAppDispatch()
 
   const onClickImage = (resourceId: string) => {
-    playVideo(folderPath, resourceId);
+    playVideo(projectId, resourceId);
   };
 
   const onClickInfo = (resourceId: string) => {
@@ -29,7 +29,7 @@ export const ResourceListPage = (): ReactElement => {
   };
 
   const handleOnChangeProps = (resourceId: string, props: IChangeResource) => {
-    changeResource(folderPath, resourceId, props).then(updatedResource => {
+    changeResource(projectId, resourceId, props).then(updatedResource => {
       dispatch(updateResource(updatedResource));
     })
   };

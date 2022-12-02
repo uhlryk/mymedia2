@@ -9,8 +9,7 @@ export default class Store {
   static TAG_COLLECTION = 'tags';
   private _store;
 
-  constructor(projectFolderPath: string, projectDataFolder: string) {
-    const databasePath = path.resolve(projectFolderPath, projectDataFolder);
+  constructor(databasePath: string) {
     this._store = new ElectronStore({
       schema: {
         [Store.RESOURCE_COLLECTION]: {

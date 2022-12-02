@@ -5,12 +5,10 @@ import { getResourceById } from './getResourceById';
 
 export const getVideoResourceById = async (
   specificProject: SpecificProject,
-  projectPath: string,
   resourceId: string
 ): Promise<IResource> => {
   const resource = await getResourceById(
     specificProject,
-    projectPath,
     resourceId
   );
   const extension = resource.extension;
