@@ -5,11 +5,11 @@ import {
     ImageList,
 } from '@mui/material';
 import './resourceDetails.css';
-import { Card } from './Card';
-import { IChangeResource, IResource } from '../../../../../../../shared/IResource';
-import { ReadWriteValue } from '../../../../../components/ReadWriteValue';
-import { ResourceRating } from './ResourceRating';
-
+import { Card } from '../Card';
+import { IChangeResource, IResource } from '../../../../../../../../shared/IResource';
+import { ReadWriteValue } from '../../../../../../components/ReadWriteValue';
+import { ResourceRating } from '../ResourceRating';
+import { TagsSection } from './TagsSection';
 type Props = {
     resource: IResource | null;
     onClickImage: (resourceId: string) => void;
@@ -63,13 +63,13 @@ export const ResourceDetails = ({
 
         >
             <Box className='resource-details__wrapper'>
-                <ImageList cols={1} rowHeight={350} sx={{ width: '100%', margin: 0 }}>
+                <ImageList cols={1} rowHeight={310} sx={{ width: '100%', margin: 0 }}>
                     <Card
                         imageSrc={resource.thumbnails?.at(0)}
                         onClickImage={() => onClickImage(resource.id)}
                     />
                 </ImageList>
-                <ImageList cols={4} rowHeight={150} sx={{ width: '100%', margin: '10px 0' }}>
+                <ImageList cols={4} rowHeight={100} sx={{ width: '100%', margin: '3px 0' }}>
                     {cards}
                 </ImageList>
 
@@ -77,6 +77,7 @@ export const ResourceDetails = ({
                 <ReadWriteValue value={resource.name} label='name' onChange={handleOnChangeName} />
                 <ReadWriteValue value={resource.details} label='details' onChange={handleOnChangeDetails} multiline={true} />
 
+                <TagsSection />
             </Box>
         </Drawer>
     );

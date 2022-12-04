@@ -3,7 +3,7 @@ import Loader from '../../../../../components/Loader';
 import { playVideo } from '../../api/playVideo';
 import { IChangeResource } from '../../../../../../shared/IResource';
 import { changeResource } from '../../api/changeResource';
-import { ResourceDetails } from './components/ResourceDetails';
+import { ResourceDetails } from './components/resourceDetails/ResourceDetails';
 import { CardList } from './components/CardList';
 import { selectCurrentProject } from '../../../../store/projectsSlice';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';

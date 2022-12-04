@@ -33,7 +33,29 @@ export class SpecificProject {
       resourceList
     );
 
+    const folderGroupTag = this.addNewTag('folder');
+    const folderTagsMap = new Map<string, ITag>();
+    updatedResourceList.forEach(resource => {
+      const folderTagName = path.dirname(resource.relativePath).split(path.sep)[0];
+      if (folderTagName) {
+        let folderTag;
+        if (folderTagsMap.has(folderTagName)) {
+          folderTag = folderTagsMap.get(folderTagName);
+        } else {
+          folderTag = this.addNewTag(folderTagName, folderGroupTag.id);
+          folderTagsMap.set(folderTagName, folderTag);
+        }
+        resource.tags.push({
+          tagId: folderTag.id,
+          tagParentId: folderGroupTag.id
+        });
+      }
+
+    })
     this.store.setResourceList(updatedResourceList);
+
+
+
     this.resources = updatedResourceList;
     console.log('Finish syncResources');
   }

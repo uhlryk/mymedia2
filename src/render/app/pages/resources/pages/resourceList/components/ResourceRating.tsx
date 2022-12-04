@@ -33,7 +33,7 @@ export const ResourceRating = ({ value, onChange }: Props) => {
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
-                height: '80px',
+                height: '60px',
                 flexDirection: 'column',
                 justifyContent: 'center',
             }}
