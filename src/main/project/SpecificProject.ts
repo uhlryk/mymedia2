@@ -5,8 +5,9 @@ import { initProject } from './utils/initProject';
 import { syncResources } from './utils/syncResources';
 import { IResource, IChangeResource } from '../../shared/IResource';
 import { ITag } from '../../shared/ITag';
-import { ITagGroup } from '../../shared/ITagGroup';
 import { IProject } from '../../shared/IProject';
+import { ITagTree } from '../../shared/ITagTree';
+import { ITagParent } from '../../shared/ITagParent';
 
 export class SpecificProject {
   private store: Store;
@@ -33,7 +34,8 @@ export class SpecificProject {
       resourceList
     );
 
-    const folderGroupTag = this.addNewTag('folder');
+    console.log("[syncResources] create initial tags");
+    const folderGroupTag = this.addNewTagParent('folder');
     const folderTagsMap = new Map<string, ITag>();
     updatedResourceList.forEach(resource => {
       const folderTagName = path.dirname(resource.relativePath).split(path.sep)[0];
@@ -102,13 +104,19 @@ export class SpecificProject {
     return oldResource;
   }
 
-  addNewTag(name: string, parentId: string = null): ITag {
+  addNewTag(name: string, parentId: string): ITag {
     const tag = this.store.addNewTag(name, parentId);
 
     return tag;
   }
 
-  getTagGroups(): ITagGroup[] {
-    return this.store.getTagGroups();
+  addNewTagParent(name: string): ITagParent {
+    const tagParent = this.store.addNewTagParent(name);
+
+    return tagParent;
+  }
+
+  getTagTree(): ITagTree {
+    return this.store.getTagTree();
   }
 }

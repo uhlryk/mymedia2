@@ -1,5 +1,5 @@
 import React from 'react';
-import { ITagGroup } from '../../../../../../../../shared/ITagGroup';
+import { ITagParent } from '../../../../../../../../shared/ITagParent';
 
 
 export const TagsSection = () => {

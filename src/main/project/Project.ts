@@ -7,11 +7,12 @@ import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraRe
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
 import { getVideoResourceById } from './utils/getVideoResourceById';
-import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL } from '../../shared/IPCChannels';
+import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL, ADD_NEW_TAG_PARENT_CHANNEL } from '../../shared/IPCChannels';
 import { ITag } from '../../shared/ITag';
 import { IProjectDetails } from '../../shared/IProjectDetails';
 import ProjectList from '../projectList/ProjectList';
 import { checkSpecificProject } from './utils/checkSpecificProject';
+import { ITagParent } from '../../shared/ITagParent';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
@@ -44,7 +45,7 @@ export default class Project {
             this.specificProject.getProjectPath(),
             Project.FILE_PROTOCOL
           ),
-          tagGroups: this.specificProject.getTagGroups()
+          tagTree: this.specificProject.getTagTree()
         }
       }
     );
@@ -130,12 +131,23 @@ export default class Project {
       }
     });
 
-    ipcMain.handle(ADD_NEW_TAG_CHANNEL, async (event, { projectId, tagName, parentTagId = null }): Promise<ITag> => {
+    ipcMain.handle(ADD_NEW_TAG_CHANNEL, async (event, { projectId, tagName, parentTagId }): Promise<ITag> => {
       try {
         checkSpecificProject(this.specificProject, projectId);
         const tag = this.specificProject.addNewTag(tagName, parentTagId);
 
         return tag;
+      } catch (err) {
+        return null;
+      }
+    })
+
+    ipcMain.handle(ADD_NEW_TAG_PARENT_CHANNEL, async (event, { projectId, tagName }): Promise<ITagParent> => {
+      try {
+        checkSpecificProject(this.specificProject, projectId);
+        const tagParent = this.specificProject.addNewTagParent(tagName);
+
+        return tagParent;
       } catch (err) {
         return null;
       }

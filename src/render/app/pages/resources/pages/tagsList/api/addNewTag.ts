@@ -5,7 +5,7 @@ import { ADD_NEW_TAG_CHANNEL } from '../../../../../../../shared/IPCChannels';
 export const addNewTag = async (
   projectId: string,
   tagName: string,
-  parentTagId?: string
+  parentTagId: string
 ): Promise<ITag> =>
   fetch<ITag>(ADD_NEW_TAG_CHANNEL, {
     projectId,

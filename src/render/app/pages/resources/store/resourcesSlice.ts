@@ -4,19 +4,20 @@ import { IResource } from '../../../../../shared/IResource'
 import { ITag } from '../../../../../shared/ITag'
 import { RootState } from '../../../store/store';
 import { IProjectDetails } from '../../../../../shared/IProjectDetails';
-import { ITagGroup } from '../../../../../shared/ITagGroup';
+import { ITagTree } from '../../../../../shared/ITagTree';
+import { ITagParent } from '../../../../../shared/ITagParent';
 
 export interface ResourcesState {
     current: IResource | null;
     list: IResource[];
-    tagGroups: ITagGroup[];
+    tagTree: ITagTree;
     isLoaded: boolean,
 }
 
 const initialState: ResourcesState = {
     current: null,
     list: [],
-    tagGroups: [],
+    tagTree: {},
     isLoaded: false,
 }
 
@@ -26,7 +27,7 @@ export const resourcesSlice = createSlice({
     reducers: {
         setProjectDetails: (state, action: PayloadAction<IProjectDetails>) => {
             state.list = action.payload.resources;
-            state.tagGroups = action.payload.tagGroups;
+            state.tagTree = action.payload.tagTree;
             state.isLoaded = true;
         },
         updateResource: (state, action: PayloadAction<IResource>) => {
@@ -43,27 +44,21 @@ export const resourcesSlice = createSlice({
             state.current = null;
         },
         addNewTag: (state, action: PayloadAction<ITag>) => {
-            if (action.payload.parentId) {
-                state.tagGroups.map(tagGroup => {
-                    if (tagGroup.id === action.payload.parentId) {
-                        tagGroup.children.unshift(action.payload)
-                    }
-                    return tagGroup;
-                });
-            } else {
-                state.tagGroups.unshift({ ...action.payload, children: [] });
-            }
+            state.tagTree[action.payload.parentId].children[action.payload.id] = action.payload;
+        },
+        addNewTagParent: (state, action: PayloadAction<ITagParent>) => {
+            state.tagTree[action.payload.id] = action.payload;
         },
     },
 })
 
-export const { setProjectDetails, updateResource, setCurrentResource, clearCurrentResource, addNewTag } = resourcesSlice.actions;
+export const { setProjectDetails, updateResource, setCurrentResource, clearCurrentResource, addNewTag, addNewTagParent } = resourcesSlice.actions;
 
 export default resourcesSlice.reducer;
 
 export const selectResources = (state: RootState) => state.resources;
 
-export const selectTagGroupsList = createSelector(selectResources, (resources) => resources.tagGroups);
+export const selectTagTree = createSelector(selectResources, (resources) => resources.tagTree);
 export const selectResouceList = createSelector(selectResources, (resources) => resources.list);
 export const selectCurrentResource = createSelector(selectResources, (resources) => resources.current);
 export const selectIsProjectDetailsLoaded = createSelector(selectResources, (projects) => projects.isLoaded);

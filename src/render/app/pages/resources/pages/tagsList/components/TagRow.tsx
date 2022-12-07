@@ -4,13 +4,12 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { ITag } from '../../../../../../../shared/ITag';
-import { ITagGroup } from '../../../../../../../shared/ITagGroup';
+import { ITagParent } from '../../../../../../../shared/ITagParent';
 
 type Props = {
-    tagGroup: ITagGroup;
     tag: ITag;
 }
-export const TagRow = ({ tagGroup, tag }: Props) => {
+export const TagRow = ({ tag }: Props) => {
     return (
         <>
             <TableRow hover key={tag.id}>

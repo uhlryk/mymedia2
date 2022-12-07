@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, IconButton } from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { useAppSelector } from '../../../../store/store';
-import { addNewTag, selectTagGroupsList } from '../../store/resourcesSlice';
+import { addNewTag, addNewTagParent, selectTagTree } from '../../store/resourcesSlice';
 import { addNewTag as addNewTagApi } from './api/addNewTag';
 import { NewGroupTagPrompt } from './components/NewGroupTagPrompt';
 import { selectCurrentProject } from '../../../../store/projectsSlice';
 import { useDispatch } from 'react-redux';
 import { NewTagPrompt } from './components/NewTagPrompt';
 import { ITag } from '../../../../../../shared/ITag';
-import { ITagGroup } from '../../../../../../shared/ITagGroup';
-import { TagGroupRow } from './components/TagGroupRow';
+import { ITagParent } from '../../../../../../shared/ITagParent';
+import { ITagTree } from '../../../../../../shared/ITagTree';
+import { TagParentRow } from './components/TagParentRow';
+import { addNewTagParent as addNewTagParentApi } from './api/addNewTagParent';
 
 export const TagsListPage = () => {
     const { id: projectId } = useAppSelector(selectCurrentProject);
-    const tagGroupList = useAppSelector(selectTagGroupsList);
+    const tagTree = useAppSelector(selectTagTree);
     const dispatch = useDispatch()
     const [openGroupDialog, setOpenGroupDialog] = useState(false);
     const [openDialogWithGroupTag, setOpenDialogWithGroupTag] = useState<ITag | null>(null);
 
-    const handleAddNewTagGroup = (tagName: string) => {
-        addNewTagApi(projectId, tagName).then((tag) => {
-            dispatch(addNewTag(tag))
+    const handleAddNewTagParent = (tagName: string) => {
+        addNewTagParentApi(projectId, tagName).then((tagParent) => {
+            dispatch(addNewTagParent(tagParent))
         });
     };
 
@@ -38,11 +40,11 @@ export const TagsListPage = () => {
     const handleClickAddTag = (tagGroup: ITag) => {
         setOpenDialogWithGroupTag(tagGroup);
     }
-    const tableRows = tagGroupList.map((tagGroup: ITagGroup) => <TagGroupRow key={tagGroup.id} tagGroup={tagGroup} onClickAddTag={handleClickAddTag} />)
+    const tableRows = Object.values(tagTree).map((tagParent: ITagParent) => <TagParentRow key={tagParent.id} tagParent={tagParent} onClickAddTag={handleClickAddTag} />)
 
     return (
         <>
-            <NewGroupTagPrompt isOpen={openGroupDialog} setClose={() => setOpenGroupDialog(false)} addNewTag={handleAddNewTagGroup} />
+            <NewGroupTagPrompt isOpen={openGroupDialog} setClose={() => setOpenGroupDialog(false)} addNewTag={handleAddNewTagParent} />
             <NewTagPrompt openWithGroup={openDialogWithGroupTag} setClose={() => setOpenDialogWithGroupTag(null)} addNewTag={handleAddNewTag} />
             <TableContainer
                 component={Paper}

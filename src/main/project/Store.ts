@@ -1,9 +1,9 @@
-import * as path from 'path';
 import ElectronStore from 'electron-store';
 import { v4 as uuidv4 } from 'uuid';
 import { IResource } from '../../shared/IResource';
 import { ITag } from '../../shared/ITag';
-import { ITagGroup } from '../../shared/ITagGroup';
+import { ITagTree } from '../../shared/ITagTree';
+import { ITagParent } from '../../shared/ITagParent';
 export default class Store {
   static RESOURCE_COLLECTION = 'resources';
   static TAG_COLLECTION = 'tags';
@@ -16,7 +16,7 @@ export default class Store {
           type: 'array',
         },
         [Store.TAG_COLLECTION]: {
-          type: 'array',
+          type: 'object',
         },
       },
       cwd: databasePath,
@@ -46,35 +46,47 @@ export default class Store {
     return resourceList;
   }
 
-  addNewTag(name: string, parentId: string = null): ITag {
+  addNewTagParent(name: string): ITagParent {
+    const tagParent: ITagParent = {
+      id: uuidv4(),
+      name,
+      parentId: null,
+      children: {}
+    };
+    const tagTree: ITagTree = this._store.get(
+      Store.TAG_COLLECTION,
+      {}
+    ) as ITagTree;
+
+
+    tagTree[tagParent.id] = tagParent;
+
+    this._store.set(Store.TAG_COLLECTION, tagTree);
+
+    return tagParent;
+  }
+
+  addNewTag(name: string, parentId: string): ITag {
     const tag: ITag = {
       id: uuidv4(),
       name,
       parentId
     };
-    const tagGroupList: Array<ITagGroup> = this._store.get(
+    const tagTree: ITagTree = this._store.get(
       Store.TAG_COLLECTION,
-      []
-    ) as ITagGroup[];
+      {}
+    ) as ITagTree;
 
-    if (parentId) {
-      tagGroupList.map(tagGroup => {
-        if (tagGroup.id === parentId) {
-          tagGroup.children.unshift(tag)
-        }
-        return tagGroup;
-      });
-    } else {
-      tagGroupList.unshift({ ...tag, children: [] });
-    }
-    this._store.set(Store.TAG_COLLECTION, tagGroupList);
+    tagTree[parentId].children[tag.id] = tag;
+    this._store.set(Store.TAG_COLLECTION, tagTree);
 
     return tag;
   }
-  getTagGroups(): ITagGroup[] {
+
+  getTagTree(): ITagTree {
     return this._store.get(
       Store.TAG_COLLECTION,
-      []
-    ) as ITagGroup[];
+      {}
+    ) as ITagTree;
   }
 }

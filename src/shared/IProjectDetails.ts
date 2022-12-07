@@ -1,7 +1,7 @@
 import { IResource } from "./IResource";
-import { ITagGroup } from "./ITagGroup";
+import { ITagTree } from "./ITagTree";
 
 export interface IProjectDetails {
     resources: IResource[];
-    tagGroups: ITagGroup[];
+    tagTree: ITagTree;
 }

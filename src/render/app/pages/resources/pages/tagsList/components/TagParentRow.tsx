@@ -4,23 +4,23 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { ITag } from '../../../../../../../shared/ITag';
-import { ITagGroup } from '../../../../../../../shared/ITagGroup';
+import { ITagParent } from '../../../../../../../shared/ITagParent';
 import { TagRow } from './TagRow';
 
 type Props = {
-    tagGroup: ITagGroup;
+    tagParent: ITagParent;
     onClickAddTag: (tag: ITag) => void
 }
-export const TagGroupRow = ({ tagGroup, onClickAddTag }: Props) => {
-    const tagRows = tagGroup.children.map(tag => <TagRow key={tag.id} tagGroup={tagGroup} tag={tag} />)
+export const TagParentRow = ({ tagParent, onClickAddTag }: Props) => {
+    const tagRows = Object.values(tagParent.children).map(tag => <TagRow key={tag.id} tag={tag} />)
     return (
         <>
-            <TableRow hover key={tagGroup.id}>
+            <TableRow hover key={tagParent.id}>
                 <TableCell
                     component="th"
                     scope="row"
                 >
-                    {tagGroup.name}
+                    {tagParent.name}
                 </TableCell>
                 <TableCell
                     component="th"
@@ -37,7 +37,7 @@ export const TagGroupRow = ({ tagGroup, onClickAddTag }: Props) => {
                 <TableCell component="th" scope="row" align="center">
                     <IconButton
                         aria-label="add"
-                        onClick={() => onClickAddTag(tagGroup)}
+                        onClick={() => onClickAddTag(tagParent)}
                     >
                         <AddIcon />
                     </IconButton>
