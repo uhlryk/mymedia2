@@ -10,14 +10,17 @@ import { IChangeResource, IResource } from '../../../../../../../../shared/IReso
 import { ReadWriteValue } from '../../../../../../components/ReadWriteValue';
 import { ResourceRating } from '../ResourceRating';
 import { TagsSection } from './TagsSection';
+import { ITagTree } from '../../../../../../../../shared/ITagTree';
 type Props = {
     resource: IResource | null;
+    tagTree: ITagTree | null;
     onClickImage: (resourceId: string) => void;
     onHideDetails: () => void;
     onChangeProps: (resourceId: string, props: IChangeResource) => void;
 };
 export const ResourceDetails = ({
     resource,
+    tagTree,
     onHideDetails,
     onClickImage,
     onChangeProps
@@ -25,7 +28,8 @@ export const ResourceDetails = ({
     if (!resource) {
         return;
     }
-
+    console.log("AAAA");
+    console.log(resource);
     const cards = [];
     for (let i = 0; i < 4; i++) {
         cards.push(<Card
@@ -77,7 +81,7 @@ export const ResourceDetails = ({
                 <ReadWriteValue value={resource.name} label='name' onChange={handleOnChangeName} />
                 <ReadWriteValue value={resource.details} label='details' onChange={handleOnChangeDetails} multiline={true} />
 
-                <TagsSection />
+                <TagsSection tagTree={tagTree} tags={resource.tags} />
             </Box>
         </Drawer>
     );

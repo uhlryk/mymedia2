@@ -7,11 +7,12 @@ import { ResourceDetails } from './components/resourceDetails/ResourceDetails';
 import { CardList } from './components/CardList';
 import { selectCurrentProject } from '../../../../store/projectsSlice';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';
-import { selectCurrentResource, selectResouceList, updateResource, setCurrentResource, clearCurrentResource } from '../../store/resourcesSlice';
+import { selectCurrentResource, selectResouceList, updateResource, setCurrentResource, clearCurrentResource, selectTagTree } from '../../store/resourcesSlice';
 
 export const ResourceListPage = (): ReactElement => {
   const { id: projectId } = useAppSelector(selectCurrentProject);
   const resourceList = useAppSelector(selectResouceList);
+  const tagTree = useAppSelector(selectTagTree);
   const currentResource = useAppSelector(selectCurrentResource);
   const dispatch = useAppDispatch()
 
@@ -43,6 +44,7 @@ export const ResourceListPage = (): ReactElement => {
       <CardList list={resourceList} onClickImage={onClickImage} onClickInfo={onClickInfo} />
       <ResourceDetails
         resource={currentResource}
+        tagTree={tagTree}
         onHideDetails={onHideDetails}
         onClickImage={onClickImage}
         onChangeProps={handleOnChangeProps}
