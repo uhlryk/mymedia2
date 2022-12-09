@@ -1,13 +1,13 @@
 import { ipcMain, shell } from 'electron';
 import path from 'path';
-import { IResource } from '../../shared/IResource';
+import { IResource, IResourceTag } from '../../shared/IResource';
 import { SpecificProject } from './SpecificProject';
 import { IAbsoluteResourceId, IAbsoluteResourceIdChanges } from './interfaces';
 import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraResourceProps';
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
 import { getVideoResourceById } from './utils/getVideoResourceById';
-import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL, ADD_NEW_TAG_PARENT_CHANNEL } from '../../shared/IPCChannels';
+import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL, ADD_NEW_TAG_PARENT_CHANNEL, ADD_RESOURCE_TAG_CHANNEL } from '../../shared/IPCChannels';
 import { ITag } from '../../shared/ITag';
 import { IProjectDetails } from '../../shared/IProjectDetails';
 import ProjectList from '../projectList/ProjectList';
@@ -148,6 +148,27 @@ export default class Project {
         const tagParent = this.specificProject.addNewTagParent(tagName);
 
         return tagParent;
+      } catch (err) {
+        return null;
+      }
+    })
+
+    ipcMain.handle(ADD_RESOURCE_TAG_CHANNEL, async (event, { projectId, resourceId, tagParentId, tagId }: IAbsoluteResourceId & IResourceTag): Promise<void> => {
+      try {
+        checkSpecificProject(this.specificProject, projectId);
+        const resource = await getVideoResourceById(
+          this.specificProject,
+          resourceId
+        );
+
+        resource.tags.push({
+          tagParentId, tagId
+        })
+        this.specificProject.updateResource(
+          resource.id,
+          resource
+        );
+        return null;
       } catch (err) {
         return null;
       }

@@ -17,19 +17,19 @@ type Props = {
     onClickImage: (resourceId: string) => void;
     onHideDetails: () => void;
     onChangeProps: (resourceId: string, props: IChangeResource) => void;
+    addTagResource: (resourceId: string, tagParentId: string, tagId: string) => void;
 };
 export const ResourceDetails = ({
     resource,
     tagTree,
     onHideDetails,
     onClickImage,
-    onChangeProps
+    onChangeProps,
+    addTagResource
 }: Props): ReactElement => {
     if (!resource) {
         return;
     }
-    console.log("AAAA");
-    console.log(resource);
     const cards = [];
     for (let i = 0; i < 4; i++) {
         cards.push(<Card
@@ -57,6 +57,10 @@ export const ResourceDetails = ({
         })
     }
 
+    const handleAddTagResource = (tagParentId: string, tagId: string) => {
+        addTagResource(resource.id, tagParentId, tagId);
+    }
+
     return (
         <Drawer
             aria-labelledby="transition-modal-title"
@@ -81,7 +85,7 @@ export const ResourceDetails = ({
                 <ReadWriteValue value={resource.name} label='name' onChange={handleOnChangeName} />
                 <ReadWriteValue value={resource.details} label='details' onChange={handleOnChangeDetails} multiline={true} />
 
-                <TagsSection tagTree={tagTree} tags={resource.tags} />
+                <TagsSection tagTree={tagTree} tags={resource.tags} addTagResource={handleAddTagResource} />
             </Box>
         </Drawer>
     );

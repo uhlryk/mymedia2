@@ -49,10 +49,23 @@ export const resourcesSlice = createSlice({
         addNewTagParent: (state, action: PayloadAction<ITagParent>) => {
             state.tagTree[action.payload.id] = action.payload;
         },
+        addResourceTag: (state, action: PayloadAction<{ resourceId: string, tagParentId: string, tagId: string }>) => {
+            const resource = state.list.find((resource) =>
+                resource.id === action.payload.resourceId
+            );
+            resource.tags.push({
+                tagParentId: action.payload.tagParentId,
+                tagId: action.payload.tagId,
+            })
+            state.current.tags.push({
+                tagParentId: action.payload.tagParentId,
+                tagId: action.payload.tagId,
+            })
+        }
     },
 })
 
-export const { setProjectDetails, updateResource, setCurrentResource, clearCurrentResource, addNewTag, addNewTagParent } = resourcesSlice.actions;
+export const { setProjectDetails, updateResource, setCurrentResource, clearCurrentResource, addNewTag, addNewTagParent, addResourceTag } = resourcesSlice.actions;
 
 export default resourcesSlice.reducer;
 

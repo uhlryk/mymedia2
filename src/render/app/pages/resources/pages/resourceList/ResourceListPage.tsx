@@ -7,7 +7,8 @@ import { ResourceDetails } from './components/resourceDetails/ResourceDetails';
 import { CardList } from './components/CardList';
 import { selectCurrentProject } from '../../../../store/projectsSlice';
 import { useAppSelector, useAppDispatch } from '../../../../store/store';
-import { selectCurrentResource, selectResouceList, updateResource, setCurrentResource, clearCurrentResource, selectTagTree } from '../../store/resourcesSlice';
+import { selectCurrentResource, selectResouceList, updateResource, setCurrentResource, clearCurrentResource, selectTagTree, addResourceTag } from '../../store/resourcesSlice';
+import { addResourceTag as addResourceTagApi } from './api/addResourceTag';
 
 export const ResourceListPage = (): ReactElement => {
   const { id: projectId } = useAppSelector(selectCurrentProject);
@@ -35,6 +36,12 @@ export const ResourceListPage = (): ReactElement => {
     })
   };
 
+  const handleAddTagResource = (resourceId: string, tagParentId: string, tagId: string) => {
+    addResourceTagApi(projectId, resourceId, tagParentId, tagId).then(() => {
+      dispatch(addResourceTag({ resourceId, tagParentId, tagId }));
+    })
+  }
+
   if (!resourceList) {
     return <Loader></Loader>;
   }
@@ -45,6 +52,7 @@ export const ResourceListPage = (): ReactElement => {
       <ResourceDetails
         resource={currentResource}
         tagTree={tagTree}
+        addTagResource={handleAddTagResource}
         onHideDetails={onHideDetails}
         onClickImage={onClickImage}
         onChangeProps={handleOnChangeProps}
