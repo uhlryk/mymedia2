@@ -13,9 +13,11 @@ export const useUpdateThumbanails = (): void => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    console.log(`[useUpdateThumbanails] executed useEffect`);
     let stopProcess = false;
-    if (projectId) {
+    if (currentProject && (currentProject.id === projectId)) {
       const updateThumbnails = async () => {
+        console.log(`[useUpdateThumbanails] start updating thumbnails`);
         const asyncGenRequestThumbnails = requestThumbnailsGenerator({
           projectId,
           resources: resourceList,
@@ -28,11 +30,14 @@ export const useUpdateThumbanails = (): void => {
         }
       };
       if (isLoaded) {
+        console.log(`[useUpdateThumbanails] details loaded`);
         updateThumbnails();
+      } else {
+        console.log(`[useUpdateThumbanails] details not loaded yet`);
       }
     }
     return () => {
       stopProcess = true;
     };
-  }, [isLoaded, projectId]);
+  }, [isLoaded, currentProject, projectId]);
 };

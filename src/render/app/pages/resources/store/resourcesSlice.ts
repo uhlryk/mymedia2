@@ -25,10 +25,17 @@ export const resourcesSlice = createSlice({
     name: 'resources',
     initialState,
     reducers: {
+        clearProjectDetails: (state, action: PayloadAction<void>) => {
+            state.list = [];
+            state.tagTree = {};
+            state.isLoaded = false;
+            state.current = null;
+        },
         setProjectDetails: (state, action: PayloadAction<IProjectDetails>) => {
             state.list = action.payload.resources;
             state.tagTree = action.payload.tagTree;
             state.isLoaded = true;
+            state.current = null;
         },
         updateResource: (state, action: PayloadAction<IResource>) => {
             state.list = state.list.map((resource) =>
@@ -65,7 +72,7 @@ export const resourcesSlice = createSlice({
     },
 })
 
-export const { setProjectDetails, updateResource, setCurrentResource, clearCurrentResource, addNewTag, addNewTagParent, addResourceTag } = resourcesSlice.actions;
+export const { setProjectDetails, clearProjectDetails, updateResource, setCurrentResource, clearCurrentResource, addNewTag, addNewTagParent, addResourceTag } = resourcesSlice.actions;
 
 export default resourcesSlice.reducer;
 
