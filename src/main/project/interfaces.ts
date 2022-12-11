@@ -21,5 +21,5 @@ export interface IAbsoluteResourceIdChanges extends IAbsoluteResourceId {
 }
 
 export interface IStoreMetada {
-  created: string;
+  created: number;
 }

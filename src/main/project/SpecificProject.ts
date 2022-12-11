@@ -52,18 +52,28 @@ export class SpecificProject {
       Project.THUMBNAILS_FOLDER
     );
 
+
     const resourceList = this.store.getResourceList();
     const updatedResourceList = await syncResources(
       this.projectPath,
       resourceList
     );
 
-    const updatedResourceListWithTags = await this.createInitTags(updatedResourceList);
-    this.store.setResourceList(updatedResourceListWithTags);
+    const { created } = this.store.getMetadata();
+    if (created) {
+      console.log(`Store exist from ${new Date(created)}`);
+      this.store.setResourceList(updatedResourceList);
+      this.resources = updatedResourceList;
+    } else {
+
+      const updatedResourceListWithTags = await this.createInitTags(updatedResourceList);
+      this.store.setResourceList(updatedResourceListWithTags);
+      this.store.setMetadata({ created: Date.now() });
+      this.resources = updatedResourceListWithTags;
+    }
 
 
 
-    this.resources = updatedResourceListWithTags;
     console.log('Finish syncResources');
   }
 
