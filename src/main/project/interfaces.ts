@@ -19,3 +19,7 @@ export interface IAbsoluteResourceId {
 export interface IAbsoluteResourceIdChanges extends IAbsoluteResourceId {
   props: IChangeResource;
 }
+
+export interface IStoreMetada {
+  created: string;
+}

@@ -4,14 +4,20 @@ import { IResource } from '../../shared/IResource';
 import { ITag } from '../../shared/ITag';
 import { ITagTree } from '../../shared/ITagTree';
 import { ITagParent } from '../../shared/ITagParent';
+import { IMetadata } from './utils/thumbnails/getMetadata';
+import { IStoreMetada } from './interfaces';
 export default class Store {
   static RESOURCE_COLLECTION = 'resources';
   static TAG_COLLECTION = 'tags';
+  static METADATA = 'meta';
   private _store;
 
   constructor(databasePath: string) {
     this._store = new ElectronStore({
       schema: {
+        [Store.METADATA]: {
+          type: 'object',
+        },
         [Store.RESOURCE_COLLECTION]: {
           type: 'array',
         },
@@ -23,6 +29,16 @@ export default class Store {
     });
   }
 
+  getMetadata(): IStoreMetada {
+    return this._store.get(
+      Store.METADATA,
+      {}
+    ) as IStoreMetada;
+  }
+  setMetadata(properties: Partial<IStoreMetada>): void {
+    const metadata = this.getMetadata();
+    this._store.set(Store.METADATA, { ...metadata, ...properties })
+  }
   getResource(relativePath: string): IResource {
     return this.getResourceList().find(
       (resource) => resource.relativePath === relativePath
