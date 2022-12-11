@@ -21,19 +21,7 @@ export class SpecificProject {
     this.projectDataPath = path.resolve(this.projectPath, Project.PROJECT_DATA_FOLDER)
   }
 
-  private async syncResources(): Promise<void> {
-    console.log('Start syncResources');
-    this.store = await initProject(
-      this.projectDataPath,
-      Project.THUMBNAILS_FOLDER
-    );
-
-    const resourceList = this.store.getResourceList();
-    const updatedResourceList = await syncResources(
-      this.projectPath,
-      resourceList
-    );
-
+  private async createInitTags(updatedResourceList: IResource[]): Promise<IResource[]> {
     console.log("[syncResources] create initial tags");
     const folderGroupTag = this.addNewTagParent('folder');
     const folderTagsMap = new Map<string, ITag>();
@@ -54,11 +42,28 @@ export class SpecificProject {
       }
 
     })
-    this.store.setResourceList(updatedResourceList);
+
+    return updatedResourceList;
+  }
+  private async syncResources(): Promise<void> {
+    console.log('Start syncResources');
+    this.store = await initProject(
+      this.projectDataPath,
+      Project.THUMBNAILS_FOLDER
+    );
+
+    const resourceList = this.store.getResourceList();
+    const updatedResourceList = await syncResources(
+      this.projectPath,
+      resourceList
+    );
+
+    const updatedResourceListWithTags = await this.createInitTags(updatedResourceList);
+    this.store.setResourceList(updatedResourceListWithTags);
 
 
 
-    this.resources = updatedResourceList;
+    this.resources = updatedResourceListWithTags;
     console.log('Finish syncResources');
   }
 
