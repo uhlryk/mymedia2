@@ -18,7 +18,7 @@ export const CardList = ({ list, onClickImage, onClickInfo }: Props) => {
                         key={resource.id}
                         title={resource.name}
                         subtitle={resource.relativePath}
-                        imageSrc={resource.thumbnails?.at(0)}
+                        imageSrc={resource.mainThumbnail}
                         onClickImage={() => onClickImage(resource.id)}
                         onClickInfo={() => onClickInfo(resource.id)}
                     />

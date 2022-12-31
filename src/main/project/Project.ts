@@ -7,17 +7,19 @@ import { calculateExtraResourceProps } from './utils/thumbnails/calculateExtraRe
 import { updateResourceListImagesPathAbsolute } from './utils/updateResourceListImagesPathAbsolute';
 import { updateResourceImagesPathAbsolute } from './utils/updateResourceImagesPathAbsolute';
 import { getVideoResourceById } from './utils/getVideoResourceById';
-import { SET_PROJECT_DATA_CHANNEL, SET_RESOURCE_EXTRA_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL, ADD_NEW_TAG_PARENT_CHANNEL, ADD_RESOURCE_TAG_CHANNEL } from '../../shared/IPCChannels';
+import { SET_PROJECT_DATA_CHANNEL, GENERATE_ALL_THUMBNAILS_CHANNEL, PLAY_VIDEO_CHANNEL, CHANGE_RESOURCE, ADD_NEW_TAG_CHANNEL, ADD_NEW_TAG_PARENT_CHANNEL, ADD_RESOURCE_TAG_CHANNEL, GENERATE_MAIN_THUMBNAIL_CHANNEL } from '../../shared/IPCChannels';
 import { ITag } from '../../shared/ITag';
 import { IProjectDetails } from '../../shared/IProjectDetails';
 import ProjectList from '../projectList/ProjectList';
 import { checkSpecificProject } from './utils/checkSpecificProject';
 import { ITagParent } from '../../shared/ITagParent';
+import { calculateFastMainThumbnail } from './utils/thumbnails/calculateFastMainThumbnail';
 
 export default class Project {
   static VIDEO_EXTENSIONS = ['.mp4', '.wmv', '.mov', '.avi'];
   static PROJECT_DATA_FOLDER = 'mymedia';
   static THUMBNAILS_FOLDER = 'thumbnails';
+  static MAIN_THUMBNAIL_FOLDER = 'thumbnail';
   static FILE_PROTOCOL = 'file://';
 
   private specificProject: SpecificProject;
@@ -51,7 +53,44 @@ export default class Project {
     );
 
     ipcMain.handle(
-      SET_RESOURCE_EXTRA_CHANNEL,
+      GENERATE_MAIN_THUMBNAIL_CHANNEL,
+      async (
+        event,
+        { projectId, resourceId }: IAbsoluteResourceId
+      ): Promise<IResource | null> => {
+        console.log(`[Project/generate-main-thumbnail-channel] start ${resourceId}`);
+        try {
+          checkSpecificProject(this.specificProject, projectId);
+
+          const resource = await getVideoResourceById(
+            this.specificProject,
+            resourceId
+          );
+
+          const resourcePartial = await calculateFastMainThumbnail(
+            this.specificProject.getProjectPath(),
+            resource
+          );
+          const updatedResource = this.specificProject.updateResource(
+            resource.id,
+            resourcePartial
+          );
+          console.log(`[Project/generate-main-thumbnail-channel] finished ${resourceId}`);
+          return updateResourceImagesPathAbsolute(
+            updatedResource,
+            this.specificProject.getProjectPath(),
+            Project.FILE_PROTOCOL
+          );
+        } catch (err) {
+          console.error(`[Project/generate-main-thumbnail-channel] error ${resourceId}`);
+          console.error(err);
+          return null;
+        }
+      }
+    );
+
+    ipcMain.handle(
+      GENERATE_ALL_THUMBNAILS_CHANNEL,
       async (
         event,
         { projectId, resourceId }: IAbsoluteResourceId

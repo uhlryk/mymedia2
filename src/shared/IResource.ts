@@ -10,6 +10,7 @@ export type IResource = {
   details: string;
   rating: number;
   tags: IResourceTag[];
+  mainThumbnail?: string;
   thumbnails?: string[];
   width?: number;
   height?: number;

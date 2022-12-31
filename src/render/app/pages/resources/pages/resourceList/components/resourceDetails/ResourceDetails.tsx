@@ -73,7 +73,7 @@ export const ResourceDetails = ({
             <Box className='resource-details__wrapper'>
                 <ImageList cols={1} rowHeight={310} sx={{ width: '100%', margin: 0 }}>
                     <Card
-                        imageSrc={resource.thumbnails?.at(0)}
+                        imageSrc={resource.mainThumbnail}
                         onClickImage={() => onClickImage(resource.id)}
                     />
                 </ImageList>

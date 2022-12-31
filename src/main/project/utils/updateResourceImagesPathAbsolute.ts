@@ -8,6 +8,7 @@ export const updateResourceImagesPathAbsolute = (
 ): IResource => {
   return {
     ...resource,
+    mainThumbnail: resource.mainThumbnail && fileProtocol + path.join(projectPath, resource.mainThumbnail),
     thumbnails: resource.thumbnails?.map(
       (thumbnail) => fileProtocol + path.join(projectPath, thumbnail)
     ),

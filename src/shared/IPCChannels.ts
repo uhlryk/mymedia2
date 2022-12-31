@@ -1,5 +1,6 @@
 export const SET_PROJECT_DATA_CHANNEL = 'set-project-data';
-export const SET_RESOURCE_EXTRA_CHANNEL = 'set-resource-extra';
+export const GENERATE_MAIN_THUMBNAIL_CHANNEL = 'generate-main-thumbnail-channel';
+export const GENERATE_ALL_THUMBNAILS_CHANNEL = 'generate-all-thumbanails-channel';
 export const PLAY_VIDEO_CHANNEL = 'play-video';
 export const OPEN_FOLDER_DIALOG_CHANNEL = 'open-folder-dialog';
 export const GET_PROJECT_LIST_CHANNEL = 'get-project-list';

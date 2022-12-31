@@ -1,12 +1,12 @@
 import fetch from '../../../../utils/fetch';
 import { IResource } from '../../../../../shared/IResource';
-import { GENERATE_ALL_THUMBNAILS_CHANNEL } from '../../../../../shared/IPCChannels';
+import { GENERATE_MAIN_THUMBNAIL_CHANNEL } from '../../../../../shared/IPCChannels';
 
-export const requestThumbnails = async (
+export const requestMainThumbnail = async (
   projectId: string,
   resourceId: string
 ): Promise<IResource> =>
-  fetch<IResource>(GENERATE_ALL_THUMBNAILS_CHANNEL, {
+  fetch<IResource>(GENERATE_MAIN_THUMBNAIL_CHANNEL, {
     projectId,
     resourceId,
   });
