@@ -43,6 +43,9 @@ export const resourcesSlice = createSlice({
                     ? action.payload
                     : resource
             );
+            if (state.current?.id === action.payload.id) {
+                state.current = action.payload;
+            }
         },
         setCurrentResource: (state, action: PayloadAction<IResource>) => {
             state.current = action.payload;
