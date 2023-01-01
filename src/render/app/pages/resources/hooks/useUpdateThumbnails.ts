@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { selectCurrentProject } from '../../../store/projectsSlice';
 import { useAppSelector, useAppDispatch } from '../../../store/store';
-import { requestThumbnailsGenerator } from './requestThumbnailsGenerator';
 import { selectIsProjectDetailsLoaded, selectResouceList, updateResource } from '../store/resourcesSlice';
+import { updateThumbnails } from './utils/updateThumbnails';
 
 export const useUpdateThumbanails = (): void => {
   const currentProject = useAppSelector(selectCurrentProject);
@@ -16,22 +16,16 @@ export const useUpdateThumbanails = (): void => {
     console.log(`[useUpdateThumbanails] executed useEffect`);
     let stopProcess = false;
     if (currentProject && (currentProject.id === projectId)) {
-      const updateThumbnails = async () => {
-        console.log(`[useUpdateThumbanails] start updating thumbnails`);
-        const asyncGenRequestThumbnails = requestThumbnailsGenerator({
-          projectId,
-          resources: resourceList,
-        });
-        for await (const updatedResource of asyncGenRequestThumbnails) {
-          if (stopProcess) {
-            break;
-          }
-          dispatch(updateResource(updatedResource));
-        }
-      };
       if (isLoaded) {
         console.log(`[useUpdateThumbanails] details loaded`);
-        updateThumbnails();
+        updateThumbnails({
+          projectId,
+          resourceList,
+          callback: (updatedResource) => dispatch(updateResource(updatedResource)),
+          abortSignal: () => {
+            return stopProcess;
+          }
+        });
       } else {
         console.log(`[useUpdateThumbanails] details not loaded yet`);
       }
