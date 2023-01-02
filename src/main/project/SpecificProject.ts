@@ -27,7 +27,7 @@ export class SpecificProject {
     const folderTagsMap = new Map<string, ITag>();
     updatedResourceList.forEach(resource => {
       const folderTagName = path.dirname(resource.relativePath).split(path.sep)[0];
-      if (folderTagName) {
+      if (folderTagName && folderTagName !== '.') {
         let folderTag;
         if (folderTagsMap.has(folderTagName)) {
           folderTag = folderTagsMap.get(folderTagName);
